@@ -50,10 +50,20 @@ class AoeComponents_Magento_Pages_CategoryView extends Menta_Component_AbstractT
 		}
 	}
 
+	/**
+	 * Put product into cart
+	 *
+	 * @param int $productId
+	 * @param bool $waitForAjax
+	 * @param int $sleep
+	 * @return void
+	 */
 	public function putProductIntoCart($productId, $waitForAjax = true, $sleep=0) {
+
 		// Hover on parent element first (Needed in Selenium 2)
-		$session = $this->getTest()->getSession(); /* @var $session WebDriver_Session */
 		$this->moveToProductAddToCartButton($productId);
+
+		$session = $this->getSession(); /* @var $session WebDriver_Session */
 		$session->click();
 
 		if ($waitForAjax) {
@@ -65,9 +75,15 @@ class AoeComponents_Magento_Pages_CategoryView extends Menta_Component_AbstractT
 		}
 	}
 
+	/**
+	 * Move to a product's add to cart button
+	 *
+	 * @param $productId
+	 * @return void
+	 */
 	public function moveToProductAddToCartButton($productId) {
 		// Hover on parent element first (Needed in Selenium 2)
-		$session = $this->getTest()->getSession(); /* @var $session WebDriver_Session */
+		$session = $this->getSession(); /* @var $session WebDriver_Session */
 
 		$itemDiv = $session->element(WebDriver_Container::XPATH, "//li[@id='product_$productId']/div");
 		$link = $session->element(WebDriver_Container::XPATH, "//li[@id='product_$productId']//a[@class='add-to-basket']");
