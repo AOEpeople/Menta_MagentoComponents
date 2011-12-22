@@ -53,6 +53,7 @@ class AoeComponents_Magento_Provider_Address {
 			case 'es': $tmp = array('city' => 'Barcelona', 'postcode' => '85621', 'country' => 'Spain'); break;
 			case 'fi': $tmp = array('city' => 'Helsinki', 'postcode' => '85621', 'country' => 'Finland'); break;
 			case 'eg': $tmp = array('city' => 'Kairo', 'postcode' => '85621', 'country' => 'Egypt'); break;
+			case 'uk': $tmp = array('city' => 'London', 'postcode' => '85621', 'country' => 'United Kingdom'); break;
 			default: throw new Exception('No valid country set');
 		}
 		return array_merge($address, $tmp);
