@@ -184,11 +184,13 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	}
 
 	public function prepareShippingAddressFieldsForNewUsers() {
-		$this->getTest()->click("id=billing:use_for_shipping_yes");
+		//$this->getTest()->click("id=billing:use_for_shipping_yes"); //was not working with pretty checkboxes
+		$this->getTest()->click("//label[@for='billing:use_for_shipping_yes']/span");
 	}
 
 	public function saveAccountForLaterUse() {
-		$this->getTest()->click("id=id_create_account");
+		//$this->getTest()->click("id=id_create_account"); //was not working with pretty checkboxes
+		$this->getTest()->click("//label[@for='id_create_account']/span");
 		$this->getTest()->typeAndLeave("id=billing:customer_password", "test1234");
 		$this->getTest()->typeAndLeave("id=billing:confirm_password", "test1234");
 	}
