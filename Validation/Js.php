@@ -24,7 +24,7 @@ class AoeComponents_Validation_Js extends Menta_Component_Abstract {
     
     const LINES_PER_ERROR = 3;
 
-	protected $lintCommand = 'java -jar Tests/Acceptance/TestingFrameworkLight/lib/JsLint/js.jar Tests/Acceptance/TestingFrameworkLight/lib/JsLint/jslint.js';
+	protected $lintCommand = 'java -jar Tests/Acceptance/lib/AoeComponents/lib/JsLint/js.jar Tests/Acceptance/lib/AoeComponents/lib/JsLint/jslint.js';
 
 	/**
 	 * Set lint command

@@ -24,7 +24,7 @@ class AoeComponents_ImapMail extends Menta_Component_AbstractTest {
 		$parent = $this;
 		
 		$result = $this->getHelperWait()->wait(function() use ($subject, $parent) {
-			return $parent->searchMailWithSubject($subject); /* @var $parent TestingFrameworkLight_Pages_ImapMail */
+			return $parent->searchMailWithSubject($subject); /* @var $parent AoeComponents_ImapMail */
 		}, $timeout, $sleep);
 		
 		if (!$result) {
