@@ -6,6 +6,7 @@
  *
  */
 class AoeComponents_TYPO3_Pages_Backend extends Menta_Component_AbstractTest {
+	
 	protected $defaultusername = "selenium.user";
 	protected $defaultpassword = "test1234";
 	protected $defaulthomeID = "3";
