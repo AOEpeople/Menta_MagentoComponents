@@ -125,12 +125,24 @@ class AoeComponents_TYPO3_Pages_Backend extends Menta_Component_AbstractTest {
 	 * 
 	 * simple check if login was successful
 	 */	
-	public function checkIfLogedIn(){
-		$this->getTest()->assertElementPresent("//div[@id='typo3-logo']");
-		$this->getTest()->assertElementPresent("//div[@id='username']");
-		$this->getTest()->assertElementPresent("//ul[@id='typo3-menu']");
-		$this->getTest()->assertElementPresent("//li[@id='web']");
-		$this->getTest()->assertElementPresent("//li[@id='workspace-selector-menu']");	
+	public function generalLoginChecks($version){		
+		switch ((int)$version){
+			case ($version>=4.5):
+				$this->getTest()->assertElementPresent("//div[@id='typo3-logo']//img", "backend logo is missing");
+				$this->getTest()->assertElementPresent("//div[@id='username']","user/login name is missing");
+				$this->getTest()->assertElementPresent("//ul[@id='typo3-menu']", "left menu is missing");
+				$this->getTest()->assertElementPresent("//li[@id='web']" ,"category web in left menu is missing");
+				$this->getTest()->assertElementPresent("//li[@id='web']//li[1]", "page link missing!");		
+				$this->getTest()->assertElementPresent("//li[@id='workspace-selector-menu']", "workspace selector is missing");
+				break;
+			case ($version>=4.2 && $version<4.5):	
+				$this->getTest()->assertElementPresent("//div[@id='typo3-logo']//img", "backend logo is missing");
+				$this->getTest()->assertElementPresent("//div[@id='username']", "user/login name is missing");
+				$this->getTest()->assertElementPresent("//ul[@id='typo3-menu']", "left menu is missing");
+				$this->getTest()->assertElementPresent("//li[@id='modmenu_web']/div" ,"category web in left menu is missing");
+				$this->getTest()->assertElementPresent("//li[@id='modmenu_web']//li[1]/a", "page link missing!");			
+				break;			
+		}
 	}
 		
 	/**
@@ -183,12 +195,16 @@ class AoeComponents_TYPO3_Pages_Backend extends Menta_Component_AbstractTest {
 	 * @param string $imageSrc
 	 */
 	public function checkThumb($imageSrc){
-		$imgcontent = file_get_contents($imageSrc);
-		//$img = base64_encode($imgcontent);
-		//var_dump($img);
-		$this->getTest()->assertTrue(stristr($imgcontent,"fatal") == false, " Fatal Error present");
-		$this->getTest()->assertTrue(stristr($imgcontent,"error") == false, " Error present ");
-		$this->getTest()->assertTrue(stristr($imgcontent,"warning")== false, " Warning present");	
+		$imgContent = file_get_contents($imageSrc);
+		if ($imgContent != null){			
+			//$img = base64_encode($imgcontent);
+			//var_dump($img);
+			$this->getTest()->assertTrue(stristr($imgContent,"fatal") == false, " Fatal Error present");
+			$this->getTest()->assertTrue(stristr($imgContent,"error") == false, " Error present ");
+			$this->getTest()->assertTrue(stristr($imgContent,"warning")== false, " Warning present");			
+		}else {
+			echo "kein Bild";
+		}
 	}
 	
 }
