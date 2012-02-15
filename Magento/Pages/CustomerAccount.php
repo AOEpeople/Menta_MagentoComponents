@@ -3,13 +3,38 @@
 class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_AbstractTest {
 
 	/**
+	 * Returns expected header of login/register page
+	 * @return string
+	 */
+	public function getExpectedLoginCreateHeader(){
+		return 'Login or Create an Account';
+	}
+
+	/**
+	 * Returns expected dashboard page header
+	 * @return string
+	 */
+	public function getExpectedDashboardHeader(){
+		return 'My Dashboard';
+	}
+
+	/**
+	 * Path for element which is present only on dashboard page
+	 * @return string
+	 */
+	public function getDashboardIndicatorPath() {
+		return 'id=dash';
+	}
+
+
+	/**
 	 * Open login/register page
 	 *
 	 * @return void
 	 */
 	public function openSplitLoginOrRegister() {
 		$this->getTest()->open('/customer/account/login/');
-		$this->getTest()->assertTextPresent('Login or Create an Account');
+		$this->getTest()->assertTextPresent($this->getExpectedLoginCreateHeader());
 		$this->getTest()->assertTextPresent('New Customers');
 		$this->getTest()->assertTextPresent('Registered Customers');
 	}
@@ -24,7 +49,8 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 	public function openDashboard() {
 		$this->getTest()->open('/customer/account/');
 		$this->getTest()->assertTitle('My Account');
-		$this->getTest()->assertTextPresent('My Dashboard');
+		$this->getTest()->assertTextPresent($this->getExpectedDashboardHeader());
+		$this->getTest()->assertElementPresent($this->getDashboardIndicatorPath());
 	}
 
 	/**
@@ -65,13 +91,13 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 			$password = $this->getConfiguration()->getValue('testing.frontend.password');
 		}
 		$this->openSplitLoginOrRegister();
-		$this->getHelperCommon()->click("//ul[@class='links personal-items']/li[@class='first']/a");
+		//$this->getHelperCommon()->click("//ul[@class='links personal-items']/li[@class='first']/a");
 		$this->getHelperCommon()->type("//input[@id='email']", $username, true, true);
 		$this->getHelperCommon()->type("//input[@id='pass']", $password, true, true);
 		$this->getHelperCommon()->click("//button[@id='send2']");
 
 		$waitHelper = Menta_ComponentManager::get('Menta_Component_Helper_Wait'); /* @var $waitHelper Menta_Component_Helper_Wait */
-		$this->getTest()->assertTrue($waitHelper->waitForElementPresent('id=dash'));
+		$this->getTest()->assertTrue($waitHelper->waitForElementPresent($this->getDashboardIndicatorPath()));
 	}
 
 	/**
@@ -82,7 +108,6 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 	public function openForgotPassword() {
 		$this->getTest()->open('/customer/account/forgotpassword/');
 	}
-
 
 	/**
 	 * Logout

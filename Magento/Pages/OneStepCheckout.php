@@ -9,7 +9,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	 */
 	public function open() {
 		$this->getTest()->open($this->getCheckoutUrl());
-		$this->getTest()->waitForElementPresent('//h1[@class="onestepcheckout-title"]');
+		$this->getTest()->waitForElementPresent('//form[@id="onestepcheckout-form"]');
 		$this->getTest()->assertTitle('One Step Checkout');
 	}
 
@@ -103,6 +103,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	 *
 	 * @author Joerg Winkler <joerg.winkler@aoemedia.de>
 	 * @author Fabrizio Branca <fabrizio.branca@aoemedia.de>
+	 * @return integer Order ID
 	 */
 	public function getOrderIdFromSuccessPage() {
 		$waitHelper = Menta_ComponentManager::get('Menta_Component_Helper_Wait'); /* @var $waitHelper Menta_Component_Helper_Wait */
@@ -204,9 +205,8 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	}
 
 	public function enterValidCreditCardDataVisa() {
-		$this->getTest()->click("//dl[@id='checkout-payment-method-load']/dt/label/span/span");
+	//	$this->getTest()->click("//dl[@id='checkout-payment-method-load']/dt//label");
 
-		// sleep(5); // wait for ajax call to be finished
 		$this->getTest()->waitForAjaxCompletedJquery();
 		$this->getTest()->waitForAjaxCompletedPrototype();
 
@@ -220,9 +220,8 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	}
 
 	public function enterInvalidCreditCardDataVisa() {
-		$this->getTest()->click("//dl[@id='checkout-payment-method-load']/dt/label/span/span");
+	//	$this->getTest()->click("//dl[@id='checkout-payment-method-load']/dt//label");
 
-		// sleep(5); // wait for ajax call to be finished
 		$this->getTest()->waitForAjaxCompletedJquery();
 		$this->getTest()->waitForAjaxCompletedPrototype();
 
@@ -236,7 +235,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	public function acceptTermsAndConditions() {
 		$this->getTest()->assertElementPresent("//label[@for='id_accept_terms']", 'Could not find terms and conditions checkbox');
 		// $this->getTest()->click("id=id_accept_terms");
-		$this->getTest()->click("//form[@id='onestepcheckout-form']/fieldset/div/div[3]/div[2]/label/span/span");
+		$this->getTest()->click("//input[@id='id_accept_terms']");
 	}
 
 	public function selectShippingMethodStandard() {
@@ -258,12 +257,12 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	}
 
 	public function doSplitShipping() {
-		$this->getTest()->click("//label[@for='dosplitshipping']");
+		$this->getTest()->click("//input[@id='dosplitshipping']");
 		$this->waitForSummary();
 	}
 
 	public function noSplitShipping() {
-		$this->getTest()->click("//label[@for='nosplitshipping']");
+		$this->getTest()->click("//input[@id='nosplitshipping']");
 		$this->waitForSummary();
 	}
 

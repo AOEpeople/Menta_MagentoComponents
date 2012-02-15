@@ -8,8 +8,8 @@ class AoeComponents_Magento_Pages_CategoryView extends Menta_Component_AbstractT
 	 * @param int $categoryId
 	 * @return void
 	 */
-	public function open($categoryId) {
-		$this->getTest()->open($this->getCategoryUrl($categoryId));
+	public function open($categoryId, $limit='all') {
+		$this->getTest()->open($this->getCategoryUrl($categoryId).'?limit='.$limit);
 	}
 
 	/**
@@ -67,8 +67,8 @@ class AoeComponents_Magento_Pages_CategoryView extends Menta_Component_AbstractT
 		$session->click();
 
 		if ($waitForAjax) {
-			$waitHelper = Menta_ComponentManager::get('Menta_Component_Helper_Wait'); /* @var $waitHelper Menta_Component_Helper_Wait */
-			$this->getTest()->assertTrue($waitHelper->waitForElementVisible('//*[@id="cartHeader"]/*[@class="number"]'), 'Ajax response for putting item into cart timed out');
+			$cart = Menta_ComponentManager::get('AoeComponents_Magento_Pages_Cart'); /* @var $cart AoeComponents_Magento_Pages_Cart */
+			$cart->waitForAjax();
 		}
 		if ($sleep) {
 			sleep($sleep);
@@ -85,10 +85,10 @@ class AoeComponents_Magento_Pages_CategoryView extends Menta_Component_AbstractT
 		// Hover on parent element first (Needed in Selenium 2)
 		$session = $this->getSession(); /* @var $session WebDriver_Session */
 
-		$itemDiv = $session->element(WebDriver_Container::XPATH, "//li[@id='product_$productId']/div");
-		$link = $session->element(WebDriver_Container::XPATH, "//li[@id='product_$productId']//a[@class='add-to-basket']");
+	//	$itemDiv = $session->element(WebDriver_Container::XPATH, "//li[@id='product_$productId']/div");
+		$link = $session->element(WebDriver_Container::XPATH, "//li[@id='product_$productId']//button[".AoeComponents_Div::contains('add-to-basket')."]");
 
-		$session->moveto(array('element' => $itemDiv->getID()));
+	//	$session->moveto(array('element' => $itemDiv->getID()));
 		$session->moveto(array('element' => $link->getID()));
 	}
 

@@ -2,6 +2,13 @@
 
 class AoeComponents_Magento_Pages_ProductSingleView extends Menta_Component_AbstractTest {
 
+	public function getAddToCartButtonSelector() {
+		return "link=Add to Cart";
+	}
+
+	public function getRegularPricePath() {
+		return "//form[@id='product_addtocart_form']//*[@class='price-box']//span[@class='regular-price']";
+	}
 	/**
 	 * Put products into cart
 	 *
@@ -25,10 +32,10 @@ class AoeComponents_Magento_Pages_ProductSingleView extends Menta_Component_Abst
 	 * @return null|bool
 	 */
 	public function clickAddToCart($waitForAjax=true) {
-		$this->getTest()->click("link=Add to Cart");
+		$this->getTest()->click($this->getAddToCartButtonSelector());
 		if ($waitForAjax) {
-			$waitHelper = Menta_ComponentManager::get('Menta_Component_Helper_Wait'); /* @var $waitHelper Menta_Component_Helper_Wait */
-			$this->getTest()->assertTrue($waitHelper->waitForElementVisible('//*[@id="cartHeader"]/*[@class="number"]'), 'Ajax response for putting item into cart timed out');
+			$cart = Menta_ComponentManager::get('AoeComponents_Magento_Pages_Cart'); /* @var $cart AoeComponents_Magento_Pages_Cart */
+			$cart->waitForAjax();
 		}
 		return null;
 	}
@@ -63,5 +70,12 @@ class AoeComponents_Magento_Pages_ProductSingleView extends Menta_Component_Abst
 		$this->getTest()->assertEquals($expected, $this->getText("//span[@class=\"price-including-tax\"]//span[@class=\"price\"]"));
 	}
 
-
+	/**
+	 * Check if product has proper price
+	 *
+	 * @param string $expected expected price including currency sign
+	 */
+	public function assertRegularPrice($expected) {
+		$this->getTest()->assertEquals($expected, $this->getText($this->getRegularPricePath()));
+	}
 }
