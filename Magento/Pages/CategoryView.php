@@ -8,8 +8,8 @@ class AoeComponents_Magento_Pages_CategoryView extends Menta_Component_AbstractT
 	 * @param int $categoryId
 	 * @return void
 	 */
-	public function open($categoryId, $limit='all') {
-		$this->getTest()->open($this->getCategoryUrl($categoryId).'?limit='.$limit);
+	public function open($categoryId, $additionalParams='?limit=all') {
+		$this->getTest()->open($this->getCategoryUrl($categoryId).$additionalParams);
 	}
 
 	/**

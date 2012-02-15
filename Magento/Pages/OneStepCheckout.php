@@ -23,6 +23,13 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	}
 
 	/**
+	 * Path for checkbox "Save account for later use" (or other thing to click on)
+	 * @return string
+	 */
+	public function getSaveAccountCheckPath() {
+		return "id=id_create_account";
+	}
+	/**
 	 * @deprecated
 	 * @author Joerg Winkler <joerg.winkler@aoemedia.de>
 	 */
@@ -111,7 +118,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 			$waitHelper->waitForElementPresent("//h1[contains(text(),'Your order has been received')]"),
 			'Waiting for headline "Your order has been received" timed out'
 		);
-
+		$waitHelper->waitForElementPresent('id=order-id');
 		$orderId = $this->getTest()->getText('id=order-id');
 		$this->getTest()->assertNotEmpty($orderId, 'No order id found!');
 		return $orderId;
@@ -178,20 +185,23 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 		return $address;
 	}
 
-	public function prepareShippingAddressFieldsForLoggedInUsers() {
+	public function toogleShipToTheSameAddress() {
 		$this->getTest()->click("id=billing:use_for_shipping_yes");
+	}
+
+	public function prepareShippingAddressFieldsForLoggedInUsers($conditionForOptionToSelect="label=New Address") {
+		$this->toogleShipToTheSameAddress();
 		$this->getTest()->waitForElementPresent("id=shipping-address-select");
-		$this->getTest()->select("id=shipping-address-select", "label=New Address");
+		$this->getTest()->select("id=shipping-address-select", $conditionForOptionToSelect);
 	}
 
 	public function prepareShippingAddressFieldsForNewUsers() {
 		//$this->getTest()->click("id=billing:use_for_shipping_yes"); //was not working with pretty checkboxes
-		$this->getTest()->click("//label[@for='billing:use_for_shipping_yes']/span");
+		$this->toogleShipToTheSameAddress();
 	}
 
 	public function saveAccountForLaterUse() {
-		//$this->getTest()->click("id=id_create_account"); //was not working with pretty checkboxes
-		$this->getTest()->click("//label[@for='id_create_account']/span");
+		$this->getTest()->click($this->getSaveAccountCheckPath());
 		$this->getTest()->typeAndLeave("id=billing:customer_password", "test1234");
 		$this->getTest()->typeAndLeave("id=billing:confirm_password", "test1234");
 	}

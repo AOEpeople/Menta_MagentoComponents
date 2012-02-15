@@ -27,6 +27,9 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 	}
 
 
+	public function getSplitPageRegistrationButtonPath() {
+		return "//div[contains(@class,'account-login')]//button//*[contains(text(),'Register')]";
+	}
 	/**
 	 * Open login/register page
 	 *
@@ -48,11 +51,14 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 	 */
 	public function openDashboard() {
 		$this->getTest()->open('/customer/account/');
+		$this->assertIsOnDashboard();
+	}
+
+	public function assertIsOnDashboard() {
 		$this->getTest()->assertTitle('My Account');
 		$this->getTest()->assertTextPresent($this->getExpectedDashboardHeader());
 		$this->getTest()->assertElementPresent($this->getDashboardIndicatorPath());
 	}
-
 	/**
 	 * Got to history
 	 *
