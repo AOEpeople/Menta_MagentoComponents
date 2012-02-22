@@ -9,7 +9,7 @@ class AoeComponents_Magento_Pages_Cart extends Menta_Component_AbstractTest {
 	 */
 	public function open() {
 		$this->getTest()->open($this->getCartUrl());
-		$this->getTest()->assertTitle("Shopping Cart");
+		$this->getTest()->assertTitle($this->__("Shopping Cart"));
 	}
 
 	/**
@@ -28,7 +28,7 @@ class AoeComponents_Magento_Pages_Cart extends Menta_Component_AbstractTest {
 	 */
 	public function assertEmptyCart() {
 		$this->open();
-		$this->getTest()->assertTextPresent('Shopping Cart is Empty');
+		$this->getTest()->assertTextPresent($this->__('Shopping Cart is Empty'));
 	}
 
 	/**
