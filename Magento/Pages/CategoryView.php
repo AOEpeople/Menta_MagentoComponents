@@ -13,6 +13,20 @@ class AoeComponents_Magento_Pages_CategoryView extends Menta_Component_AbstractT
 	}
 
 	/**
+	 * Returns selector of an element which is present only on category page
+	 * @return string
+	 */
+	public function getCategoryPageIndicatorPath() {
+		return '//body['.AoeComponents_Div::contains('catalog-category-view').']';
+	}
+
+	/**
+	 * Checks if category page is currently open
+	 */
+	public function assertIsOnCategoryPage() {
+		$this->getTest()->assertElementPresent($this->getCategoryPageIndicatorPath());
+	}
+	/**
 	 * Get category url
 	 *
 	 * @param int $categoryId
