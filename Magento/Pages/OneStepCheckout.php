@@ -267,13 +267,25 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	}
 
 	public function doSplitShipping() {
-		$this->getTest()->click("//input[@id='dosplitshipping']");
+
+		$session = $this->getSession(); /* @var $session WebDriver_Session */
+		$link = $session->element(WebDriver_Container::XPATH, "//input[@id='dosplitshipping']");
+		$session->moveto(array('element' => $link->getID()));
+		$session->click();
+		//$this->getTest()->click("//input[@id='dosplitshipping']");
 		$this->waitForSummary();
+		$this->getTest()->assertTrue($this->getTest()->getHelperCommon()->isSelected("//input[@id='dosplitshipping']"));
 	}
 
 	public function noSplitShipping() {
-		$this->getTest()->click("//input[@id='nosplitshipping']");
+
+		$session = $this->getSession(); /* @var $session WebDriver_Session */
+		$link = $session->element(WebDriver_Container::XPATH, "//input[@id='nosplitshipping']");
+		$session->moveto(array('element' => $link->getID()));
+		$session->click();
+		//$this->getTest()->click("//input[@id='nosplitshipping']");
 		$this->waitForSummary();
+		$this->getTest()->assertTrue($this->getTest()->getHelperCommon()->isSelected("//input[@id='nosplitshipping']"));
 	}
 
 }
