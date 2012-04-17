@@ -176,7 +176,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 		$this->getTest()->typeAndLeave("id=shipping:postcode", $address['postcode']);
 		$this->getTest()->typeAndLeave("id=shipping:company", $address['company']);
 		$this->getTest()->select("id=shipping:country_id", "label=".$address['country']);
-		if ($address['region']) {
+		if (isset($address['region'])&& $address['region']!='') {
 			$this->getTest()->select("id=shipping:region_id", "label=".$address['region']);
 		}
 
