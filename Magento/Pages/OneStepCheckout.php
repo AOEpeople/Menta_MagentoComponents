@@ -200,6 +200,11 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 		$this->toogleShipToTheSameAddress();
 	}
 
+	public function selectSavedBillingAddress($conditionForOptionToSelect = "value=") {
+		$this->getTest()->waitForElementPresent("id=billing-address-select");
+		$this->getTest()->select("id=billing-address-select", $conditionForOptionToSelect);
+	}
+
 	public function saveAccountForLaterUse() {
 		$this->getTest()->click($this->getSaveAccountCheckPath());
 		$this->getTest()->typeAndLeave("id=billing:customer_password", "test1234");
