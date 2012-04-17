@@ -17,7 +17,7 @@ class AoeComponents_ImapMail extends Menta_Component_AbstractTest {
 	 *
 	 * @param string $subject
 	 * @param int $timeout
-	 * @param int $timeBetweenRetries
+	 * @param int $sleep
 	 * @return int idx
 	 */
 	public function waitForMailWhoseSubjectContains($subject, $timeout=100, $sleep=10) {
