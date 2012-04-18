@@ -40,7 +40,6 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 		$this->acceptTermsAndConditions();
 
 		$this->waitForSummary();
-		sleep(5);
 		$this->submitForm();
 	}
 
@@ -49,11 +48,13 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 		$this->getTest()->waitForElementPresent("id=onestepcheckout-totals-summary");
 	}
 
-	public function submitForm() {
+	public function submitForm($checkValidationPassed=TRUE) {
 		$this->getTest()->assertElementPresent("onestepcheckout-place-order");
 		$this->getTest()->click("onestepcheckout-place-order");
-		$this->getTest()->assertElementNotPresent("css=.validation-failed");
-		$this->getTest()->getHelperWait()->waitForTextPresent('Please wait, processing your order', 2);
+		if ($checkValidationPassed) {
+			$this->getTest()->assertElementNotPresent("css=.validation-failed");
+			$this->getTest()->getHelperWait()->waitForTextPresent('Please wait, processing your order', 2);
+		}
 	}
 
 	public function assertPriceInSummary($productId, $expectedPrice) {
