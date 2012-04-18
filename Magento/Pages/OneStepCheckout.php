@@ -52,8 +52,8 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	public function submitForm() {
 		$this->getTest()->assertElementPresent("onestepcheckout-place-order");
 		$this->getTest()->click("onestepcheckout-place-order");
-		// TODO: check for loading message
-		sleep(5);
+		$this->getTest()->assertElementNotPresent("css=.validation-failed");
+		$this->getTest()->getHelperWait()->waitForTextPresent('Please wait, processing your order', 2);
 	}
 
 	public function assertPriceInSummary($productId, $expectedPrice) {
