@@ -274,6 +274,10 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 		$this->waitForSummary();
 	}
 
+    public function selectNewsletterCheckbox() {
+        $this->getTest()->click("//input[@id='id_subscribe_newsletter']");
+    }
+
 	public function doSplitShipping() {
 
 		$session = $this->getSession(); /* @var $session WebDriver_Session */
