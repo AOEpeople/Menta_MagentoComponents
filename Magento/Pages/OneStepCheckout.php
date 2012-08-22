@@ -270,7 +270,8 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 
 	public function selectShipping($name) {
 		// $this->getTest()->assertElementPresent("//td[@class='shipping-name']/label[text()='$name']");
-		$this->getTest()->click("//td[@class='shipping-name']/label[text()='$name']");
+		//$this->getTest()->click("//td[@class='shipping-name']/label[text()='$name']");
+		$this->getTest()->click("//dl[@class='shipping-methods']/label[text()='$name']");
 		$this->waitForSummary();
 	}
 
