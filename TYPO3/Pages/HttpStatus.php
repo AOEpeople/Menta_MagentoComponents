@@ -7,6 +7,7 @@
  */
 class AoeComponents_TYPO3_Pages_HttpStatus extends Menta_Component_AbstractTest {
 	
+	
 	/**
 	 * returns only the http status code
 	 * @return int $http
@@ -15,7 +16,9 @@ class AoeComponents_TYPO3_Pages_HttpStatus extends Menta_Component_AbstractTest 
 		$useragent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1";
 		$options = array (
 			CURLOPT_USERAGENT => $useragent, 	// fake a user agent
-			CURLOPT_NOBODY => TRUE				// deactivate debug output 
+			CURLOPT_NOBODY => TRUE,				// deactivate debug output 
+						CURLOPT_SSL_VERIFYPEER => FALSE,
+			CURLOPT_SSL_VERIFYHOST => FALSE	
 		);
 		$ch = curl_init ( $url );
 		curl_setopt_array ( $ch, $options );
