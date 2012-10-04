@@ -3,7 +3,7 @@
  * Components for images
  * @author Thomas Layh <thomas.layh@aoemedia.de>
  */
-class Components_Image extends Menta_Component_AbstractTest {
+class AoeComponents_TYPO3_Pages_Image extends Menta_Component_AbstractTest {
 
 	/**
 	 * @var WebDriver_Element
