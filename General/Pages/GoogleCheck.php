@@ -39,9 +39,7 @@ class AoeComponents_General_Pages_GoogleCheck extends Menta_Component_AbstractTe
 			
 			if ($elements) {
 				foreach ($elements as $element) {
-					echo "ELEMENT : ". $element->getAttribute('href') ."\n";
 					$url = preg_replace('/^(http|https):\/\/('.$baseurl.')/', $systemDomain, $element->getAttribute('href'));	
-					echo "URL : ".$url . "\n";									
 					$urls[] = array("url"=> $url);
 					$i++;
 				}
