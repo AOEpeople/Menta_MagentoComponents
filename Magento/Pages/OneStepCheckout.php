@@ -86,7 +86,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	}
 
 	public function assertTotal($expectedPrice, $type, $message='') {
-		$price = $this->getTest()->getText('//table[@id="onestepcheckout-totals-summary"]//tr['.AoeComponents_Div::contains($type).']//span['.AoeComponents_Div::contains('price').']');
+		$price = $this->getTest()->getText('//table[@id="onestepcheckout-totals-summary"]//tr['.AoeComponents_Div::contains($type).']//td[@class="value"]');
 		$price = strip_tags($price);
 		$this->getTest()->assertEquals($expectedPrice, $price, $message);
 	}
@@ -253,7 +253,9 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	public function acceptTermsAndConditions() {
 		$this->getTest()->assertElementPresent("//label[@for='id_accept_terms']", 'Could not find terms and conditions checkbox');
 		// $this->getTest()->click("id=id_accept_terms");
-		$this->getTest()->click("//input[@id='id_accept_terms']");
+		if (!$this->getTest()->getHelperCommon()->isSelected("//input[@id='id_accept_terms']")) {
+			$this->getTest()->click("//input[@id='id_accept_terms']");
+		}
 	}
 
 	public function selectShippingMethodStandard() {
@@ -270,8 +272,8 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 
 	public function selectShipping($name) {
 		// $this->getTest()->assertElementPresent("//td[@class='shipping-name']/label[text()='$name']");
-		//$this->getTest()->click("//td[@class='shipping-name']/label[text()='$name']");
-		$this->getTest()->click("//dl[@class='shipping-methods']/label[text()='$name']");
+		$this->getTest()->click("//td[@class='shipping-name']/label[text()='$name']");
+		//$this->getTest()->click("//dl[@class='shipping-methods']/label[text()='$name']");
 		$this->waitForSummary();
 	}
 
