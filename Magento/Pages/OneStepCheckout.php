@@ -184,6 +184,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 			$this->getTest()->select("id=shipping:region_id", "label=".$address['region']);
 		}
 
+        sleep(1);   // to keep order of ajax requests
 		$this->waitForSummary();
 
 		return $address;
