@@ -1,27 +1,31 @@
 <?php
 /**
- * 
  * Google Result test
- * @author joerg.winkler<joerg.winkler@aoemedia.de>
  *
+ * @author Joerg Winkler <joerg.winkler@aoemedia.de>
  */
-
 class AoeComponents_General_Pages_GoogleCheck extends Menta_Component_AbstractTest {
 	
 	/**
 	 * Open page
+	 *
+	 * @param int $pageId
 	 * @return void
 	 */
 	public function open($pageId) {
 		$this->getTest()->open($pageId);
 	}
-	
+
 	/**
-	 * extract relevant google search results and switch urls to build environment for testing purpose
-	 *@return $urls 
-	 **/
+	 * Extract relevant google search results and switch urls to build environment for testing purpose
+	 *
+	 * @param $site
+	 * @param $searchResults
+	 * @param $pagesToCheck
+	 * @param $systemDomain
+	 * @return array
+	 */
 	public function getURLS($site, $searchResults, $pagesToCheck, $systemDomain){
-		
 		
 		/* ?q= : search query */
 		/* &as_qdr=all : deactivate Google Instant */
@@ -54,13 +58,14 @@ class AoeComponents_General_Pages_GoogleCheck extends Menta_Component_AbstractTe
 		return $urls;
 	}
 
-		
 	/**
-	 * opens all given urls and check if 404 or Error page is given
-	 * creats a readable output for jenkins
-	 *@return void 
-	 **/
-	public function checkFor404 ($urls, $errorPageXpath){		
+	 * Opens all given urls and check if 404 or Error page is given
+	 * Creates a readable output for jenkins
+	 *
+	 * @param $urls
+	 * @param $errorPageXpath
+	 */
+	public function checkFor404 ($urls, $errorPageXpath) {
 		$errorUrls = array();
 
 		foreach ($urls as $url){
@@ -73,7 +78,7 @@ class AoeComponents_General_Pages_GoogleCheck extends Menta_Component_AbstractTe
 		}
 
 		$errorString = "";
-		foreach ($errorUrls as $url){	
+		foreach ($errorUrls as $url) {
 			$errorString .= 	"URL that shows 404 or Error Page : ". $url['url']. "\n";
 		}
 		if (count($errorUrls)>0){
@@ -81,8 +86,9 @@ class AoeComponents_General_Pages_GoogleCheck extends Menta_Component_AbstractTe
 			echo "amount of 404 pages  : " . count($errorUrls). "\n";
 			echo $errorString;		
 			$this->getTest()->assertTrue(count($errorUrls)==0, "some pages lead to 404 or Error pages");	
-		}else{
+		} else {
 			echo "no pages lead to 404 or Error pages";
 		}
-	}	
+	}
+
 }
