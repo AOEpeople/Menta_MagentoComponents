@@ -1,0 +1,25 @@
+{
+    "name": "aoemedia/aoecomponents",
+    "type": "library",
+    "description": "General purpose components for Menta",
+    "keywords": ["selenium", "webdriver", "phpunit", "browser"],
+    "homepage": "http://www.aoemedia.de",
+    "license": "Apache",
+    "authors": [
+        {
+            "name": "Fabrizio Branca",
+            "email": "menta@fabrizio-branca.de",
+            "homepage": "http://www.fabrizio-branca.de",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "aoemedia/menta": "dev-composer"
+    },
+    "autoload": {
+        "psr-0": {
+            "AoeComponents": "lib/"
+       }
+    }
+}

@@ -3,13 +3,25 @@
 class AoeComponents_Magento_Pages_Cart extends Menta_Component_AbstractTest {
 
 	/**
+	 * Check if we're on the cart page.
+	 * Useful if e.g. the add to cart button should have redirected to this page
+	 *
+	 * @author Fabrizio Branca
+	 * @since 2012-11-16
+	 */
+	public function assertOnCartPage() {
+		$this->getHelperAssert()->assertBodyClass('checkout-cart-index');
+	}
+
+	/**
 	 * Open cart
 	 *
 	 * @return void
 	 */
 	public function open() {
 		$this->getTest()->open($this->getCartUrl());
-		$this->getTest()->assertTitle($this->__("Shopping Cart"));
+		$this->getHelperAssert()->assertTitle($this->__("Shopping Cart"));
+		$this->assertOnCartPage();
 	}
 
 	/**
@@ -28,7 +40,7 @@ class AoeComponents_Magento_Pages_Cart extends Menta_Component_AbstractTest {
 	 */
 	public function assertEmptyCart() {
 		$this->open();
-		$this->getTest()->assertTextPresent($this->__('Shopping Cart is Empty'));
+		$this->getHelperAssert()->assertTextPresent($this->__('Shopping Cart is Empty'));
 	}
 
 	/**
@@ -39,8 +51,16 @@ class AoeComponents_Magento_Pages_Cart extends Menta_Component_AbstractTest {
 	}
 
 	/**
+	 * @return Menta_Component_Helper_Assert
+	 */
+	public function getHelperAssert() {
+		return Menta_ComponentManager::get('Menta_Component_Helper_Assert');
+	}
+
+	/**
 	 * Placeholder for ajax implementation of cartheader
 	 */
 	public function waitForAjax() {
 	}
+
 }

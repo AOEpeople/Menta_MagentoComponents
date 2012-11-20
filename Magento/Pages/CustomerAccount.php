@@ -3,22 +3,6 @@
 class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_AbstractTest {
 
 	/**
-	 * Returns expected header of login/register page
-	 * @return string
-	 */
-	public function getExpectedLoginCreateHeader(){
-		return 'Login or Create an Account';
-	}
-
-	/**
-	 * Returns expected dashboard page header
-	 * @return string
-	 */
-	public function getExpectedDashboardHeader(){
-		return 'My Dashboard';
-	}
-
-	/**
 	 * Path for element which is present only on dashboard page
 	 * @return string
 	 */
@@ -30,6 +14,7 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 	public function getSplitPageRegistrationButtonPath() {
 		return "//div[contains(@class,'account-login')]//button//*[contains(text(),'Register')]";
 	}
+
 	/**
 	 * Open login/register page
 	 *
@@ -37,9 +22,10 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 	 */
 	public function openSplitLoginOrRegister() {
 		$this->getTest()->open('/customer/account/login/');
-		$this->getTest()->assertTextPresent($this->getExpectedLoginCreateHeader());
-		$this->getTest()->assertTextPresent('New Customers');
-		$this->getTest()->assertTextPresent('Registered Customers');
+		$this->getHelperAssert()->assertBodyClass('customer-account-login');
+		$this->getTest()->assertTextPresent($this->__('Login or Create an Account'));
+		$this->getTest()->assertTextPresent($this->__('New Customers'));
+		$this->getTest()->assertTextPresent($this->__('Registered Customers'));
 	}
 
 	/**
@@ -55,10 +41,11 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 	}
 
 	public function assertIsOnDashboard() {
-		$this->getTest()->assertTitle('My Account');
-		$this->getTest()->assertTextPresent($this->getExpectedDashboardHeader());
+		$this->getTest()->assertTitle($this->__('My Account'));
+		$this->getTest()->assertTextPresent($this->__('My Dashboard'));
 		$this->getTest()->assertElementPresent($this->getDashboardIndicatorPath());
 	}
+
 	/**
 	 * Got to history
 	 *
@@ -102,8 +89,7 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 		$this->getHelperCommon()->type("//input[@id='pass']", $password, true, true);
 		$this->getHelperCommon()->click("//button[@id='send2']");
 
-		$waitHelper = Menta_ComponentManager::get('Menta_Component_Helper_Wait'); /* @var $waitHelper Menta_Component_Helper_Wait */
-		$this->getTest()->assertTrue($waitHelper->waitForElementPresent($this->getDashboardIndicatorPath()));
+		$this->getHelperAssert()->assertBodyClass('customer-account-index');
 	}
 
 	/**
@@ -145,10 +131,28 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 	}
 
 	/**
+	 * Open registration page
+	 *
+	 * @author Fabrizio Branca
+	 * @since 2012-11-19
+	 */
+	public function openRegistrationPage() {
+		$this->getTest()->open('/customer/account/create/');
+		$this->getHelperAssert()->assertBodyClass('customer-account-create');
+	}
+
+	/**
 	 * @return Menta_Component_Helper_Common
 	 */
 	public function getHelperCommon() {
 		return Menta_ComponentManager::get('Menta_Component_Helper_Common');
+	}
+
+	/**
+	 * @return Menta_Component_Helper_Assert
+	 */
+	public function getHelperAssert() {
+		return Menta_ComponentManager::get('Menta_Component_Helper_Assert');
 	}
 
 }
