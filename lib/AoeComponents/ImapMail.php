@@ -108,31 +108,4 @@ class AoeComponents_ImapMail extends Menta_Component_AbstractTest {
 		return false;
 	}
 
-	/**
-	 * Get wait helper
-	 *
-	 * @return Menta_Component_Helper_Wait
-	 */
-	public function getHelperWait() {
-		return Menta_ComponentManager::get('Menta_Component_Helper_Wait');
-	}
-
-	/**
-	 * Get common helper
-	 *
-	 * @return Menta_Component_Helper_Common
-	 */
-	public function getHelperCommon() {
-		return Menta_ComponentManager::get('Menta_Component_Helper_Common');
-	}
-
-	/**
-	 * Get assert helper
-	 *
-	 * @return Menta_Component_Helper_Assert
-	 */
-	public function getHelperAssert() {
-		return Menta_ComponentManager::get('Menta_Component_Helper_Assert');
-	}
-
 }

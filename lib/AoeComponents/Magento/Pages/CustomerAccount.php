@@ -141,18 +141,4 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 		$this->getHelperAssert()->assertBodyClass('customer-account-create');
 	}
 
-	/**
-	 * @return Menta_Component_Helper_Common
-	 */
-	public function getHelperCommon() {
-		return Menta_ComponentManager::get('Menta_Component_Helper_Common');
-	}
-
-	/**
-	 * @return Menta_Component_Helper_Assert
-	 */
-	public function getHelperAssert() {
-		return Menta_ComponentManager::get('Menta_Component_Helper_Assert');
-	}
-
 }

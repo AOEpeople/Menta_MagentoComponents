@@ -44,20 +44,6 @@ class AoeComponents_Magento_Pages_Cart extends Menta_Component_AbstractTest {
 	}
 
 	/**
-	 * @return Menta_Component_Helper_Common
-	 */
-	public function getHelperCommon() {
-		return Menta_ComponentManager::get('Menta_Component_Helper_Common');
-	}
-
-	/**
-	 * @return Menta_Component_Helper_Assert
-	 */
-	public function getHelperAssert() {
-		return Menta_ComponentManager::get('Menta_Component_Helper_Assert');
-	}
-
-	/**
 	 * Placeholder for ajax implementation of cartheader
 	 */
 	public function waitForAjax() {

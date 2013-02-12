@@ -106,10 +106,4 @@ class AoeComponents_Magento_Pages_CategoryView extends Menta_Component_AbstractT
 		$session->moveto(array('element' => $link->getID()));
 	}
 
-	/**
-	 * @return Menta_Component_Helper_Common
-	 */
-	public function getHelperCommon() {
-		return Menta_ComponentManager::get('Menta_Component_Helper_Common');
-	}
 }

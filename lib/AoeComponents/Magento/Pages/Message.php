@@ -39,18 +39,4 @@ class AoeComponents_Magento_Pages_Message extends Menta_Component_AbstractTest {
 		$this->getHelperAssert()->assertElementNotPresent($xpath, 'Error messsage found!');
 	}
 
-	/**
-	 * @return Menta_Component_Helper_Common
-	 */
-	public function getHelperCommon() {
-		return Menta_ComponentManager::get('Menta_Component_Helper_Common');
-	}
-
-	/**
-	 * @return Menta_Component_Helper_Assert
-	 */
-	public function getHelperAssert() {
-		return Menta_ComponentManager::get('Menta_Component_Helper_Assert');
-	}
-
 }
