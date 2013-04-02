@@ -1,7 +1,7 @@
 <?php
 
 // include parts of local Zend Framework
-set_include_path(dirname(__FILE__).'/lib/' . PATH_SEPARATOR . get_include_path());
+set_include_path(dirname(dirname(__FILE__)) . PATH_SEPARATOR . get_include_path());
 
 require_once 'Zend/Mail/Storage/Imap.php';
 
