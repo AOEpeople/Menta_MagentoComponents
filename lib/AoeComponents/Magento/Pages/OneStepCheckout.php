@@ -234,7 +234,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 		$this->getTest()->typeAndLeave('id=braintree_cc_number', '4111111111111111');
 		$this->getTest()->fireEvent('id=braintree_cc_number', 'blur');
 		$this->getTest()->select('id=braintree_expiration', 'label=03 - March');
-		$this->getTest()->select('id=braintree_expiration_yr', 'label=2013');
+		$this->getTest()->select('id=braintree_expiration_yr', 'label=2020');
 		$this->getTest()->typeAndLeave('id=braintree_cc_cid', '123');
 		$this->getTest()->fireEvent('id=braintree_cc_cid', 'blur');
 	}
@@ -248,7 +248,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 		$this->getTest()->select('id=braintree_cc_type', 'label=Visa');
 		$this->getTest()->typeAndLeave('id=braintree_cc_number', '4111114561111123');
 		$this->getTest()->select('id=braintree_expiration', 'label=03 - March');
-		$this->getTest()->select('id=braintree_expiration_yr', 'label=2013');
+		$this->getTest()->select('id=braintree_expiration_yr', 'label=2020');
 		$this->getTest()->typeAndLeave('id=braintree_cc_cid', '999');
 	}
 
