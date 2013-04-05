@@ -99,8 +99,8 @@ class AoeComponents_Magento_Pages_CategoryView extends Menta_Component_AbstractT
 		// Hover on parent element first (Needed in Selenium 2)
 		$session = $this->getSession(); /* @var $session \WebDriver\Session */
 
-	//	$itemDiv = $session->element(\WebDriver\Container::XPATH, "//li[@id='product_$productId']/div");
-		$link = $session->element(\WebDriver\Container::XPATH, "//li[@id='product_$productId']//button[".AoeComponents_Div::contains('add-to-basket')."]");
+	//	$itemDiv = $session->element(\WebDriver\LocatorStrategy::XPATH, "//li[@id='product_$productId']/div");
+		$link = $session->element(\WebDriver\LocatorStrategy::XPATH, "//li[@id='product_$productId']//button[".AoeComponents_Div::contains('add-to-basket')."]");
 
 	//	$session->moveto(array('element' => $itemDiv->getID()));
 		$session->moveto(array('element' => $link->getID()));

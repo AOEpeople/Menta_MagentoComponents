@@ -153,7 +153,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 		if (isset($address['region']) && $address['region']) {
 			$this->getTest()->select("id=billing:region_id", "label=".$address['region']);
 		}
-		$this->getSession()->keys(\WebDriver\Element::Tab);
+		$this->getSession()->keys(\WebDriver\Key::TAB);
         sleep(1);   // to keep order of ajax requests
 		$this->waitForSummary();
 
@@ -286,7 +286,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	public function doSplitShipping() {
 
 		$session = $this->getSession(); /* @var $session \WebDriver\Session */
-		$link = $session->element(\WebDriver\Container::XPATH, "//input[@id='dosplitshipping']");
+		$link = $session->element(\WebDriver\LocatorStrategy::XPATH, "//input[@id='dosplitshipping']");
 		$session->moveto(array('element' => $link->getID()));
 		$session->click();
 		//$this->getTest()->click("//input[@id='dosplitshipping']");
@@ -297,7 +297,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	public function noSplitShipping() {
 
 		$session = $this->getSession(); /* @var $session \WebDriver\Session */
-		$link = $session->element(\WebDriver\Container::XPATH, "//input[@id='nosplitshipping']");
+		$link = $session->element(\WebDriver\LocatorStrategy::XPATH, "//input[@id='nosplitshipping']");
 		$session->moveto(array('element' => $link->getID()));
 		$session->click();
 		//$this->getTest()->click("//input[@id='nosplitshipping']");

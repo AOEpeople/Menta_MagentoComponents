@@ -61,7 +61,7 @@ class AoeComponents_Magento_Pages_Admin extends Menta_Component_AbstractTest
 	{
 		$this->getTest()->typeAndLeave('id=username',$username);
 		$this->getTest()->typeAndLeave('id=login',$password);
-		$formElement = $this->getSession()->element(\WebDriver\Container::XPATH, '//form[@id="loginForm"]');
+		$formElement = $this->getSession()->element(\WebDriver\LocatorStrategy::XPATH, '//form[@id="loginForm"]');
 		$formElement->submit();
 	}
 
@@ -71,7 +71,7 @@ class AoeComponents_Magento_Pages_Admin extends Menta_Component_AbstractTest
 	public function logoutFromAdmin()
 	{
 	 	$this->getTest()->waitForElementPresent('//a[@class="link-logout"]');
-		$this->getSession()->element(\WebDriver\Container::XPATH, '//a[@class="link-logout"]')->click();
+		$this->getSession()->element(\WebDriver\LocatorStrategy::XPATH, '//a[@class="link-logout"]')->click();
 	}
 
 	/**
