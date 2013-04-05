@@ -54,8 +54,8 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 		sleep(1);
 		if ($checkValidationPassed) {
 			$this->getTest()->assertElementNotPresent("css=.validation-failed");
-			$this->getTest()->getHelperAssert()->assertTextNotPresent("Please check red fields below and try again");
-			$this->getTest()->getHelperWait()->waitForTextPresent('Please wait, processing your order', 2);
+			$this->getHelperAssert()->assertTextNotPresent("Please check red fields below and try again");
+			$this->getHelperWait()->waitForTextPresent('Please wait, processing your order', 2);
 		}
 	}
 
@@ -255,7 +255,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 	public function acceptTermsAndConditions() {
 		$this->getTest()->assertElementPresent("//label[@for='id_accept_terms']", 'Could not find terms and conditions checkbox');
 		// $this->getTest()->click("id=id_accept_terms");
-		if (!$this->getTest()->getHelperCommon()->isSelected("//input[@id='id_accept_terms']")) {
+		if (!$this->getHelperCommon()->isSelected("//input[@id='id_accept_terms']")) {
 			$this->getTest()->click("//input[@id='id_accept_terms']");
 		}
 	}
@@ -291,7 +291,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 		$session->click();
 		//$this->getTest()->click("//input[@id='dosplitshipping']");
 		$this->waitForSummary();
-		$this->getTest()->assertTrue($this->getTest()->getHelperCommon()->isSelected("//input[@id='dosplitshipping']"));
+		$this->getTest()->assertTrue($this->getHelperCommon()->isSelected("//input[@id='dosplitshipping']"));
 	}
 
 	public function noSplitShipping() {
@@ -302,7 +302,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 		$session->click();
 		//$this->getTest()->click("//input[@id='nosplitshipping']");
 		$this->waitForSummary();
-		$this->getTest()->assertTrue($this->getTest()->getHelperCommon()->isSelected("//input[@id='nosplitshipping']"));
+		$this->getTest()->assertTrue($this->getHelperCommon()->isSelected("//input[@id='nosplitshipping']"));
 	}
 
 }
