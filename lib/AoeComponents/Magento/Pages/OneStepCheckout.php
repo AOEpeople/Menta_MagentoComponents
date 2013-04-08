@@ -153,7 +153,7 @@ class AoeComponents_Magento_Pages_OneStepCheckout extends Menta_Component_Abstra
 		if (isset($address['region']) && $address['region']) {
 			$this->getTest()->select("id=billing:region_id", "label=".$address['region']);
 		}
-		$this->getSession()->keys(\WebDriver\Key::TAB);
+		//$this->getSession()->keys(\WebDriver\Key::TAB);
         sleep(1);   // to keep order of ajax requests
 		$this->waitForSummary();
 

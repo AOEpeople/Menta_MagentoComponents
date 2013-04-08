@@ -26,6 +26,7 @@ class AoeComponents_Magento_Pages_CategoryView extends Menta_Component_AbstractT
 	public function assertIsOnCategoryPage() {
 		$this->getTest()->assertElementPresent($this->getCategoryPageIndicatorPath());
 	}
+
 	/**
 	 * Get category url
 	 *
