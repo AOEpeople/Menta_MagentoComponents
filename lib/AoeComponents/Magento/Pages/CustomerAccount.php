@@ -130,6 +130,11 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 		return str_replace(array_keys($replace), array_values($replace), $template);
 	}
 
+    public function createRandomPassword($length=8) {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        return substr(str_shuffle($chars),0, $length);
+    }
+
 	/**
 	 * Open registration page
 	 *
