@@ -71,6 +71,17 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 	}
 
 	/**
+	 * Open address info
+	 *
+	 * @return void
+	 * @author Fabrizio Branca
+	 * @since 2013-04-23
+	 */
+	public function openAddressInfo() {
+		$this->getTest()->open('/customer/address/');
+	}
+
+	/**
 	 * Login
 	 *
 	 * @param string $username
@@ -124,6 +135,7 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 		$template = $this->getConfiguration()->getValue('testing.newmailaddresspattern');
 		$replace = array(
 			'###TYPE###' => $type,
+			'###RANDOM###' => $this->createRandomString(4),
 			'###TIME###' => time(),
 			'###TESTID###' => $this->getTest()->getTestId()
 		);
@@ -131,7 +143,15 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 	}
 
     public function createRandomPassword($length=8) {
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		return Menta_Util_Div::createRandomString($length);
+	}
+
+	public function createRandomName($length = 8) {
+		$name = Menta_Util_Div::createRandomString($length, 'abcdefghijklmnopqrstuvwxyz');
+		return ucfirst($name);
+	}
+
+	public function createRandomString($length = 8, $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") {
         return substr(str_shuffle($chars),0, $length);
     }
 
