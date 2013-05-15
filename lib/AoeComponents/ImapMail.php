@@ -96,7 +96,7 @@ class AoeComponents_ImapMail extends Menta_Component_AbstractTest {
 	 * Search for a mail whose subject contains the given string
 	 * 
 	 * @param $subject
-	 * @return bool|idx
+	 * @return bool|int
 	 */
 	public function searchMailWithSubject($subject) {
 		$storage = $this->getStorage(true); // get new storage (triggering fresh lookup for new mails)
@@ -108,4 +108,58 @@ class AoeComponents_ImapMail extends Menta_Component_AbstractTest {
 		return false;
 	}
 
+    /**
+     * get content for mail whose content contains the given string and delete the mail then
+     *
+     * @param string $subjectContains
+     * @param bool $useXPath
+     * @param int $timeout
+     * @param int $sleep
+     * @return mixed string|DOMXPath
+     */
+    public function getMailContent($subjectContains, $useXPath = false, $timeout = 100, $sleep = 10)
+    {
+        $idx     = $this->waitForMailWhoseSubjectContains($subjectContains, $timeout, $sleep);
+        $message = $this->getStorage()->getMessage($idx);
+
+        $content = Zend_Mime_Decode::decodeQuotedPrintable($message->getContent());
+        $this->getTest()->assertNotEmpty($content);
+        $this->getStorage()->removeMessage($idx);
+
+        if ($useXPath) {
+            preg_match('/<body.*<\/body>/misU', $content, $match);
+            $html = str_replace(array('&lt;', '&gt;'), array('<', '>'), htmlentities($match[0], ENT_NOQUOTES));
+
+            return new DOMXPath(DOMDocument::loadHTML($html));
+        }
+
+        return $content;
+    }
+
+    /**
+     * get Mail as XPATH object to get elements via xpath
+     * please make sure to have valid html to make this work
+     *
+     * @param $subjectContains
+     * @param int $timeout
+     * @param int $sleep
+     * @return DOMXPath
+     */
+    public function getHTMLMailContent($subjectContains, $timeout = 100, $sleep = 10)
+    {
+        return $this->getMailContent($subjectContains, true, $timeout, $sleep);
+    }
+
+    /**
+     * returns just the plain mail content
+     *
+     * @param $subjectContains
+     * @param int $timeout
+     * @param int $sleep
+     * @return string
+     */
+    public function getTextMailContent($subjectContains, $timeout = 100, $sleep = 10)
+    {
+        return $this->getMailContent($subjectContains, false, $timeout = 100, $sleep = 10);
+    }
 }
