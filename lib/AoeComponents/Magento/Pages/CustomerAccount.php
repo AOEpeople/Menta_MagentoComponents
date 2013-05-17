@@ -98,6 +98,11 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 		//$this->getHelperCommon()->click("//ul[@class='links personal-items']/li[@class='first']/a");
 		$this->getHelperCommon()->type("//input[@id='email']", $username, true, true);
 		$this->getHelperCommon()->type("//input[@id='pass']", $password, true, true);
+
+		Menta_Events::dispatchEvent('AoeComponents_Magento_Pages_CustomerAccount->login:beforeSubmit', array(
+			'component' => $this
+		));
+
 		$this->getHelperCommon()->click("//button[@id='send2']");
 
 		$this->getHelperAssert()->assertBodyClass('customer-account-index');
