@@ -71,7 +71,7 @@ class AoeComponents_Magento_WebServiceApiV2 extends Menta_Component_Abstract {
         $result = $this->getSoapClient()->catalogProductInfo(
             $this->getSoapSessionId(),
             $idOrSku,
-            'default',
+            $storeView,
             $attributes
 
         );
@@ -90,6 +90,80 @@ class AoeComponents_Magento_WebServiceApiV2 extends Menta_Component_Abstract {
         $result = $this->getSoapClient()->salesOrderInfo(
             $this->getSoapSessionId(),
             $incrementId
+        );
+        return $result;
+    }
+
+    /**
+     * Create a shipment for an order
+     *
+     * @param        $orderIncrementId
+     * @param array  $itemsQty - associative array in the form of order_item_id => qty_to_ship
+     * @param string $comment
+     * @param bool   $sendEmail
+     * @param bool   $includeComment
+     * @return string Shipment Increment ID
+     */
+    public function createShipment($orderIncrementId, $itemsQty = array(), $comment = '', $sendEmail = false, $includeComment = false) {
+        $result = $this->getSoapClient()->salesOrderShipmentCreate(
+            $this->getSoapSessionId(),
+            $orderIncrementId,
+            $this->getApiItemQtyFromSimpleItemQty($itemsQty),
+            $comment,
+            $sendEmail,
+            $includeComment
+        );
+        return $result;
+    }
+
+    /**
+     * Creates an API compatible item qty array from a simplified item qty array
+     *
+     * @param $itemsQty
+     * @return array
+     */
+    public function getApiItemQtyFromSimpleItemQty($itemsQty) {
+        $apiItemQty = array();
+        foreach ($itemsQty as $itemId => $qty) {
+            $apiItemQty[] = array(
+                'order_item_id' => $itemId,
+                'qty' => $qty
+            );
+        }
+
+        return $apiItemQty;
+    }
+
+    /**
+     * Add a tracking number to a shipment
+     *
+     * @param $shipmentIncrementId
+     * @param $carrierCode
+     * @param $trackingTitle
+     * @param $trackingNumber
+     * @return int Tracking Number ID
+     */
+    public function addTrackingCode($shipmentIncrementId, $carrierCode, $trackingTitle, $trackingNumber) {
+        $result = $this->getSoapClient()->salesOrderShipmentAddTrack(
+            $this->getSoapSessionId(),
+            $shipmentIncrementId,
+            $carrierCode,
+            $trackingTitle,
+            $trackingNumber
+        );
+        return $result;
+    }
+
+    /**
+     * Get info about a shipment
+     *
+     * @param $shipmentIncrementId
+     * @return array
+     */
+    public function getShipmentInfo($shipmentIncrementId) {
+        $result = $this->getSoapClient()->salesOrderShipmentCreate(
+            $this->getSoapSessionId(),
+            $shipmentIncrementId
         );
         return $result;
     }
