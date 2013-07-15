@@ -12,7 +12,7 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 
 
 	public function getSplitPageRegistrationButtonPath() {
-		return "//div[contains(@class,'account-login')]//button//*[contains(text(),'Register')]";
+        return "//div[contains(@id,'account-login')]//a[contains(text(),'Register')]";
 	}
 
 	/**
@@ -55,7 +55,7 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 	 */
 	public function openOrderHistory() {
 		$this->getTest()->open('/sales/order/history/');
-		$this->getTest()->assertTitle('My Orders');
+		$this->getTest()->assertTitle($this->__('My Orders'));
 	}
 
 	/**
@@ -103,10 +103,14 @@ class AoeComponents_Magento_Pages_CustomerAccount extends Menta_Component_Abstra
 			'component' => $this
 		));
 
-		$this->getHelperCommon()->click("//button[@id='send2']");
+		$this->getHelperCommon()->click($this->getSplitPageLoginButtonPath());
 
 		$this->getHelperAssert()->assertBodyClass('customer-account-index');
 	}
+
+    public function getSplitPageLoginButtonPath(){
+        return "//button[@type='submit' and contains(text(),'Sign In')]";
+    }
 
 	/**
 	 * Got to forgot password page
