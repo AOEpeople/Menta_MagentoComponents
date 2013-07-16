@@ -268,14 +268,13 @@ class AoeComponents_Magento_Pages_OnePageCheckout extends Menta_Component_Abstra
 
     public function prepareShippingAddressFieldsForLoggedInUsers($conditionForOptionToSelect = "label=New Address")
     {
-        $this->toogleShipToTheSameAddress();
         $this->getTest()->waitForElementPresent("id=shipping-address-select");
         $this->getTest()->select("id=shipping-address-select", $conditionForOptionToSelect);
     }
 
     public function toogleShipToTheSameAddress()
     {
-        $this->getTest()->click("id=billing:use_for_shipping_yes");
+            $this->getTest()->click("id=billing:use_for_shipping_yes");
     }
 
     public function prepareShippingAddressFieldsForNewUsers()
