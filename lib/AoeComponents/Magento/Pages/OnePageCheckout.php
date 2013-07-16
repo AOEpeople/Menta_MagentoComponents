@@ -24,7 +24,7 @@ class AoeComponents_Magento_Pages_OnePageCheckout extends Menta_Component_Abstra
     public function open()
     {
         $this->getTest()->open($this->getCheckoutUrl());
-        $this->getTest()->waitForElementPresent('//*[@id="checkoutSteps"]');
+        $this->getTest()->waitForElementPresent('//*[@id="checkoutSteps"]',10);
         $this->getTest()->assertTitle('Checkout');
     }
 
