@@ -43,7 +43,7 @@ class AoeComponents_Magento_Pages_ProductSingleView extends Menta_Component_Abst
 	 * @return null|bool
 	 */
 	public function clickAddToCart($waitForAjax=true) {
-		$this->getTest()->click($this->getAddToCartButtonPath());
+		$this->getHelperCommon()->click($this->getAddToCartButtonPath());
 		if ($waitForAjax) {
 			$cart = Menta_ComponentManager::get('AoeComponents_Magento_Pages_Cart'); /* @var $cart AoeComponents_Magento_Pages_Cart */
 			$cart->waitForAjax();
@@ -58,8 +58,8 @@ class AoeComponents_Magento_Pages_ProductSingleView extends Menta_Component_Abst
 	 * @return void
 	 */
 	public function openProduct($productId) {
-		$this->getTest()->open($this->getProductUrl($productId));
-		$this->getTest()->assertTextNotPresent('We are sorry, but the page you are looking for cannot be found.');
+		$this->getHelperCommon()->open($this->getProductUrl($productId));
+		$this->getHelperAssert()->assertTextNotPresent('We are sorry, but the page you are looking for cannot be found.');
 	}
 
 	/**

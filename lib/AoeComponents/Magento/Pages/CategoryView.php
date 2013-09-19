@@ -2,19 +2,22 @@
 
 class AoeComponents_Magento_Pages_CategoryView extends Menta_Component_AbstractTest {
 
-	/**
-	 * Open category page (product listing)
-	 *
-	 * @param int $categoryId
-	 * @return void
-	 */
+    /**
+     * Open category page (product listing)
+     *
+     * @param int $categoryId
+     * @param string $additionalParams
+     * @return void
+     */
 	public function open($categoryId, $additionalParams='?limit=all') {
-		$this->getTest()->open($this->getCategoryUrl($categoryId).$additionalParams);
+		$this->getHelperCommon()->open($this->getCategoryUrl($categoryId).$additionalParams);
 	}
 
 	/**
 	 * Returns selector of an element which is present only on category page
-	 * @return string
+	 *
+     * @deprecated Use $this->getHelperAssert()->assertBodyClass('catalog-category-view'); instead
+     * @return string
 	 */
 	public function getCategoryPageIndicatorPath() {
 		return '//body['.AoeComponents_Div::contains('catalog-category-view').']';
@@ -24,7 +27,8 @@ class AoeComponents_Magento_Pages_CategoryView extends Menta_Component_AbstractT
 	 * Checks if category page is currently open
 	 */
 	public function assertIsOnCategoryPage() {
-		$this->getTest()->assertElementPresent($this->getCategoryPageIndicatorPath());
+		// $this->getHelperAssert()->assertElementPresent($this->getCategoryPageIndicatorPath());
+        $this->getHelperAssert()->assertBodyClass('catalog-category-view');
 	}
 
 	/**
@@ -47,14 +51,15 @@ class AoeComponents_Magento_Pages_CategoryView extends Menta_Component_AbstractT
 		return "//li[@id='product_$productId']//a[@class='add-to-basket']";
 	}
 
-	/**
-	 * Put products into cart
-	 *
-	 * @param int|array $productId or array of productIds
-	 * @param boolean $waitForAjax should wait for end of request before adding next product to cart
-	 * @param int time to sleep between requests
-	 * @return void
-	 */
+    /**
+     * Put products into cart
+     *
+     * @param $products
+     * @param boolean $waitForAjax should wait for end of request before adding next product to cart
+     * @param int $sleep time to sleep between requests
+     * @internal param array|int $productId or array of productIds
+     * @return void
+     */
 	public function putProductsIntoCart($products, $waitForAjax = true, $sleep=0) {
 		if (!is_array($products)) {
 			$products = array($products);
