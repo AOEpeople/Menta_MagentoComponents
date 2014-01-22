@@ -3,7 +3,7 @@
  * @author David Robinson <david.robinson@aoemedia.com>
  * @since 19/2/2013
  */
-class AoeComponents_Magento_Pages_Admin_Product extends AoeComponents_Magento_Pages_Admin
+class MagentoComponents_Pages_Admin_Product extends MagentoComponents_Pages_Admin
 {
 	/**
 	 * Open product admin view

@@ -1,6 +1,6 @@
 <?php
 
-class AoeComponents_Magento_Pages_OnePageCheckout extends Menta_Component_AbstractTest
+class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTest
 {
 
     public function signInWithExistingAccount($login, $password)
@@ -71,10 +71,10 @@ class AoeComponents_Magento_Pages_OnePageCheckout extends Menta_Component_Abstra
      */
     public function addBillingAddress($country = 'us')
     {
-        $addressProvider = new AoeComponents_Magento_Provider_Address();
+        $addressProvider = new MagentoComponents_Provider_Address();
         $address = $addressProvider->getAddressField('billing', $country);
 
-        $address['email'] = Menta_ComponentManager::get('AoeComponents_Magento_Pages_CustomerAccount')->createNewMailAddress('oscbillling');
+        $address['email'] = Menta_ComponentManager::get('MagentoComponents_Pages_CustomerAccount')->createNewMailAddress('oscbillling');
 
         $this->getTest()->typeAndLeave("id=billing:firstname", $address['firstname']);
         $this->getTest()->typeAndLeave("id=billing:lastname", $address['lastname']);
@@ -102,7 +102,7 @@ class AoeComponents_Magento_Pages_OnePageCheckout extends Menta_Component_Abstra
     public function addShippingAddress($country = 'us')
     {
 
-        $addressProvider = new AoeComponents_Magento_Provider_Address();
+        $addressProvider = new MagentoComponents_Provider_Address();
         $address = $addressProvider->getAddressField('shipping', $country);
 
         $this->getTest()->typeAndLeave("id=shipping:firstname", $address['firstname']);

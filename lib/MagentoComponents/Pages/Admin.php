@@ -3,7 +3,7 @@
  * @author David Robinson <david.robinson@aoemedia.com>
  * @since 19/2/2013
  */
-class AoeComponents_Magento_Pages_Admin extends Menta_Component_AbstractTest
+class MagentoComponents_Pages_Admin extends Menta_Component_AbstractTest
 {
 	protected $defaultLogin = array('username' => 'selenium.user', 'password' => 'test1234', 'adminUrl' => '/admin');
 
