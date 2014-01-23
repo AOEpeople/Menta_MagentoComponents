@@ -7,7 +7,7 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
 	}
 
 	public function getAddToCartButtonPath() {
-		return "//*[@id='product_addtocart_form']//button[".Menta_Util_Div::contains($this->__('Add to Basket'), 'title')."]";
+		return "//*[@id='product_addtocart_form']//button[".Menta_Util_Div::contains($this->__('Add to Cart'), 'title')."]";
 	}
 
 	public function getCheckoutButtonPath() {
