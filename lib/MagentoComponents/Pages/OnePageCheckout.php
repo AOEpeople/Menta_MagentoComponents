@@ -7,8 +7,8 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
     {
         $this->getHelperCommon()->type('id=login-email', $login, true, false);
         $this->getHelperCommon()->type('id=login-password', $password, true, false);
-        $this->getTest()->assertElementPresent('//button[contains(text(),"Sign In")]');
-        $this->getTest()->click('//button[contains(text(),"Sign In")]');
+        $this->getTest()->assertElementPresent($this->getLoginButtonPath());
+        $this->getTest()->click($this->getLoginButtonPath());
     }
 
     public function assertUserLogged()
@@ -331,6 +331,11 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
     public function selectNewsletterCheckbox()
     {
         $this->getTest()->click("//input[@id='id_subscribe_newsletter']");
+    }
+
+    public function getLoginButtonPath()
+    {
+        return '//button//span[contains(text(),"Login")]';
     }
 
 }
