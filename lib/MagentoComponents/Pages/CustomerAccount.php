@@ -7,7 +7,7 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 * @return string
 	 */
 	public function getDashboardIndicatorPath() {
-		return 'id=dash';
+		return "//div[@class='my-account']/div[@class='dashboard']";
 	}
 
 
