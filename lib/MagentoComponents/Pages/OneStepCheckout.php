@@ -113,7 +113,7 @@ class MagentoComponents_Pages_OneStepCheckout extends MagentoComponents_Pages_On
     }
 
     public function assertTotal($expectedPrice, $type, $message='') {
-        $price = $this->getTest()->getText('//table[@id="onestepcheckout-totals-summary"]//tr['.AoeComponents_Div::contains($type).']//td[@class="value"]');
+        $price = $this->getTest()->getText('//table[@id="onestepcheckout-totals-summary"]//tr['.GeneralComponents_Div::contains($type).']//td[@class="value"]');
         $price = strip_tags($price);
         $this->getTest()->assertEquals($expectedPrice, $price, $message);
     }

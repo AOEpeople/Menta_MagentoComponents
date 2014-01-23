@@ -20,7 +20,7 @@ class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest 
      * @return string
 	 */
 	public function getCategoryPageIndicatorPath() {
-		return '//body['.AoeComponents_Div::contains('catalog-category-view').']';
+		return '//body['.GeneralComponents_Div::contains('catalog-category-view').']';
 	}
 
 	/**
@@ -106,7 +106,7 @@ class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest 
 		$session = $this->getSession(); /* @var $session \WebDriver\Session */
 
 	//	$itemDiv = $session->element(\WebDriver\LocatorStrategy::XPATH, "//li[@id='product_$productId']/div");
-		$link = $session->element(\WebDriver\LocatorStrategy::XPATH, "//li[@id='product_$productId']//button[".AoeComponents_Div::contains('add-to-basket')."]");
+		$link = $session->element(\WebDriver\LocatorStrategy::XPATH, "//li[@id='product_$productId']//button[".GeneralComponents_Div::contains('add-to-basket')."]");
 
 	//	$session->moveto(array('element' => $itemDiv->getID()));
 		$session->moveto(array('element' => $link->getID()));

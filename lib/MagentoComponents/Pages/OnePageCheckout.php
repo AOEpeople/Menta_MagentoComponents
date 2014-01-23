@@ -3,6 +3,21 @@
 class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTest
 {
 
+    public function goThrowCheckout($newsletter = false)
+    {
+        $this->open();
+
+        $this->finishStep('billingAddress');
+
+        $this->waitForShippingMethod();
+        $this->finishStep('shippingMethod');
+
+        $this->selectPaymentMethodCheckmo();
+        $this->finishStep('paymentMethod');
+
+        $this->submitForm();
+    }
+
     public function signInWithExistingAccount($login, $password)
     {
         $this->getHelperCommon()->type('id=login-email', $login, true, false);
@@ -51,13 +66,13 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         if ($step == 'checkoutMethod') {
             $buttonPath = '//*[@id="onepage-guest-register-button"]';
         } else if ($step == 'billingAddress') {
-            $buttonPath = '//div[@id="billing-buttons-container"]//button[contains(text(),"Continue")]';
+            $buttonPath = '//div[@id="billing-buttons-container"]//span[contains(text(),"Continue")]';
         } else if ($step == 'shippingAddress') {
-            $buttonPath = '//div[@id="shipping-buttons-container"]//button[contains(text(),"Continue")]';
+            $buttonPath = '//div[@id="shipping-buttons-container"]//span[contains(text(),"Continue")]';
         } else if ($step == 'shippingMethod') {
-            $buttonPath = '//div[@id="shipping-method-buttons-container"]//button[contains(text(),"Continue")]';
+            $buttonPath = '//div[@id="shipping-method-buttons-container"]//span[contains(text(),"Continue")]';
         } else if ($step == 'paymentMethod') {
-            $buttonPath = '//div[@id="payment-buttons-container"]//button[contains(text(),"Continue")]';
+            $buttonPath = '//div[@id="payment-buttons-container"]//button//span[contains(text(),"Continue")]';
         }
         $this->getTest()->assertElementPresent($buttonPath);
         $this->getTest()->click($buttonPath);
@@ -73,6 +88,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
     {
         $addressProvider = new MagentoComponents_Provider_Address();
         $address = $addressProvider->getAddressField('billing', $country);
+
 
         $address['email'] = Menta_ComponentManager::get('MagentoComponents_Pages_CustomerAccount')->createNewMailAddress('oscbillling');
 
@@ -147,8 +163,8 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 
     public function submitForm($checkValidationPassed = TRUE)
     {
-        $this->getTest()->assertElementPresent('//div[@id="checkout-review-submit"]//button[contains(text(),"Place Order")]');
-        $this->getTest()->click('//div[@id="checkout-review-submit"]//button[contains(text(),"Place Order")]');
+        $this->getTest()->assertElementPresent($this->getPlaceOrderButtonPath());
+        $this->getTest()->click($this->getPlaceOrderButtonPath());
         sleep(1);
         if ($checkValidationPassed) {
             $this->getTest()->assertElementNotPresent("css=.validation-failed");
@@ -186,8 +202,9 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 
     public function getOrderNumberFromSuccessPage()
     {
-        $this->getTest()->waitForElementPresent('//div[@id="checkout-success-ajax-wrapper"]');
-        $orderNumber = $this->getTest()->getElement('//input[@id="orderId"]')->getAttribute('value');
+        $this->getTest()->waitForElementPresent('//h1[contains(text(), "Your order has been received.")]');
+        $orderNumber = $this->getTest()
+            ->getElement('//p[contains(text(),"Your order")]//a')->getText();
         return $orderNumber;
     }
 
@@ -225,7 +242,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 
     public function assertTotal($expectedPrice, $type, $message = '')
     {
-        $price = $this->getTest()->getText('//table[@id="checkout-review-totals-table"]//tr[' . AoeComponents_Div::contains($type) . ']//td[' . AoeComponents_Div::contains('value') . ']');
+        $price = $this->getTest()->getText('//table[@id="checkout-review-totals-table"]//tr[' . GeneralComponents_Div::contains($type) . ']//td[' . GeneralComponents_Div::contains('value') . ']');
         $price = strip_tags($price);
         var_dump($expectedPrice . ' ' . $price . ';');
         $this->getTest()->assertEquals($expectedPrice, $price, $message);
@@ -289,16 +306,6 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->getTest()->select("id=billing-address-select", $conditionForOptionToSelect);
     }
 
-    public function addNewCreditCard()
-    {
-        return;
-
-        // this feature currently is disabled. So every checkout will get a fresh form by default
-        $commonHelper = Menta_ComponentManager::get('Menta_Component_Helper_Common');
-        /* @var $commonHelper Menta_Component_Helper_Common */
-        $commonHelper->select('braintree_cc_token', 'label=Add new card');
-    }
-
     public function acceptTermsAndConditions()
     {
         $this->getTest()->assertElementPresent("//label[@for='id_accept_terms']", 'Could not find terms and conditions checkbox');
@@ -308,9 +315,9 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         }
     }
 
-    public function selectShippingMethodStandard()
+    public function selectShippingFlatRate()
     {
-        $this->selectShipping('Standard');
+        $this->selectShipping('Flat Rate');
     }
 
     public function selectShipping($name)
@@ -323,9 +330,14 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->selectShipping('Priority');
     }
 
-    public function selectShippingMethodExpress()
+    public function selectPaymentMethodCheckmo()
     {
-        $this->selectShipping('Express');
+        $this->selectPaymentMethod('checkmo');
+    }
+
+    public function selectPaymentMethod($code)
+    {
+        $this->getTest()->click("//dl[@id='checkout-payment-method-load']//input[@id='p_method_$code']");
     }
 
     public function selectNewsletterCheckbox()
@@ -333,9 +345,21 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->getTest()->click("//input[@id='id_subscribe_newsletter']");
     }
 
+
+    /*
+     * get path for login button in checkout
+     */
     public function getLoginButtonPath()
     {
-        return '//button//span[contains(text(),"Login")]';
+        return '//div[@id="checkout-step-login"]//span[contains(text(),"Login")]';
+    }
+
+    /*
+     * get Path for place order button
+     * */
+    public function getPlaceOrderButtonPath()
+    {
+        return '//div[@id="checkout-review-submit"]//span[contains(text(),"Place Order")]';
     }
 
 }

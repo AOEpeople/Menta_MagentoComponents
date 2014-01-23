@@ -43,6 +43,18 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest {
 		$this->getHelperAssert()->assertTextPresent($this->__('Shopping Cart is Empty'));
 	}
 
+    public function clearCart() {
+        $this->getTest()->open($this->getCartUrl());
+        if($this->getHelperCommon()->isElementPresent($this->getEmptyCartButtonPath())) {
+            $this->getHelperCommon()->click($this->getEmptyCartButtonPath());
+        }
+    }
+
+    public function getEmptyCartButtonPath()
+    {
+        return "//button[@value='empty_cart']";
+    }
+
 	/**
 	 * Placeholder for ajax implementation of cartheader
 	 */

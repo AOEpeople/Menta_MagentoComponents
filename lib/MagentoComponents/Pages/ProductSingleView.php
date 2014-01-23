@@ -143,4 +143,9 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
 		}
 	}
 
+
+    public function selectSize($sizeId, $attributeId){
+        $this->getTest()->select("//select[@id='attribute".$attributeId."']", "value=".$sizeId);
+    }
+
 }

@@ -109,7 +109,7 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	}
 
     public function getSplitPageLoginButtonPath(){
-        return "//button[@type='submit' and contains(text(),'Sign In')]";
+        return '//button//span[contains(text(),"Login")]';
     }
 
 	/**
