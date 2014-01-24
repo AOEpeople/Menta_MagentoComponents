@@ -50,12 +50,51 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest {
         }
     }
 
+    /*
+     *
+     * Get empty cart button path
+     *
+     * @return string
+     * */
     public function getEmptyCartButtonPath()
     {
         return "//button[@value='empty_cart']";
     }
 
-	/**
+    /*
+     * Get table cart path
+     *
+     * @return string
+     */
+    public function getCartTablePath()
+    {
+        return "//table[@id='shopping-cart-table']";
+    }
+
+
+    /*
+     * Get number items in cart from top links
+     *
+     * @return int
+     */
+
+    public function getCartItemsFromHeader()
+    {
+        $text = $this->getTest()->getText("//*[@class='top-link-cart']");
+        preg_match('!\d+!', $text, $count);
+
+        //if cart quantity is 0 then counter is hidden
+        if(!$count) {
+            return 0;
+        }
+        return $count[0];
+    }
+
+
+
+
+
+    /**
 	 * Placeholder for ajax implementation of cartheader
 	 */
 	public function waitForAjax() {
