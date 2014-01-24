@@ -3,7 +3,11 @@
 class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTest
 {
 
-    public function goThrowCheckout($newsletter = false)
+    /*
+     * Go trough default magento checkout using default configuration and enable methods (shipping, payment)
+     *
+     */
+    public function goThroughCheckout($newsletter = false)
     {
         $this->open();
 
@@ -39,7 +43,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
     public function open()
     {
         $this->getTest()->open($this->getCheckoutUrl());
-        $this->getTest()->waitForElementPresent('//*[@id="checkoutSteps"]',10);
+        $this->getTest()->waitForElementPresent('//*[@id="checkoutSteps"]', 10);
         $this->getTest()->assertTitle('Checkout');
     }
 
@@ -188,14 +192,16 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      */
     public function getOrderIdFromSuccessPage()
     {
-        $waitHelper = Menta_ComponentManager::get('Menta_Component_Helper_Wait');
         /* @var $waitHelper Menta_Component_Helper_Wait */
-        $this->getTest()->assertTrue(
-            $waitHelper->waitForElementPresent("//h1[contains(text(),'Thanks for shopping with Angry Birds!')]"),
-            'Waiting for headline "Thanks for shopping with Angry Birds!" timed out'
-        );
-        $waitHelper->waitForElementPresent('//span[@class="order_number"]');
-        $orderId = $this->getTest()->getElement('//span[@class="order_number"]')->getAttribute('innerHTML');
+        $waitHelper = Menta_ComponentManager::get('Menta_Component_Helper_Wait');
+
+
+        $this->getTest()->waitForElementPresent('//h1[contains(text(), "Your order has been received.")]');
+        $element = $orderNumber = $this->getTest()
+            ->getElement('//p[contains(text(),"Your order")]//a')->getAttribute('href');
+
+        $orderId = array_pop(explode('/', rtrim($element, '/')));
+
         $this->getTest()->assertNotEmpty($orderId, 'No order id found!');
         return $orderId;
     }
@@ -291,7 +297,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 
     public function toogleShipToTheSameAddress()
     {
-            $this->getTest()->click("id=billing:use_for_shipping_yes");
+        $this->getTest()->click("id=billing:use_for_shipping_yes");
     }
 
     public function prepareShippingAddressFieldsForNewUsers()
