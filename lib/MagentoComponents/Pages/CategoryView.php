@@ -48,7 +48,12 @@ class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest 
 	 * @return string
 	 */
 	public function getAddToCartLinkXpath($productId) {
-		return "//li[@id='product_$productId']//a[@class='add-to-basket']";
+
+        $xpath = "//li//button[" .
+            Menta_Util_Div::contains($this->__('Add to Cart'), 'title') .
+            " and contains(@onclick,". $productId .")] ";
+
+		return $xpath;
 	}
 
     /**
@@ -79,12 +84,8 @@ class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest 
 	 * @return void
 	 */
 	public function putProductIntoCart($productId, $waitForAjax = true, $sleep=0) {
-
+        $this->getHelperCommon()->click($this->getAddToCartLinkXpath($productId));
 		// Hover on parent element first (Needed in Selenium 2)
-		$this->moveToProductAddToCartButton($productId);
-
-		$session = $this->getSession(); /* @var $session \WebDriver\Session */
-		$session->click();
 
 		if ($waitForAjax) {
 			$cart = Menta_ComponentManager::get('MagentoComponents_Pages_Cart'); /* @var $cart MagentoComponents_Pages_Cart */
@@ -105,10 +106,10 @@ class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest 
 		// Hover on parent element first (Needed in Selenium 2)
 		$session = $this->getSession(); /* @var $session \WebDriver\Session */
 
-	//	$itemDiv = $session->element(\WebDriver\LocatorStrategy::XPATH, "//li[@id='product_$productId']/div");
-		$link = $session->element(\WebDriver\LocatorStrategy::XPATH, "//li[@id='product_$productId']//button[".GeneralComponents_Div::contains('add-to-basket')."]");
+        $link = $session
+            ->element(\WebDriver\LocatorStrategy::XPATH, $this->getAddToCartLinkXpath($productId));
 
-	//	$session->moveto(array('element' => $itemDiv->getID()));
+        //	$session->moveto(array('element' => $itemDiv->getID()));
 		$session->moveto(array('element' => $link->getID()));
 	}
 
