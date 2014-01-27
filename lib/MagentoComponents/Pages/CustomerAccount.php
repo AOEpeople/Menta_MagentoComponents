@@ -109,7 +109,7 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	}
 
     public function getSplitPageLoginButtonPath(){
-        return '//button//span[contains(text(),"Login")]';
+        return '//button['. Menta_Util_Div::contains($this->__('Login'), 'title') . ']';
     }
 
 	/**
