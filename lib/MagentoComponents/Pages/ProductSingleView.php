@@ -3,14 +3,20 @@
 class MagentoComponents_Pages_ProductSingleView extends Menta_Component_AbstractTest
 {
 
+    /**
+     * Get path for regular price
+     *
+     * @return string
+     */
     public function getRegularPricePath()
     {
         return "//form[@id='product_addtocart_form']//*[" . Menta_Util_Div::contains('price-box') . "]//span[@class='regular-price']";
     }
 
-    /*
-     * get path for add to cart button
+    /**
+     * Get path for add to cart button
      *
+     * @return string
      */
     public function getAddToCartButtonPath()
     {
