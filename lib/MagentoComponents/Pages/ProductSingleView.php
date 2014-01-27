@@ -23,9 +23,15 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
         return "//*[@id='product_addtocart_form']//button[" . Menta_Util_Div::contains($this->__('Add to Cart'), 'title') . "]";
     }
 
-    public function getOutOfStockButtonPath()
+    /**
+     * Get status xpath
+     *
+     * @param $status
+     * @return string
+     */
+    public function getStatusXpath($status)
     {
-        return "//*[@id='product_addtocart_form']//button[" . Menta_Util_Div::contains($this->__('Out of stock'), 'title') . "]";
+        return '//*[@id="product_addtocart_form"]//p['. Menta_Util_Div::contains($status, 'class') .']/span';
     }
 
     /**
