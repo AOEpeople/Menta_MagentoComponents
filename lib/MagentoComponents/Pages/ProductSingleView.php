@@ -123,35 +123,25 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
         return $this->getHelperCommon()->getText($this->getRegularPricePath());
     }
 
-    /* BUTTONS */
+    /**
+     * Check if button Add to Cart is visible
+     *
+     * @return bool
+     */
     public function isButtonAddVisible()
     {
         return $this->getHelperCommon()->isVisible($this->getAddToCartButtonPath());
     }
 
-    public function isButtonCheckoutVisible()
-    {
-        return $this->getHelperCommon()->isVisible($this->getCheckoutButtonPath());
-    }
 
-    public function isButtonOutOfStockVisible()
-    {
-        return $this->getHelperCommon()->isVisible($this->getOutOfStockButtonPath());
-    }
-
+    /**
+     *
+     */
     public function assertButtonAddText()
     {
         $this->getTest()->assertEquals(
             $this->__("Add to Cart"),
             $this->getHelperCommon()->getText($this->getAddToCartButtonPath())
-        );
-    }
-
-    public function assertButtonOutOfStockText()
-    {
-        $this->getTest()->assertEquals(
-            $this->__("Out of stock"),
-            $this->getHelperCommon()->getText($this->getOutOfStockButtonPath())
         );
     }
 
