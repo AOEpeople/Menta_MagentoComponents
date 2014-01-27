@@ -23,11 +23,6 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
         return "//*[@id='product_addtocart_form']//button[" . Menta_Util_Div::contains($this->__('Add to Cart'), 'title') . "]";
     }
 
-    public function getCheckoutButtonPath()
-    {
-        return "//*[@id='product_addtocart_form']//button[" . Menta_Util_Div::contains("bu-checkout") . "]";
-    }
-
     public function getOutOfStockButtonPath()
     {
         return "//*[@id='product_addtocart_form']//button[" . Menta_Util_Div::contains($this->__('Out of stock'), 'title') . "]";
