@@ -32,7 +32,8 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 
     public function assertUserLogged()
     {
-        $this->getTest()->assertElementNotPresent('//div[@class="step-title"]//h2[contains(text(),"Checkout Method")]');
+        $this->getTest()->assertElementNotPresent('//div[@class="step-title"]//h2[contains(text(),"' .
+            $this->__("Checkout Method") . '")]');
     }
 
     /**
