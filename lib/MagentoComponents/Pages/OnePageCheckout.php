@@ -44,7 +44,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
     {
         $this->getTest()->open($this->getCheckoutUrl());
         $this->getTest()->waitForElementPresent('//*[@id="checkoutSteps"]', 10);
-        $this->getTest()->assertTitle('Checkout');
+        $this->getTest()->assertTitle($this->__('Checkout'));
     }
 
     /**
