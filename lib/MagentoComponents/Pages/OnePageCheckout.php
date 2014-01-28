@@ -71,16 +71,26 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         if ($step == 'checkoutMethod') {
             $buttonPath = '//*[@id="onepage-guest-register-button"]';
         } else if ($step == 'billingAddress') {
-            $buttonPath = '//div[@id="billing-buttons-container"]//span[contains(text(),"Continue")]';
+            $buttonPath = '//div[@id="billing-buttons-container"]' . $this->_getContinueButtonXPath();
         } else if ($step == 'shippingAddress') {
-            $buttonPath = '//div[@id="shipping-buttons-container"]//span[contains(text(),"Continue")]';
+            $buttonPath = '//div[@id="shipping-buttons-container"]' . $this->_getContinueButtonXPath();
         } else if ($step == 'shippingMethod') {
-            $buttonPath = '//div[@id="shipping-method-buttons-container"]//span[contains(text(),"Continue")]';
+            $buttonPath = '//div[@id="shipping-method-buttons-container"]' . $this->_getContinueButtonXPath();
         } else if ($step == 'paymentMethod') {
-            $buttonPath = '//div[@id="payment-buttons-container"]//button//span[contains(text(),"Continue")]';
+            $buttonPath = '//div[@id="payment-buttons-container"]' . $this->_getContinueButtonXPath();
         }
         $this->getTest()->assertElementPresent($buttonPath);
         $this->getTest()->click($buttonPath);
+    }
+
+	/**
+	 * Get continue button xpath
+	 *
+	 * @return string
+	 */
+	protected function _getContinueButtonXPath()
+	{
+		return '//span['. Menta_Util_Div::containsText($this->__('Continue')) .']';
     }
 
     /**
