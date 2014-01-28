@@ -3,28 +3,35 @@
 class MagentoComponents_Pages_ProductSingleView extends Menta_Component_AbstractTest
 {
 
+    /**
+     * Get path for regular price
+     *
+     * @return string
+     */
     public function getRegularPricePath()
     {
         return "//form[@id='product_addtocart_form']//*[" . Menta_Util_Div::contains('price-box') . "]//span[@class='regular-price']";
     }
 
-    /*
-     * get path for add to cart button
+    /**
+     * Get path for add to cart button
      *
+     * @return string
      */
     public function getAddToCartButtonPath()
     {
         return "//*[@id='product_addtocart_form']//button[" . Menta_Util_Div::contains($this->__('Add to Cart'), 'title') . "]";
     }
 
-    public function getCheckoutButtonPath()
+    /**
+     * Get status xpath
+     *
+     * @param $status
+     * @return string
+     */
+    public function getStatusXpath($status)
     {
-        return "//*[@id='product_addtocart_form']//button[" . Menta_Util_Div::contains("bu-checkout") . "]";
-    }
-
-    public function getOutOfStockButtonPath()
-    {
-        return "//*[@id='product_addtocart_form']//button[" . Menta_Util_Div::contains($this->__('Out of stock'), 'title') . "]";
+        return '//*[@id="product_addtocart_form"]//p['. Menta_Util_Div::contains($status, 'class') .']/span';
     }
 
     /**
@@ -116,35 +123,25 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
         return $this->getHelperCommon()->getText($this->getRegularPricePath());
     }
 
-    /* BUTTONS */
+    /**
+     * Check if button Add to Cart is visible
+     *
+     * @return bool
+     */
     public function isButtonAddVisible()
     {
         return $this->getHelperCommon()->isVisible($this->getAddToCartButtonPath());
     }
 
-    public function isButtonCheckoutVisible()
-    {
-        return $this->getHelperCommon()->isVisible($this->getCheckoutButtonPath());
-    }
 
-    public function isButtonOutOfStockVisible()
-    {
-        return $this->getHelperCommon()->isVisible($this->getOutOfStockButtonPath());
-    }
-
+    /**
+     *
+     */
     public function assertButtonAddText()
     {
         $this->getTest()->assertEquals(
             $this->__("Add to Cart"),
             $this->getHelperCommon()->getText($this->getAddToCartButtonPath())
-        );
-    }
-
-    public function assertButtonOutOfStockText()
-    {
-        $this->getTest()->assertEquals(
-            $this->__("Out of stock"),
-            $this->getHelperCommon()->getText($this->getOutOfStockButtonPath())
         );
     }
 

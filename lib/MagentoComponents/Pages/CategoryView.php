@@ -14,20 +14,9 @@ class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest 
 	}
 
 	/**
-	 * Returns selector of an element which is present only on category page
-	 *
-     * @deprecated Use $this->getHelperAssert()->assertBodyClass('catalog-category-view'); instead
-     * @return string
-	 */
-	public function getCategoryPageIndicatorPath() {
-		return '//body['.GeneralComponents_Div::contains('catalog-category-view').']';
-	}
-
-	/**
 	 * Checks if category page is currently open
 	 */
 	public function assertIsOnCategoryPage() {
-		// $this->getHelperAssert()->assertElementPresent($this->getCategoryPageIndicatorPath());
         $this->getHelperAssert()->assertBodyClass('catalog-category-view');
 	}
 
