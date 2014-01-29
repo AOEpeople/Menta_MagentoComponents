@@ -192,7 +192,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         if ($checkValidationPassed) {
             $this->getTest()->assertElementNotPresent("css=.validation-failed");
             $this->getHelperAssert()->assertTextNotPresent("Please check red fields below and try again");
-            $this->getHelperWait()->waitForTextPresent('Sending your order', 2);
+            $this->getHelperWait()->waitForTextPresent($this->__('Sending your order'), 2);
         }
     }
 
@@ -331,6 +331,9 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->getTest()->select("id=billing-address-select", $conditionForOptionToSelect);
     }
 
+    /**
+     * Assert Terms and Conditions
+     */
     public function acceptTermsAndConditions()
     {
         $this->getTest()->assertElementPresent("//label[@for='id_accept_terms']", 'Could not find terms and conditions checkbox');
@@ -340,6 +343,9 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         }
     }
 
+    /**
+     * Select Flat Rate Shipping method
+     */
     public function selectShippingFlatRate()
     {
         $this->selectShipping('Flat Rate');
