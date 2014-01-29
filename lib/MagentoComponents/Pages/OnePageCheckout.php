@@ -162,7 +162,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      */
     public function waitForPaymentMethod()
     {
-        $this->getTest()->waitForVisible('//*[@id="checkout-shipping-method-load"]');
+        $this->getTest()->waitForVisible('//*[@id="checkout-step-payment"]');
     }
 
     public function waitForReview()
