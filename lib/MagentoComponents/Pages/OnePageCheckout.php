@@ -379,12 +379,15 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         return '//div[@id="checkout-step-login"]//span[contains(text(),"Login")]';
     }
 
-    /*
-     * get Path for place order button
-     * */
+    /**
+     * Get Place Order button path
+     *
+     * @return string
+     */
     public function getPlaceOrderButtonPath()
     {
-        return '//div[@id="checkout-review-submit"]//span[contains(text(),"Place Order")]';
+        return '//div[@id="checkout-review-submit"]//span[' .
+        Menta_Util_Div::containsText($this->__('Place Order')) . ']';
     }
 
 }
