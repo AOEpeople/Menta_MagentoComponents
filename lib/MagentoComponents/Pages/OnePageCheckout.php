@@ -111,65 +111,40 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 		return '//span['. Menta_Util_Div::containsText($this->__('Continue')) .']';
     }
 
-    /**
-     * Add billing address
-     *
-     * @param string $country
-     * @return array complete address data that was used
-     */
-    public function addBillingAddress($country = 'us')
-    {
-        $addressProvider = new MagentoComponents_Provider_Address();
-        $address = $addressProvider->getAddressField('billing', $country);
+	/**
+	 * Add shipping|billing address
+	 *
+	 * @param $country
+	 * @param $type
+	 * @return array complete address data that was used
+	 */
+	public function addAddress($country = 'us', $type)
+	{
+		if($type == 'billing' || $type == 'shipping') {
+			$addressProvider = new MagentoComponents_Provider_Address();
+			$address = $addressProvider->getAddressField($type, $country);
 
+			if($type == 'billing') {
+				$address['email'] = Menta_ComponentManager::get('MagentoComponents_Pages_CustomerAccount')->createNewMailAddress('oscbillling');
+				$this->getTest()->typeAndLeave("id=$type:email", $address['email']);
+			}
 
-        $address['email'] = Menta_ComponentManager::get('MagentoComponents_Pages_CustomerAccount')->createNewMailAddress('oscbillling');
+			$this->getTest()->typeAndLeave("id=$type:firstname", $address['firstname']);
+			$this->getTest()->typeAndLeave("id=$type:lastname", $address['lastname']);
+			$this->getTest()->typeAndLeave("id=$type:telephone", $address['phone']);
+			$this->getTest()->typeAndLeave("id=$type:street1", $address['street1']);
+			$this->getTest()->typeAndLeave("id=$type:street2", $address['street2']);
+			$this->getTest()->typeAndLeave("id=$type:city", $address['city']);
+			$this->getTest()->typeAndLeave("id=$type:postcode", $address['postcode']);
+			$this->getTest()->typeAndLeave("id=$type:company", $address['company']);
+			$this->getTest()->select("id=$type:country_id", "label=" . $address['country']);
+			if (isset($address['region']) && $address['region']) {
+				$this->getTest()->select("id=$type:region_id", "label=" . $address['region']);
+			}
 
-        $this->getTest()->typeAndLeave("id=billing:firstname", $address['firstname']);
-        $this->getTest()->typeAndLeave("id=billing:lastname", $address['lastname']);
-        $this->getTest()->typeAndLeave("id=billing:email", $address['email']);
-        $this->getTest()->typeAndLeave("id=billing:telephone", $address['phone']);
-        $this->getTest()->typeAndLeave("id=billing:street1", $address['street1']);
-        $this->getTest()->typeAndLeave("id=billing:street2", $address['street2']);
-        $this->getTest()->typeAndLeave("id=billing:city", $address['city']);
-        $this->getTest()->typeAndLeave("id=billing:postcode", $address['postcode']);
-        $this->getTest()->typeAndLeave("id=billing:company", $address['company']);
-        $this->getTest()->select("id=billing:country_id", "label=" . $address['country']);
-        if (isset($address['region']) && $address['region']) {
-            $this->getTest()->select("id=billing:region_id", "label=" . $address['region']);
-        }
-
-        return $address;
-    }
-
-    /**
-     * Add shipping address
-     *
-     * @param string $country
-     * @return array complete address data that was used
-     */
-    public function addShippingAddress($country = 'us')
-    {
-
-        $addressProvider = new MagentoComponents_Provider_Address();
-        $address = $addressProvider->getAddressField('shipping', $country);
-
-        $this->getTest()->typeAndLeave("id=shipping:firstname", $address['firstname']);
-        $this->getTest()->typeAndLeave("id=shipping:lastname", $address['lastname']);
-        $this->getTest()->typeAndLeave("id=shipping:street1", $address['street1']);
-        $this->getTest()->typeAndLeave("id=shipping:street2", $address['street2']);
-        $this->getTest()->typeAndLeave("id=shipping:city", $address['city']);
-        $this->getTest()->typeAndLeave("id=shipping:telephone", $address['phone']);
-        $this->getTest()->typeAndLeave("id=shipping:postcode", $address['postcode']);
-        $this->getTest()->typeAndLeave("id=shipping:company", $address['company']);
-        $this->getTest()->select("id=shipping:country_id", "label=" . $address['country']);
-        if (isset($address['region']) && $address['region'] != '') {
-            $this->getTest()->select("id=shipping:region_id", "label=" . $address['region']);
-        }
-
-        return $address;
-    }
-
+			return $address;
+		}
+	}
 
     /**
      * Wait for billing method step
