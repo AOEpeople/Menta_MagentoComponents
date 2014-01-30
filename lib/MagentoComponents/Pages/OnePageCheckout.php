@@ -16,9 +16,11 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->waitForShippingMethod();
         $this->finishStep('shippingMethod');
 
+		$this->waitForPaymentMethod();
         $this->selectPaymentMethodCheckmo();
         $this->finishStep('paymentMethod');
 
+		$this->waitForReview();
         $this->submitForm();
     }
 
