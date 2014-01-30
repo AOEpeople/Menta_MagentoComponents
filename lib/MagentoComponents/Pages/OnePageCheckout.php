@@ -170,6 +170,23 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         return $address;
     }
 
+
+    /**
+     * Wait for billing method step
+     */
+    public function waitForBillingAddress()
+    {
+        $this->getTest()->waitForVisible('//*[@id="checkout-step-billing"]');
+    }
+
+    /**
+     * Wait for shipping method step
+     */
+    public function waitForShippingAddress()
+    {
+        $this->getTest()->waitForVisible('//*[@id="checkout-step-shipping"]');
+    }
+
 	/**
 	 * Wait for shipping method step
 	 */
