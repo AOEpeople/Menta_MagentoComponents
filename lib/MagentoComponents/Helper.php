@@ -9,7 +9,7 @@ class MagentoComponents_Helper extends Menta_Component_AbstractTest
 	 *
 	 * @return string
 	 */
-	protected function normalize($text, $currency = '$')
+	public function normalize($text, $currency = '$')
 	{
 		$text = str_replace(' ', '', $text);
 		$text = str_replace($currency, '<CURRENCYSYMBOL>', $text);
