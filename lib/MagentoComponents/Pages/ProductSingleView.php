@@ -110,7 +110,12 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
      */
     public function assertRegularPrice($expected)
     {
-        $this->getTest()->assertEquals($expected, $this->getRegularPrice());
+        $helper = Menta_ComponentManager::get('MagentoComponents_Helper');
+        $this->getTest()->assertEquals(
+            $helper->normalize($expected),
+            $helper->normalize($this->getTest()->getText($this->getRegularPricePath())),
+            'Different prices'
+        );
     }
 
     /**
