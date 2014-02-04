@@ -150,25 +150,9 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
         );
     }
 
-    public function assertButtons($status, $checkoutAvailable)
-    {
-        if ($status != 'outOfStock') {
-            $this->getTest()->assertFalse($this->isButtonOutOfStockVisible());
-            $this->getTest()->assertTrue($this->isButtonAddVisible());
-            $this->assertButtonAddText();
-        } else {
-            $this->getTest()->assertTrue($this->isButtonOutOfStockVisible());
-            $this->getTest()->assertFalse($this->isButtonAddVisible());
-            $this->assertButtonOutOfStockText();
-        }
-        if ($checkoutAvailable) {
-            $this->getTest()->assertTrue($this->isButtonCheckoutVisible());
-        } else {
-            $this->getTest()->assertFalse($this->isButtonCheckoutVisible());
-        }
-    }
-
     /**
+     * Select attribute option
+     *
      * @param $optionId
      * @param $attributeId
      *
@@ -178,4 +162,121 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
         $this->getTest()->select("//select[@id='attribute" . $attributeId . "']", "value=" . $optionId);
     }
 
+    /**
+     * Assert dropdown option label with price
+     *
+     * @param $optionId
+     * @param $label
+     * @param $priceDifference
+     * @param $attributeId
+     */
+    public function assertDropdownExistOptionLabelWithPrice($optionId, $label, $priceDifference, $attributeId)
+    {
+        $this->getTest()->assertTrue($this->getTest()->isElementPresent("//select[@id='attribute".$attributeId."']"));
+        $this->getTest()->assertTrue($this->getTest()->isElementPresent("//select[@id='attribute".$attributeId."']/option[@value='".$optionId."']"), "Option with ID: ".$optionId." not found");
+        $this->getTest()->assertTrue($this->getTest()->isElementPresent("//select[@id='attribute".$attributeId."']/option[@value='".$optionId."'][@price='".$priceDifference."']"),
+            "Option with ID: ".$optionId." and price: ".$priceDifference." not found");
+        $this->getTest()->assertEquals(
+            $this->getHelper()->normalize($label),
+            $this->getHelper()->normalize($this->getTest()->getText("//select[@id='attribute".$attributeId."']/option[@value='".$optionId."'][@price='".$priceDifference."']"))
+        );
+    }
+
+
+    /**
+     * Assert label of selected option
+     *
+     * @param $label
+     * @param $attributeId
+     */
+    public function assertSelectedLabel($label, $attributeId)
+    {
+        $this->getTest()->assertEquals(
+            $this->getHelper()->normalize($label),
+            $this->getHelper()->normalize($this->getTest()->getSelectedLabel("//select[@id=\"attribute" . $attributeId. "\"]"))
+        );
+    }
+
+    /**
+     * Assert value of selected option
+     *
+     * @param $optionId
+     * @param $attributeId
+     */
+    public function assertDropdownSelectedValue($optionId, $attributeId){
+        $this->getTest()->assertEquals(
+            $optionId,
+            $this->getTest()->getSelectedValue("//select[@id=\"attribute".$attributeId."\"]")
+        );
+    }
+
+
+    /**
+     * Get Magento Helper
+     *
+     * @return Menta_Interface_Component
+     */
+    public function getHelper()
+    {
+        return Menta_ComponentManager::get('MagentoComponents_Helper');
+    }
+
+
+    /**
+     * Assert status
+     *
+     * @param $statusCode
+     */
+    public function assertStatus($statusCode)
+    {
+        if($statusCode == 'inStock'){
+            $this->assertInStock();
+        } elseif ($statusCode == 'outOfStock'){
+            $this->assertOutOfStock();
+        }
+    }
+
+    /**
+     * Assert status In Stock
+     */
+    public function assertInStock()
+    {
+        $this->getTest()->assertEquals($this->__("In stock"),
+            $this->getTest()->getText($this->getStatusXpath('in-stock')));
+    }
+
+    /**
+     * Assert status Out Of Stock
+     */
+    public function assertOutOfStock()
+    {
+        $this->getTest()->assertEquals($this->__("Out of stock"),
+            $this->getTest()->getText($this->getStatusXpath('in-stock')));
+    }
+
+
+    /**
+     * Assert add to cart button
+     *
+     * @param $status
+     */
+    public function assertAddToCartButton($status)
+    {
+        if ($status != 'outOfStock') {
+            $this->getTest()->assertTrue($this->isButtonAddVisible());
+            $this->assertButtonAddText();
+        } else {
+            $this->getTest()->assertFalse($this->isButtonAddVisible());
+        }
+    }
+
+    /**
+     * Assert quantity
+     *
+     * @param $quantity
+     */
+    public function assertQuantity($quantity)
+    {
+        $this->getTest()->assertEquals($quantity, $this->getTest()->getValue("id=qty"));
+    }
 }
