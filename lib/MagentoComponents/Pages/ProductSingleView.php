@@ -168,21 +168,10 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
         }
     }
 
-
-    /*
-     * Size Selector
-     */
-    public function selectSize($sizeId, $attributeId)
-    {
-        $this->getTest()->select("//select[@id='attribute" . $attributeId . "']", "value=" . $sizeId);
-    }
-
-
     /**
      * @param $optionId
      * @param $attributeId
      *
-     * TODO replace selectSize
      */
     public function selectDropDownOption($optionId, $attributeId)
     {
