@@ -11,10 +11,10 @@ class MagentoComponents_ImapMail extends GeneralComponents_ImapMail
     public function checkNewsletterSignUpMail($userAccount) {
 
         /* Check for mail */
-        $registrationMailSubjectTemplate = $this->__('Newsletter subscription success');
+        $newsletterSubscribeTemplateSubject = $this->__('Newsletter subscription success');
 
         // replace markers with information from $userAccount
-        $subject = $registrationMailSubjectTemplate;
+        $subject = $newsletterSubscribeTemplateSubject;
         foreach ($userAccount as $key => $value) {
             $subject = str_replace('###'.strtoupper($key).'###', $value, $subject);
         }
@@ -25,6 +25,8 @@ class MagentoComponents_ImapMail extends GeneralComponents_ImapMail
         $content = Zend_Mime_Decode::decodeQuotedPrintable($message->getContent());
 
         $this->getStorage()->removeMessage($idx);
+
+        $this->getTest()->assertContains('subscription success', $content);
     }
 
     /**
@@ -35,10 +37,10 @@ class MagentoComponents_ImapMail extends GeneralComponents_ImapMail
     public function checkNewsletterSignOutMail($userAccount) {
 
         /* Check for mail */
-        $registrationMailSubjectTemplate = $this->__('Newsletter unsubscription success');
+        $newsletterUnsubscribeTemplateSubject = $this->__('Newsletter unsubscription success');
 
         // replace markers with information from $userAccount
-        $subject = $registrationMailSubjectTemplate;
+        $subject = $newsletterUnsubscribeTemplateSubject;
         foreach ($userAccount as $key => $value) {
             $subject = str_replace('###'.strtoupper($key).'###', $value, $subject);
         }
@@ -51,6 +53,55 @@ class MagentoComponents_ImapMail extends GeneralComponents_ImapMail
         $this->getStorage()->removeMessage($idx);
 
         $this->getTest()->assertContains('unsubscription success', $content);
+    }
+
+    public function checkResetPasswordMail($userAccount)
+    {
+        $resetPasswordTemplateSubject = 'Password Reset Confirmation for ###FIRSTNAME### ###LASTNAME###';
+
+        // replace markers with information from $useraccount
+        $subject = $resetPasswordTemplateSubject;
+        foreach ($userAccount as $key => $value) {
+            $subject = str_replace('###' . strtoupper($key) . '###', $value, $subject);
+        }
+
+        $idx = $this->waitForMailWhoseSubjectContains($subject);
+        // $uid = $mail->getStorage()->getUniqueId($idx);
+        $message = $this->getStorage()->getMessage($idx);
+
+        // $content = Zend_Mime_Decode::decodeQuotedPrintable($message->getContent());
+        $content = quoted_printable_decode($message->getContent());
+
+        // cleanup: remove mail
+        $this->getStorage()->removeMessage($idx);
+
+        $this->getTest()->assertContains('There was recently a request to change the password for your account.', $content);
+
+        return $content;
+        // reset link
+    }
+
+    public function getResetPasswordLink($mailContent)
+    {
+        $resetLink = $this->findResetPasswordLink($mailContent);
+
+        $this->getTest()->assertNotEmpty($resetLink, 'No reset link found.');
+
+        return $resetLink;
+    }
+
+
+    /**
+     * Extract links from given string
+     *
+     * @param $content
+     * @return array
+     */
+    protected function findResetPasswordLink($content)
+    {
+        $links = array();
+        preg_match_all('/<a.*href="(.+?resetpassword.+?)".*>/', $content, $links);
+        return $links[1][0];
     }
 }
 
