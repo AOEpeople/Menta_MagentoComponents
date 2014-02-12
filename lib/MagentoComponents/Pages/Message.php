@@ -15,6 +15,13 @@ class MagentoComponents_Pages_Message extends Menta_Component_AbstractTest {
 		$this->getHelperAssert()->assertElementEqualsToText($xpath, $text);
 	}
 
+    public function waitForMessagePresent($text, $type) {
+        $xpath = '//ul['.Menta_Util_Div::contains('messages').']';
+        $xpath .= '/li['.Menta_Util_Div::contains($type).']';
+        $xpath .= '/ul/li/span';
+        $this->getHelperWait()->waitForTextPresent($xpath, $text);
+    }
+
 	/**
 	 * Assert error message
 	 *
@@ -39,4 +46,7 @@ class MagentoComponents_Pages_Message extends Menta_Component_AbstractTest {
 		$this->getHelperAssert()->assertElementNotPresent($xpath, 'Error messsage found!');
 	}
 
+    public function waitForSuccessMessagePresent($text) {
+        $this->waitForMessagePresent($text, 'success-msg');
+    }
 }
