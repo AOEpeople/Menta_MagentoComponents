@@ -277,6 +277,6 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
      */
     public function assertQuantity($quantity)
     {
-        $this->getTest()->assertEquals($quantity, $this->getTest()->getValue("id=qty"));
+        $this->getTest()->assertEquals($quantity, $this->getHelperCommon()->getValue("id=qty"));
     }
 }
