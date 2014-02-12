@@ -13,8 +13,8 @@ class MagentoComponents_Pages_Admin_Product extends MagentoComponents_Pages_Admi
 	 */
 	public function openProduct($productId)
 	{
-		$this->getTest()->open($this->getProductUrl($productId));
-		$this->getTest()->assertTextNotPresent('This product no longer exists.');
+		$this->getHelperCommon()->open($this->getProductUrl($productId));
+		$this->getHelperAssert()->assertTextNotPresent('This product no longer exists.');
 	}
 
 	/**

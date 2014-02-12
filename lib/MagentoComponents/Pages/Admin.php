@@ -59,8 +59,8 @@ class MagentoComponents_Pages_Admin extends Menta_Component_AbstractTest
 	 */
 	public function logIntoAdmin($username, $password)
 	{
-		$this->getTest()->typeAndLeave('id=username',$username);
-		$this->getTest()->typeAndLeave('id=login',$password);
+		$this->getHelperCommon()->type('id=username',$username);
+		$this->getHelperCommon()->type('id=login',$password);
 		$formElement = $this->getSession()->element(\WebDriver\LocatorStrategy::XPATH, '//form[@id="loginForm"]');
 		$formElement->submit();
 	}
@@ -70,7 +70,7 @@ class MagentoComponents_Pages_Admin extends Menta_Component_AbstractTest
 	 */
 	public function logoutFromAdmin()
 	{
-	 	$this->getTest()->waitForElementPresent('//a[@class="link-logout"]');
+	 	$this->getHelperWait()->waitForElementPresent('//a[@class="link-logout"]');
 		$this->getSession()->element(\WebDriver\LocatorStrategy::XPATH, '//a[@class="link-logout"]')->click();
 	}
 
@@ -79,6 +79,6 @@ class MagentoComponents_Pages_Admin extends Menta_Component_AbstractTest
 	 */
 	public function loginCheck()
 	{
-		$this->getTest()->assertTextPresent('Dashboard');
+		$this->getHelperAssert()->assertTextPresent('Dashboard');
 	}
 }
