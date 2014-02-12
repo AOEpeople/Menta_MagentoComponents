@@ -42,8 +42,6 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 * Got to dashboard
 	 *
 	 * @return void
-	 * @author Fabrizio Branca <fabrizio.branca@aoemedia.de>
-	 * @since 2011-11-04
 	 */
 	public function openDashboard() {
 		$this->getHelperCommon()->open('/customer/account/');
@@ -60,8 +58,6 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 * Got to history
 	 *
 	 * @return void
-	 * @author Fabrizio Branca <fabrizio.branca@aoemedia.de>
-	 * @since 2011-11-04
 	 */
 	public function openOrderHistory() {
 		$this->getHelperCommon()->open('/sales/order/history/');
@@ -73,8 +69,6 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 *
 	 * @param string $orderId
 	 * @return void
-	 * @author Fabrizio Branca <fabrizio.branca@aoemedia.de>
-	 * @since 2011-11-04
 	 */
 	public function openOrder($orderId) {
 		$this->getHelperCommon()->open('/order/view/order_id/'.$orderId.'/');
@@ -84,8 +78,6 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 * Open address info
 	 *
 	 * @return void
-	 * @author Fabrizio Branca
-	 * @since 2013-04-23
 	 */
 	public function openAddressInfo() {
 		$this->getHelperCommon()->open('/customer/address/');
@@ -96,8 +88,6 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 *
 	 * @param string $username
 	 * @param string $password
-	 * @author Joerg Winkler <joerg.winkler@aoemedia.de>
-	 * @author Fabrizio Branca <fabrizio.branca@aoemedia.de>
 	 */
 	public function login($username=NULL, $password=NULL) {
 		if (is_null($username) || is_null($password)) {
@@ -134,7 +124,6 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	/**
 	 * Logout
 	 *
-	 * @author Joerg Winkler <joerg.winkler@aoemedia.de>
 	 */
 	public function logout() {
         /* @var $helper MagentoComponents_Helper*/
@@ -177,9 +166,6 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 
 	/**
 	 * Open registration page
-	 *
-	 * @author Fabrizio Branca
-	 * @since 2012-11-19
 	 */
 	public function openRegistrationPage() {
 		$this->getHelperCommon()->open('/customer/account/create/');

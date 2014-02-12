@@ -35,8 +35,6 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract {
      * Get soapclient
      *
      * @return SoapClient
-     * @author Fabrizio Branca <fabrizio.branca@aoemedia.de>
-     * @since 09.11.2011
      */
     public function getSoapClient() {
         if (is_null($this->soapClient)) {

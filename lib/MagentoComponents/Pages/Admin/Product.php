@@ -1,7 +1,5 @@
 <?php
 /**
- * @author David Robinson <david.robinson@aoemedia.com>
- * @since 19/2/2013
  */
 class MagentoComponents_Pages_Admin_Product extends MagentoComponents_Pages_Admin
 {

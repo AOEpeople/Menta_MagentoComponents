@@ -5,9 +5,6 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest {
 	/**
 	 * Check if we're on the cart page.
 	 * Useful if e.g. the add to cart button should have redirected to this page
-	 *
-	 * @author Fabrizio Branca
-	 * @since 2012-11-16
 	 */
 	public function assertOnCartPage() {
 		$this->getHelperAssert()->assertBodyClass('checkout-cart-index');

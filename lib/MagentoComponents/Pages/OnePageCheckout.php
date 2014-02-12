@@ -223,9 +223,6 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 
     /**
      * Get order id from order success page
-     *
-     * @author Joerg Winkler <joerg.winkler@aoemedia.de>
-     * @author Fabrizio Branca <fabrizio.branca@aoemedia.de>
      * @return integer Order ID
      */
     public function getOrderIdFromSuccessPage()
@@ -286,8 +283,6 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
     {
         $this->assertTotal($expectedPrice, 'shipping', 'Shipping price does not match');
     }
-
-    //ONESTEP TEMP
 
     public function assertTotal($expectedPrice, $type, $message = '')
     {

@@ -5,10 +5,6 @@
  * fill address/form fields with specified address
  */
 
-/**
- * @author Thomas Layh <thomas.layh@aoemedia.de>
- * @author Fabrizio Branca <fabrizio.branca@aoemedia.de> (Refactoring)
- */
 class MagentoComponents_Provider_Address {
 
 	/**
