@@ -19,7 +19,7 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest {
 	 * @return void
 	 */
 	public function open() {
-		$this->getTest()->open($this->getCartUrl());
+		$this->getHelperCommon()->open($this->getCartUrl());
 		$this->getHelperAssert()->assertTitle($this->__("Shopping Cart"));
 		$this->assertOnCartPage();
 	}
@@ -44,7 +44,7 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest {
 	}
 
     public function clearCart() {
-        $this->getTest()->open($this->getCartUrl());
+        $this->getHelperCommon()->open($this->getCartUrl());
         if($this->getHelperCommon()->isElementPresent($this->getEmptyCartButtonPath())) {
             $this->getHelperCommon()->click($this->getEmptyCartButtonPath());
         }
@@ -80,7 +80,7 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest {
 
     public function getCartItemsFromHeader()
     {
-        $text = $this->getTest()->getText("//*[@class='top-link-cart']");
+        $text = $this->getHelperCommon()->getText("//*[@class='top-link-cart']");
         preg_match('!\d+!', $text, $count);
 
         //if cart quantity is 0 then counter is hidden
