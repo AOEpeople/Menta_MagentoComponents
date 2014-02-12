@@ -34,13 +34,13 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
     {
         $this->getHelperCommon()->type('id=login-email', $login, true, false);
         $this->getHelperCommon()->type('id=login-password', $password, true, false);
-        $this->getTest()->assertElementPresent($this->getLoginButtonPath());
-        $this->getTest()->click($this->getLoginButtonPath());
+        $this->getHelperAssert()->assertElementPresent($this->getLoginButtonPath());
+        $this->getHelperCommon()->click($this->getLoginButtonPath());
     }
 
     public function assertUserLogged()
     {
-        $this->getTest()->assertElementNotPresent('//div[@class="step-title"]//h2[contains(text(),"' .
+        $this->getHelperAssert()->assertElementNotPresent('//div[@class="step-title"]//h2[contains(text(),"' .
             $this->__("Checkout Method") . '")]');
     }
 
@@ -51,9 +51,9 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      */
     public function open()
     {
-        $this->getTest()->open($this->getCheckoutUrl());
-        $this->getTest()->waitForElementPresent('//*[@id="checkoutSteps"]', 10);
-        $this->getTest()->assertTitle($this->__('Checkout'));
+        $this->getHelperCommon()->open($this->getCheckoutUrl());
+        $this->getHelperWait()->waitForElementPresent('//*[@id="checkoutSteps"]', 10);
+        $this->getHelperAssert()->assertTitle($this->__('Checkout'));
     }
 
     /**
@@ -74,8 +74,8 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 	public function setCheckoutMethod($method)
     {
         if ($method == 'register' || $method == 'guest') {
-            $this->getTest()->assertElementPresent("//label[@for='login:$method']");
-            $this->getTest()->click("//label[@for='login:$method']");
+            $this->getHelperAssert()->assertElementPresent("//label[@for='login:$method']");
+            $this->getHelperCommon()->click("//label[@for='login:$method']");
         }
     }
 
@@ -97,8 +97,8 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         } else if ($step == 'paymentMethod') {
             $buttonPath = '//div[@id="payment-buttons-container"]' . $this->_getContinueButtonXPath();
         }
-        $this->getTest()->assertElementPresent($buttonPath);
-        $this->getTest()->click($buttonPath);
+        $this->getHelperAssert()->assertElementPresent($buttonPath);
+        $this->getHelperCommon()->click($buttonPath);
     }
 
 	/**
@@ -126,20 +126,20 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 
 			if($type == 'billing') {
 				$address['email'] = Menta_ComponentManager::get('MagentoComponents_Pages_CustomerAccount')->createNewMailAddress('oscbillling');
-				$this->getTest()->typeAndLeave("id=$type:email", $address['email']);
+				$this->getHelperCommon()->type("id=$type:email", $address['email']);
 			}
 
-			$this->getTest()->typeAndLeave("id=$type:firstname", $address['firstname']);
-			$this->getTest()->typeAndLeave("id=$type:lastname", $address['lastname']);
-			$this->getTest()->typeAndLeave("id=$type:telephone", $address['phone']);
-			$this->getTest()->typeAndLeave("id=$type:street1", $address['street1']);
-			$this->getTest()->typeAndLeave("id=$type:street2", $address['street2']);
-			$this->getTest()->typeAndLeave("id=$type:city", $address['city']);
-			$this->getTest()->typeAndLeave("id=$type:postcode", $address['postcode']);
-			$this->getTest()->typeAndLeave("id=$type:company", $address['company']);
-			$this->getTest()->select("id=$type:country_id", "label=" . $address['country']);
+			$this->getHelperCommon()->type("id=$type:firstname", $address['firstname']);
+			$this->getHelperCommon()->type("id=$type:lastname", $address['lastname']);
+			$this->getHelperCommon()->type("id=$type:telephone", $address['phone']);
+			$this->getHelperCommon()->type("id=$type:street1", $address['street1']);
+			$this->getHelperCommon()->type("id=$type:street2", $address['street2']);
+			$this->getHelperCommon()->type("id=$type:city", $address['city']);
+			$this->getHelperCommon()->type("id=$type:postcode", $address['postcode']);
+			$this->getHelperCommon()->type("id=$type:company", $address['company']);
+			$this->getHelperCommon()->select("id=$type:country_id", "label=" . $address['country']);
 			if (isset($address['region']) && $address['region']) {
-				$this->getTest()->select("id=$type:region_id", "label=" . $address['region']);
+				$this->getHelperCommon()->select("id=$type:region_id", "label=" . $address['region']);
 			}
 
 			return $address;
@@ -159,7 +159,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      */
     public function waitForShippingAddress()
     {
-        $this->getTest()->waitForVisible('//*[@id="checkout-step-shipping"]');
+        $this->getHelperWait()->waitForElementVisible('//*[@id="checkout-step-shipping"]');
     }
 
 	/**
@@ -167,7 +167,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 	 */
 	public function waitForShippingMethod()
     {
-        $this->getTest()->waitForVisible('//*[@id="checkout-shipping-method-load"]');
+        $this->getHelperWait()->waitForElementVisible('//*[@id="checkout-shipping-method-load"]');
     }
 
     /**
@@ -175,7 +175,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      */
     public function waitForPaymentMethod()
     {
-        $this->getTest()->waitForVisible('//*[@id="checkout-step-payment"]');
+        $this->getHelperWait()->waitForElementVisible('//*[@id="checkout-step-payment"]');
     }
 
 	/**
@@ -183,21 +183,19 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 	 */
 	public function waitForReview()
     {
-        $this->getTest()->waitForVisible('//*[@id="checkout-review-load"]');
+        $this->getHelperWait()->waitForElementVisible('//*[@id="checkout-review-load"]');
     }
 
     public function enterValidCreditCardDataVisa()
     {
-        $this->getTest()->waitForVisible('//input[@id="p_method_braintree"]');
-        $this->getTest()->click('//input[@id="p_method_braintree"]');
-        $this->getTest()->waitForVisible('//ul[@id="payment_form_braintree"]');
-        $this->getTest()->select('id=braintree_cc_type', 'label=Visa');
-        $this->getTest()->typeAndLeave('id=braintree_cc_number', '4111111111111111');
-        $this->getTest()->fireEvent('id=braintree_cc_number', 'blur');
-        $this->getTest()->select('id=braintree_expiration', 'label=03 - March');
-        $this->getTest()->select('id=braintree_expiration_yr', 'label=2020');
-        $this->getTest()->typeAndLeave('id=braintree_cc_cid', '123');
-        $this->getTest()->fireEvent('id=braintree_cc_cid', 'blur');
+        $this->getHelperWait()->waitForElementVisible('//input[@id="p_method_braintree"]');
+        $this->getHelperCommon()->click('//input[@id="p_method_braintree"]');
+        $this->getHelperWait()->waitForElementVisible('//ul[@id="payment_form_braintree"]');
+        $this->getHelperCommon()->select('id=braintree_cc_type', 'label=Visa');
+        $this->getHelperCommon()->type('id=braintree_cc_number', '4111111111111111');
+        $this->getHelperCommon()->select('id=braintree_expiration', 'label=03 - March');
+        $this->getHelperCommon()->select('id=braintree_expiration_yr', 'label=2020');
+        $this->getHelperCommon()->type('id=braintree_cc_cid', '123');
     }
 
 	/**
@@ -207,11 +205,11 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 	 */
 	public function submitForm($checkValidationPassed = TRUE)
     {
-        $this->getTest()->assertElementPresent($this->getPlaceOrderButtonPath());
-        $this->getTest()->click($this->getPlaceOrderButtonPath());
+        $this->getHelperAssert()->assertElementPresent($this->getPlaceOrderButtonPath());
+        $this->getHelperCommon()->click($this->getPlaceOrderButtonPath());
         sleep(1);
         if ($checkValidationPassed) {
-            $this->getTest()->assertElementNotPresent("css=.validation-failed");
+            $this->getHelperAssert()->assertElementNotPresent("css=.validation-failed");
             $this->getHelperAssert()->assertTextNotPresent("Please check red fields below and try again");
             $this->getHelperWait()->waitForTextPresent($this->__('Sending your order'), 2);
         }
@@ -219,8 +217,8 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 
     public function toggleShipToDifferentAddress()
     {
-        $this->getTest()->assertElementPresent('//input[@id="billing:use_for_shipping_no"]');
-        $this->getTest()->click('//input[@id="billing:use_for_shipping_no"]');
+        $this->getHelperAssert()->assertElementPresent('//input[@id="billing:use_for_shipping_no"]');
+        $this->getHelperCommon()->click('//input[@id="billing:use_for_shipping_no"]');
     }
 
     /**
@@ -236,8 +234,8 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $waitHelper = Menta_ComponentManager::get('Menta_Component_Helper_Wait');
 
 
-        $this->getTest()->waitForElementPresent('//h1[contains(text(), "Your order has been received.")]');
-        $element = $orderNumber = $this->getTest()
+        $this->getHelperWait()->waitForElementPresent('//h1[contains(text(), "Your order has been received.")]');
+        $element = $orderNumber = $this->getHelperCommon()
             ->getElement('//p[contains(text(),"Your order")]//a')->getAttribute('href');
 
         $orderId = array_pop(explode('/', rtrim($element, '/')));
@@ -253,8 +251,8 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 	 */
 	public function getOrderNumberFromSuccessPage()
     {
-        $this->getTest()->waitForElementPresent('//h1[contains(text(), "Your order has been received.")]');
-        $orderNumber = $this->getTest()
+        $this->getHelperWait()->waitForElementPresent('//h1[contains(text(), "Your order has been received.")]');
+        $orderNumber = $this->getHelperCommon()
             ->getElement('//p[contains(text(),"Your order")]//a')->getText();
         return $orderNumber;
     }
@@ -406,7 +404,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 	 */
 	public function selectPaymentMethod($code)
     {
-        $this->getTest()->click("//dl[@id='checkout-payment-method-load']//input[@id='p_method_$code']");
+        $this->getHelperCommon()->click("//dl[@id='checkout-payment-method-load']//input[@id='p_method_$code']");
     }
 
     public function selectNewsletterCheckbox()
