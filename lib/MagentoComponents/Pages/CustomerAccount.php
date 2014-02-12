@@ -15,6 +15,16 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
         return "//div[contains(@id,'account-login')]//a[contains(text(),'Register')]";
 	}
 
+    /**
+     * Path for edit newsletter in customer dashboard page
+     * @return string
+     */
+    public function getNewsletterEditPathInDashoboard()
+    {
+        return "//div[" . Menta_Util_Div::contains('dashboard') . "]//div[" . Menta_Util_Div::contains('col-2')
+        . "][1]//a[" . Menta_Util_Div::containsText($this->__('Edit')) . "]";
+    }
+
 	/**
 	 * Open login/register page
 	 *
@@ -78,7 +88,7 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 * @since 2013-04-23
 	 */
 	public function openAddressInfo() {
-		$this->getTest()->open('/customer/address/');
+		$this->getHelperCommon()->open('/customer/address/');
 	}
 
 	/**
@@ -118,7 +128,7 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 * @return void
 	 */
 	public function openForgotPassword() {
-		$this->getTest()->open('/customer/account/forgotpassword/');
+		$this->getHelperCommon()->open('/customer/account/forgotpassword/');
 	}
 
 	/**
@@ -127,14 +137,15 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 * @author Joerg Winkler <joerg.winkler@aoemedia.de>
 	 */
 	public function logout() {
-		$this->getTest()->clickAndWait("//ul[@class='links personal-items']/li[@class='first']/a");
-		$this->getTest()->click("//a[@id='logout']");
-		$this->getTest()->waitForElementPresent("//h1[contains(text(),'You are now logged out')]");
-		$this->getTest()->assertElementPresent("//h1[contains(text(),'You are now logged out')]");
+        /* @var $helper MagentoComponents_Helper*/
+        $helper = Menta_ComponentManager::get('MagentoComponents_Helper');
+        $this->getHelperCommon()->click($helper->getLogoutLinkPath());
+		$this->getHelperWait()->waitForElementPresent("//h1[" . Menta_Util_Div::containsText($this->__('You are now logged out')) . "]");
+		$this->getHelperAssert()->assertElementPresent("//h1[" . Menta_Util_Div::containsText($this->__('You are now logged out')) . "]");
 	}
 
 	public function logoutViaOpen() {
-		$this->getTest()->open('/customer/account/logout/');
+		$this->getHelperCommon()->open('/customer/account/logout/');
 	}
 
 	public function createNewMailAddress($type='') {
@@ -171,7 +182,7 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 * @since 2012-11-19
 	 */
 	public function openRegistrationPage() {
-		$this->getTest()->open('/customer/account/create/');
+		$this->getHelperCommon()->open('/customer/account/create/');
 		$this->getHelperAssert()->assertBodyClass('customer-account-create');
 	}
 
