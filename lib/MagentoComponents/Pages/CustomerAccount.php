@@ -21,11 +21,11 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 * @return void
 	 */
 	public function openSplitLoginOrRegister() {
-		$this->getTest()->open('/customer/account/login/');
+		$this->getHelperCommon()->open('/customer/account/login/');
 		$this->getHelperAssert()->assertBodyClass('customer-account-login');
-		$this->getTest()->assertTextPresent($this->__('Login or Create an Account'));
-		$this->getTest()->assertTextPresent($this->__('New Customers'));
-		$this->getTest()->assertTextPresent($this->__('Registered Customers'));
+		$this->getHelperAssert()->assertTextPresent($this->__('Login or Create an Account'));
+		$this->getHelperAssert()->assertTextPresent($this->__('New Customers'));
+		$this->getHelperAssert()->assertTextPresent($this->__('Registered Customers'));
 	}
 
 	/**
@@ -36,14 +36,14 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 * @since 2011-11-04
 	 */
 	public function openDashboard() {
-		$this->getTest()->open('/customer/account/');
+		$this->getHelperCommon()->open('/customer/account/');
 		$this->assertIsOnDashboard();
 	}
 
 	public function assertIsOnDashboard() {
-		$this->getTest()->assertTitle($this->__('My Account'));
-		$this->getTest()->assertTextPresent($this->__('My Dashboard'));
-		$this->getTest()->assertElementPresent($this->getDashboardIndicatorPath());
+		$this->getHelperAssert()->assertTitle($this->__('My Account'));
+		$this->getHelperAssert()->assertTextPresent($this->__('My Dashboard'));
+		$this->getHelperAssert()->assertElementPresent($this->getDashboardIndicatorPath());
 	}
 
 	/**
@@ -54,8 +54,8 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 * @since 2011-11-04
 	 */
 	public function openOrderHistory() {
-		$this->getTest()->open('/sales/order/history/');
-		$this->getTest()->assertTitle($this->__('My Orders'));
+		$this->getHelperCommon()->open('/sales/order/history/');
+		$this->getHelperAssert()->assertTitle($this->__('My Orders'));
 	}
 
 	/**
@@ -67,7 +67,7 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 	 * @since 2011-11-04
 	 */
 	public function openOrder($orderId) {
-		$this->getTest()->open('/order/view/order_id/'.$orderId.'/');
+		$this->getHelperCommon()->open('/order/view/order_id/'.$orderId.'/');
 	}
 
 	/**
