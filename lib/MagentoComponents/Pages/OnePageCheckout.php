@@ -151,7 +151,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      */
     public function waitForBillingAddress()
     {
-        $this->getTest()->waitForVisible('//*[@id="checkout-step-billing"]');
+        $this->getHelperWait()->waitForElementVisible('//*[@id="checkout-step-billing"]');
     }
 
     /**
@@ -256,7 +256,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 
     public function assertPriceInSummary($productId, $expectedPrice)
     {
-        $price = $this->getTest()->getText('//tr[@id="product_' . $productId . '"]//td//div[@class="cart-price"]');
+        $price = $this->getHelperCommon()->getText('//tr[@id="product_' . $productId . '"]//td//div[@class="cart-price"]');
         $price = strip_tags($price);
         $this->getTest()->assertEquals($expectedPrice, $price, 'Prices in summary is not as expected');
     }
@@ -286,7 +286,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 
     public function assertTotal($expectedPrice, $type, $message = '')
     {
-        $price = $this->getTest()->getText('//table[@id="checkout-review-totals-table"]//tr[' . GeneralComponents_Div::contains($type) . ']//td[' . GeneralComponents_Div::contains('value') . ']');
+        $price = $this->getHelperCommon()->getText('//table[@id="checkout-review-totals-table"]//tr[' . GeneralComponents_Div::contains($type) . ']//td[' . GeneralComponents_Div::contains('value') . ']');
         $price = strip_tags($price);
         var_dump($expectedPrice . ' ' . $price . ';');
         $this->getTest()->assertEquals($expectedPrice, $price, $message);
@@ -309,8 +309,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 
     public function assertBillingCountry($countryCode)
     {
-        $commonHelper = Menta_ComponentManager::get('Menta_Component_Helper_Common');
-        $selected = $commonHelper->getSelectedValue('//select[@id="billing:country_id"]');
+        $selected = $this->getHelperCommon()->getSelectedValue('//select[@id="billing:country_id"]');
         $this->getTest()->assertEquals($countryCode, $selected);
     }
 
@@ -321,33 +320,32 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      */
     public function assertShippingPrice($name, $price)
     {
-        $commonHelper = Menta_ComponentManager::get('Menta_Component_Helper_Common');
         /* @var Menta_Component_Helper_Common */
-        $actualPrice = $commonHelper->getText("//tr[@class='type_" . $name . "']/td[@class='shipping-price']");
+        $actualPrice = $this->getHelperCommon()->getText("//tr[@class='type_" . $name . "']/td[@class='shipping-price']");
         $this->getTest()->assertEquals($price, $actualPrice);
     }
 
     public function prepareShippingAddressFieldsForLoggedInUsers($conditionForOptionToSelect = "label=New Address")
     {
-        $this->getTest()->waitForElementPresent("id=shipping-address-select");
-        $this->getTest()->select("id=shipping-address-select", $conditionForOptionToSelect);
+        $this->getHelperWait()->waitForElementPresent("id=shipping-address-select");
+        $this->getHelperCommon()->select("id=shipping-address-select", $conditionForOptionToSelect);
     }
 
     public function toogleShipToTheSameAddress()
     {
-        $this->getTest()->click("id=billing:use_for_shipping_yes");
+        $this->getHelperCommon()->click("id=billing:use_for_shipping_yes");
     }
 
     public function prepareShippingAddressFieldsForNewUsers()
     {
-        //$this->getTest()->click("id=billing:use_for_shipping_yes"); //was not working with pretty checkboxes
+        //$this->getHelperCommon()->click("id=billing:use_for_shipping_yes"); //was not working with pretty checkboxes
         $this->toogleShipToTheSameAddress();
     }
 
     public function selectSavedBillingAddress($conditionForOptionToSelect = "value=")
     {
-        $this->getTest()->waitForElementPresent("id=billing-address-select");
-        $this->getTest()->select("id=billing-address-select", $conditionForOptionToSelect);
+        $this->getHelperWait()->waitForElementPresent("id=billing-address-select");
+        $this->getHelperCommon()->select("id=billing-address-select", $conditionForOptionToSelect);
     }
 
     /**
@@ -355,10 +353,10 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      */
     public function acceptTermsAndConditions()
     {
-        $this->getTest()->assertElementPresent("//label[@for='id_accept_terms']", 'Could not find terms and conditions checkbox');
-        // $this->getTest()->click("id=id_accept_terms");
+        $this->getHelperAssert()->assertElementPresent("//label[@for='id_accept_terms']", 'Could not find terms and conditions checkbox');
+        // $this->getHelperCommon()->click("id=id_accept_terms");
         if (!$this->getHelperCommon()->isSelected("//input[@id='id_accept_terms']")) {
-            $this->getTest()->click("//input[@id='id_accept_terms']");
+            $this->getHelperCommon()->click("//input[@id='id_accept_terms']");
         }
     }
 
@@ -377,7 +375,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 	 */
 	public function selectShipping($name)
     {
-        $this->getTest()->click("//td[@class='shipping-name']/label[text()='$name']");
+        $this->getHelperCommon()->click("//td[@class='shipping-name']/label[text()='$name']");
     }
 
     public function selectShippingMethodPriority()
@@ -404,7 +402,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
 
     public function selectNewsletterCheckbox()
     {
-        $this->getTest()->click("//input[@id='id_subscribe_newsletter']");
+        $this->getHelperCommon()->click("//input[@id='id_subscribe_newsletter']");
     }
 
 	/**
