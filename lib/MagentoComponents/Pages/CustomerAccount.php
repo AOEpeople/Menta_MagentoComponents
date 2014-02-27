@@ -10,10 +10,22 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 		return "//div[@class='my-account']/div[@class='dashboard']";
 	}
 
+    /**
+     * Path for create button on login/register page
+     * @return string
+     */
+    public function getSplitPageRegistrationButtonPath() {
+        return "//div[" .  Menta_Util_Div::contains('account-login') . "]//button[" . Menta_Util_Div::contains($this->__('Create an Account'), 'title') . "]";
+    }
 
-	public function getSplitPageRegistrationButtonPath() {
-        return "//div[contains(@id,'account-login')]//a[contains(text(),'Register')]";
-	}
+    /**
+     * Path for newsletter indicator
+     * @return string
+     */
+    public function getNewsletterCheckboxIndicatorPath()
+    {
+        return "id=is_subscribed";
+    }
 
     /**
      * Path for edit newsletter in customer dashboard page
@@ -23,6 +35,12 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
     {
         return "//div[" . Menta_Util_Div::contains('dashboard') . "]//div[" . Menta_Util_Div::contains('col-2')
         . "][1]//a[" . Menta_Util_Div::containsText($this->__('Edit')) . "]";
+    }
+
+    public function getRegistrationSubmitButtonPath()
+    {
+        return "//button[@type='submit'][" .
+        Menta_Util_Div::contains($this->__('Submit'), 'title') . "]";
     }
 
 	/**
