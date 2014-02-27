@@ -16,21 +16,21 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->waitForShippingMethod();
         $this->finishStep('shippingMethod');
 
-		$this->waitForPaymentMethod();
+        $this->waitForPaymentMethod();
         $this->selectPaymentMethodCheckmo();
         $this->finishStep('paymentMethod');
 
-		$this->waitForReview();
+        $this->waitForReview();
         $this->submitForm();
     }
 
-	/**
-	 * Log in with existing user
-	 *
-	 * @param $login
-	 * @param $password
-	 */
-	public function signInWithExistingAccount($login, $password)
+    /**
+     * Log in with existing user
+     *
+     * @param $login
+     * @param $password
+     */
+    public function signInWithExistingAccount($login, $password)
     {
         $this->getHelperCommon()->type('id=login-email', $login, true, false);
         $this->getHelperCommon()->type('id=login-password', $password, true, false);
@@ -66,12 +66,12 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         return '/checkout/onepage/';
     }
 
-	/**
-	 * Set checkout method
-	 *
-	 * @param $method register|guest
-	 */
-	public function setCheckoutMethod($method)
+    /**
+     * Set checkout method
+     *
+     * @param $method register|guest
+     */
+    public function setCheckoutMethod($method)
     {
         if ($method == 'register' || $method == 'guest') {
             $this->getHelperAssert()->assertElementPresent("//label[@for='login:$method']");
@@ -79,12 +79,12 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         }
     }
 
-	/**
-	 * Finish one of the checkout steps
-	 *
-	 * @param $step
-	 */
-	public function finishStep($step)
+    /**
+     * Finish one of the checkout steps
+     *
+     * @param $step
+     */
+    public function finishStep($step)
     {
         if ($step == 'checkoutMethod') {
             $buttonPath = '//*[@id="onepage-guest-register-button"]';
@@ -101,50 +101,50 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->getHelperCommon()->click($buttonPath);
     }
 
-	/**
-	 * Get continue button xpath
-	 *
-	 * @return string
-	 */
-	protected function _getContinueButtonXPath()
-	{
-		return '//span['. Menta_Util_Div::containsText($this->__('Continue')) .']';
+    /**
+     * Get continue button xpath
+     *
+     * @return string
+     */
+    protected function _getContinueButtonXPath()
+    {
+        return '//span[' . Menta_Util_Div::containsText($this->__('Continue')) . ']';
     }
 
-	/**
-	 * Add shipping|billing address
-	 *
-	 * @param $country
-	 * @param $type
-	 * @return array complete address data that was used
-	 */
-	public function addAddress($country = 'us', $type)
-	{
-		if($type == 'billing' || $type == 'shipping') {
-			$addressProvider = new MagentoComponents_Provider_Address();
-			$address = $addressProvider->getAddressField($type, $country);
+    /**
+     * Add shipping|billing address
+     *
+     * @param $country
+     * @param $type
+     * @return array complete address data that was used
+     */
+    public function addAddress($country = 'us', $type)
+    {
+        if ($type == 'billing' || $type == 'shipping') {
+            $addressProvider = new MagentoComponents_Provider_Address();
+            $address = $addressProvider->getAddressField($type, $country);
 
-			if($type == 'billing') {
-				$address['email'] = Menta_ComponentManager::get('MagentoComponents_Pages_CustomerAccount')->createNewMailAddress('oscbillling');
-				$this->getHelperCommon()->type("id=$type:email", $address['email']);
-			}
+            if ($type == 'billing') {
+                $address['email'] = Menta_ComponentManager::get('MagentoComponents_Pages_CustomerAccount')->createNewMailAddress('oscbillling');
+                $this->getHelperCommon()->type("id=$type:email", $address['email']);
+            }
 
-			$this->getHelperCommon()->type("id=$type:firstname", $address['firstname']);
-			$this->getHelperCommon()->type("id=$type:lastname", $address['lastname']);
-			$this->getHelperCommon()->type("id=$type:telephone", $address['phone']);
-			$this->getHelperCommon()->type("id=$type:street1", $address['street1']);
-			$this->getHelperCommon()->type("id=$type:street2", $address['street2']);
-			$this->getHelperCommon()->type("id=$type:city", $address['city']);
-			$this->getHelperCommon()->type("id=$type:postcode", $address['postcode']);
-			$this->getHelperCommon()->type("id=$type:company", $address['company']);
-			$this->getHelperCommon()->select("id=$type:country_id", "label=" . $address['country']);
-			if (isset($address['region']) && $address['region']) {
-				$this->getHelperCommon()->select("id=$type:region_id", "label=" . $address['region']);
-			}
+            $this->getHelperCommon()->type("id=$type:firstname", $address['firstname']);
+            $this->getHelperCommon()->type("id=$type:lastname", $address['lastname']);
+            $this->getHelperCommon()->type("id=$type:telephone", $address['phone']);
+            $this->getHelperCommon()->type("id=$type:street1", $address['street1']);
+            $this->getHelperCommon()->type("id=$type:street2", $address['street2']);
+            $this->getHelperCommon()->type("id=$type:city", $address['city']);
+            $this->getHelperCommon()->type("id=$type:postcode", $address['postcode']);
+            $this->getHelperCommon()->type("id=$type:company", $address['company']);
+            $this->getHelperCommon()->select("id=$type:country_id", "label=" . $address['country']);
+            if (isset($address['region']) && $address['region']) {
+                $this->getHelperCommon()->select("id=$type:region_id", "label=" . $address['region']);
+            }
 
-			return $address;
-		}
-	}
+            return $address;
+        }
+    }
 
     /**
      * Wait for billing method step
@@ -162,10 +162,10 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->getHelperWait()->waitForElementVisible('//*[@id="checkout-step-shipping"]');
     }
 
-	/**
-	 * Wait for shipping method step
-	 */
-	public function waitForShippingMethod()
+    /**
+     * Wait for shipping method step
+     */
+    public function waitForShippingMethod()
     {
         $this->getHelperWait()->waitForElementVisible('//*[@id="checkout-shipping-method-load"]');
     }
@@ -178,10 +178,10 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->getHelperWait()->waitForElementVisible('//*[@id="checkout-step-payment"]');
     }
 
-	/**
-	 * Wait for review step (last step)
-	 */
-	public function waitForReview()
+    /**
+     * Wait for review step (last step)
+     */
+    public function waitForReview()
     {
         $this->getHelperWait()->waitForElementVisible('//*[@id="checkout-review-load"]');
     }
@@ -198,12 +198,12 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->getHelperCommon()->type('id=braintree_cc_cid', '123');
     }
 
-	/**
-	 * Submit order form
-	 *
-	 * @param bool $checkValidationPassed
-	 */
-	public function submitForm($checkValidationPassed = TRUE)
+    /**
+     * Submit order form
+     *
+     * @param bool $checkValidationPassed
+     */
+    public function submitForm($checkValidationPassed = TRUE)
     {
         $this->getHelperAssert()->assertElementPresent($this->getPlaceOrderButtonPath());
         $this->getHelperCommon()->click($this->getPlaceOrderButtonPath());
@@ -241,12 +241,12 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         return $orderId;
     }
 
-	/**
-	 * Get order number from order success page
-	 *
-	 * @return mixed
-	 */
-	public function getOrderNumberFromSuccessPage()
+    /**
+     * Get order number from order success page
+     *
+     * @return mixed
+     */
+    public function getOrderNumberFromSuccessPage()
     {
         $this->getHelperWait()->waitForElementPresent('//h1[contains(text(), "Your order has been received.")]');
         $orderNumber = $this->getHelperCommon()
@@ -368,12 +368,12 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->selectShipping('Flat Rate');
     }
 
-	/**
-	 * Select any shipping method
-	 *
-	 * @param $name
-	 */
-	public function selectShipping($name)
+    /**
+     * Select any shipping method
+     *
+     * @param $name
+     */
+    public function selectShipping($name)
     {
         $this->getHelperCommon()->click("//td[@class='shipping-name']/label[text()='$name']");
     }
@@ -383,19 +383,19 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->selectShipping('Priority');
     }
 
-	/**
-	 * Select Check / Money order payment method
-	 */
-	public function selectPaymentMethodCheckmo()
+    /**
+     * Select Check / Money order payment method
+     */
+    public function selectPaymentMethodCheckmo()
     {
         $this->selectPaymentMethod('checkmo');
     }
 
-	/**
-	 * Select any payment method
-	 * @param $code
-	 */
-	public function selectPaymentMethod($code)
+    /**
+     * Select any payment method
+     * @param $code
+     */
+    public function selectPaymentMethod($code)
     {
         $this->getHelperCommon()->click("//dl[@id='checkout-payment-method-load']//input[@id='p_method_$code']");
     }
@@ -405,11 +405,11 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->getHelperCommon()->click("//input[@id='id_subscribe_newsletter']");
     }
 
-	/**
-	 * Get XPath for login button in checkout
-	 * @return string
-	 */
-	public function getLoginButtonPath()
+    /**
+     * Get XPath for login button in checkout
+     * @return string
+     */
+    public function getLoginButtonPath()
     {
         return '//div[@id="checkout-step-login"]//span[contains(text(),"Login")]';
     }

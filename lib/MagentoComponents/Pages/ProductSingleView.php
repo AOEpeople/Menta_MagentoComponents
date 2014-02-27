@@ -31,7 +31,7 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
      */
     public function getStatusXpath($status)
     {
-        return '//*[@id="product_addtocart_form"]//p['. Menta_Util_Div::contains($status, 'class') .']/span';
+        return '//*[@id="product_addtocart_form"]//p[' . Menta_Util_Div::contains($status, 'class') . ']/span';
     }
 
     /**
@@ -172,13 +172,13 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
      */
     public function assertDropdownExistOptionLabelWithPrice($optionId, $label, $priceDifference, $attributeId)
     {
-        $this->getTest()->assertTrue($this->getHelperCommon()->isElementPresent("//select[@id='attribute".$attributeId."']"));
-        $this->getTest()->assertTrue($this->getHelperCommon()->isElementPresent("//select[@id='attribute".$attributeId."']/option[@value='".$optionId."']"), "Option with ID: ".$optionId." not found");
-        $this->getTest()->assertTrue($this->getHelperCommon()->isElementPresent("//select[@id='attribute".$attributeId."']/option[@value='".$optionId."'][@price='".$priceDifference."']"),
-            "Option with ID: ".$optionId." and price: ".$priceDifference." not found");
+        $this->getTest()->assertTrue($this->getHelperCommon()->isElementPresent("//select[@id='attribute" . $attributeId . "']"));
+        $this->getTest()->assertTrue($this->getHelperCommon()->isElementPresent("//select[@id='attribute" . $attributeId . "']/option[@value='" . $optionId . "']"), "Option with ID: " . $optionId . " not found");
+        $this->getTest()->assertTrue($this->getHelperCommon()->isElementPresent("//select[@id='attribute" . $attributeId . "']/option[@value='" . $optionId . "'][@price='" . $priceDifference . "']"),
+            "Option with ID: " . $optionId . " and price: " . $priceDifference . " not found");
         $this->getTest()->assertEquals(
             $this->getHelper()->normalize($label),
-            $this->getHelper()->normalize($this->getHelperCommon()->getText("//select[@id='attribute".$attributeId."']/option[@value='".$optionId."'][@price='".$priceDifference."']"))
+            $this->getHelper()->normalize($this->getHelperCommon()->getText("//select[@id='attribute" . $attributeId . "']/option[@value='" . $optionId . "'][@price='" . $priceDifference . "']"))
         );
     }
 
@@ -193,7 +193,7 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
     {
         $this->getTest()->assertEquals(
             $this->getHelper()->normalize($label),
-            $this->getHelper()->normalize($this->getHelperCommon()->getSelectedLabel("//select[@id=\"attribute" . $attributeId. "\"]"))
+            $this->getHelper()->normalize($this->getHelperCommon()->getSelectedLabel("//select[@id=\"attribute" . $attributeId . "\"]"))
         );
     }
 
@@ -203,10 +203,11 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
      * @param $optionId
      * @param $attributeId
      */
-    public function assertDropdownSelectedValue($optionId, $attributeId){
+    public function assertDropdownSelectedValue($optionId, $attributeId)
+    {
         $this->getTest()->assertEquals(
             $optionId,
-            $this->getHelperCommon()->getSelectedValue("//select[@id=\"attribute".$attributeId."\"]")
+            $this->getHelperCommon()->getSelectedValue("//select[@id=\"attribute" . $attributeId . "\"]")
         );
     }
 
@@ -229,9 +230,9 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
      */
     public function assertStatus($statusCode)
     {
-        if($statusCode == 'inStock'){
+        if ($statusCode == 'inStock') {
             $this->assertInStock();
-        } elseif ($statusCode == 'outOfStock'){
+        } elseif ($statusCode == 'outOfStock') {
             $this->assertOutOfStock();
         }
     }

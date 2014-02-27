@@ -1,52 +1,59 @@
 <?php
 
-class MagentoComponents_Pages_Message extends Menta_Component_AbstractTest {
+class MagentoComponents_Pages_Message extends Menta_Component_AbstractTest
+{
 
-	/**
-	 * Assert message
-	 *
-	 * @param $text
-	 * @param $type
-	 */
-	public function assertMessage($text, $type) {
-		$xpath = '//ul['.Menta_Util_Div::contains('messages').']';
-		$xpath .= '/li['.Menta_Util_Div::contains($type).']';
-		$xpath .= '/ul/li/span';
-		$this->getHelperAssert()->assertElementEqualsToText($xpath, $text);
-	}
+    /**
+     * Assert message
+     *
+     * @param $text
+     * @param $type
+     */
+    public function assertMessage($text, $type)
+    {
+        $xpath = '//ul[' . Menta_Util_Div::contains('messages') . ']';
+        $xpath .= '/li[' . Menta_Util_Div::contains($type) . ']';
+        $xpath .= '/ul/li/span';
+        $this->getHelperAssert()->assertElementEqualsToText($xpath, $text);
+    }
 
-    public function waitForMessagePresent($text, $type) {
-        $xpath = '//ul['.Menta_Util_Div::contains('messages').']';
-        $xpath .= '/li['.Menta_Util_Div::contains($type).']';
+    public function waitForMessagePresent($text, $type)
+    {
+        $xpath = '//ul[' . Menta_Util_Div::contains('messages') . ']';
+        $xpath .= '/li[' . Menta_Util_Div::contains($type) . ']';
         $xpath .= '/ul/li/span';
         $this->getHelperWait()->waitForTextPresent($xpath, $text);
     }
 
-	/**
-	 * Assert error message
-	 *
-	 * @param $text
-	 */
-	public function assertErrorMessage($text) {
-		$this->assertMessage($text, 'error-msg');
-	}
+    /**
+     * Assert error message
+     *
+     * @param $text
+     */
+    public function assertErrorMessage($text)
+    {
+        $this->assertMessage($text, 'error-msg');
+    }
 
-	/**
-	 * Assert success message
-	 *
-	 * @param $text
-	 */
-	public function assertSuccessMessage($text) {
-		$this->assertMessage($text, 'success-msg');
-	}
+    /**
+     * Assert success message
+     *
+     * @param $text
+     */
+    public function assertSuccessMessage($text)
+    {
+        $this->assertMessage($text, 'success-msg');
+    }
 
-	public function assertNoErrorMessagePresent() {
-		$xpath = '//ul['.Menta_Util_Div::contains('messages').']';
-		$xpath .= '/li['.Menta_Util_Div::contains('error-msg').']';
-		$this->getHelperAssert()->assertElementNotPresent($xpath, 'Error messsage found!');
-	}
+    public function assertNoErrorMessagePresent()
+    {
+        $xpath = '//ul[' . Menta_Util_Div::contains('messages') . ']';
+        $xpath .= '/li[' . Menta_Util_Div::contains('error-msg') . ']';
+        $this->getHelperAssert()->assertElementNotPresent($xpath, 'Error messsage found!');
+    }
 
-    public function waitForSuccessMessagePresent($text) {
+    public function waitForSuccessMessagePresent($text)
+    {
         $this->waitForMessagePresent($text, 'success-msg');
     }
 }

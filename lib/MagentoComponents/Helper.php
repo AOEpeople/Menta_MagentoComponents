@@ -38,7 +38,7 @@ class MagentoComponents_Helper extends Menta_Component_AbstractTest
     {
         return '//div[' . Menta_Util_Div::contains('header') . ']//ul['
         . Menta_Util_Div::contains('links') . ']//a['
-            . Menta_Util_Div::contains($text, 'title') . ' ]';
+        . Menta_Util_Div::contains($text, 'title') . ' ]';
     }
 
     /**

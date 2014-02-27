@@ -1,6 +1,7 @@
 <?php
 
-class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract {
+class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract
+{
 
     /**
      * @var string
@@ -19,7 +20,8 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract {
      * @return string sessionKey
      * @throws Exception
      */
-    public function getSoapSessionId() {
+    public function getSoapSessionId()
+    {
         if (is_null($this->soapSessionId)) {
             $user = $this->getConfiguration()->getValue('testing.webserviceapi.user');
             $password = $this->getConfiguration()->getValue('testing.webserviceapi.password');
@@ -36,7 +38,8 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract {
      *
      * @return SoapClient
      */
-    public function getSoapClient() {
+    public function getSoapClient()
+    {
         if (is_null($this->soapClient)) {
             // TODO: maybe we should have a custom wsdl location setting...
             $url = $this->getConfiguration()->getValue('testing.maindomain');
@@ -54,7 +57,8 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract {
      * @param array $productData
      * @return mixed
      */
-    public function createProduct($type='simple', $set='4', $sku='simple_sku', array $productData=array()) {
+    public function createProduct($type = 'simple', $set = '4', $sku = 'simple_sku', array $productData = array())
+    {
         $result = $this->getSoapClient()->catalogProductCreate(
             $this->getSoapSessionId(),
             $type,
@@ -65,7 +69,8 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract {
         return $result;
     }
 
-    public function getProductInfo($idOrSku, $storeView='default', array $attributes=array()) {
+    public function getProductInfo($idOrSku, $storeView = 'default', array $attributes = array())
+    {
         $result = $this->getSoapClient()->catalogProductInfo(
             $this->getSoapSessionId(),
             $idOrSku,
@@ -76,7 +81,8 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract {
         return $result;
     }
 
-    public function deleteProduct($idOrSku) {
+    public function deleteProduct($idOrSku)
+    {
         $result = $this->getSoapClient()->catalogProductDelete(
             $this->getSoapSessionId(),
             $idOrSku
@@ -84,7 +90,8 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract {
         return $result;
     }
 
-    public function getOrderInfo($incrementId) {
+    public function getOrderInfo($incrementId)
+    {
         $result = $this->getSoapClient()->salesOrderInfo(
             $this->getSoapSessionId(),
             $incrementId
@@ -96,13 +103,14 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract {
      * Create a shipment for an order
      *
      * @param        $orderIncrementId
-     * @param array  $itemsQty - associative array in the form of order_item_id => qty_to_ship
+     * @param array $itemsQty - associative array in the form of order_item_id => qty_to_ship
      * @param string $comment
-     * @param bool   $sendEmail
-     * @param bool   $includeComment
+     * @param bool $sendEmail
+     * @param bool $includeComment
      * @return string Shipment Increment ID
      */
-    public function createShipment($orderIncrementId, $itemsQty = array(), $comment = '', $sendEmail = false, $includeComment = false) {
+    public function createShipment($orderIncrementId, $itemsQty = array(), $comment = '', $sendEmail = false, $includeComment = false)
+    {
         $result = $this->getSoapClient()->salesOrderShipmentCreate(
             $this->getSoapSessionId(),
             $orderIncrementId,
@@ -120,7 +128,8 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract {
      * @param $itemsQty
      * @return array
      */
-    public function getApiItemQtyFromSimpleItemQty($itemsQty) {
+    public function getApiItemQtyFromSimpleItemQty($itemsQty)
+    {
         $apiItemQty = array();
         foreach ($itemsQty as $itemId => $qty) {
             $apiItemQty[] = array(
@@ -141,7 +150,8 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract {
      * @param $trackingNumber
      * @return int Tracking Number ID
      */
-    public function addTrackingCode($shipmentIncrementId, $carrierCode, $trackingTitle, $trackingNumber) {
+    public function addTrackingCode($shipmentIncrementId, $carrierCode, $trackingTitle, $trackingNumber)
+    {
         $result = $this->getSoapClient()->salesOrderShipmentAddTrack(
             $this->getSoapSessionId(),
             $shipmentIncrementId,
@@ -158,7 +168,8 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract {
      * @param $shipmentIncrementId
      * @return array
      */
-    public function getShipmentInfo($shipmentIncrementId) {
+    public function getShipmentInfo($shipmentIncrementId)
+    {
         $result = $this->getSoapClient()->salesOrderShipmentCreate(
             $this->getSoapSessionId(),
             $shipmentIncrementId
