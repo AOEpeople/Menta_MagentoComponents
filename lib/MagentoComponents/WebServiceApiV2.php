@@ -69,6 +69,14 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract
         return $result;
     }
 
+    /**
+     * Get info about product
+     *
+     * @param $idOrSku
+     * @param string $storeView
+     * @param array $attributes
+     * @return mixed
+     */
     public function getProductInfo($idOrSku, $storeView = 'default', array $attributes = array())
     {
         $result = $this->getSoapClient()->catalogProductInfo(
@@ -81,6 +89,12 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract
         return $result;
     }
 
+    /**
+     * Delete product
+     *
+     * @param $idOrSku
+     * @return mixed
+     */
     public function deleteProduct($idOrSku)
     {
         $result = $this->getSoapClient()->catalogProductDelete(
@@ -90,6 +104,12 @@ class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract
         return $result;
     }
 
+    /**
+     * Get info about order
+     *
+     * @param $incrementId
+     * @return mixed
+     */
     public function getOrderInfo($incrementId)
     {
         $result = $this->getSoapClient()->salesOrderInfo(

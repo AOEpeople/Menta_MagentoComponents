@@ -41,7 +41,6 @@ class MagentoComponents_WebServiceApi extends Menta_Component_Abstract
     public function getSoapClient()
     {
         if (is_null($this->soapClient)) {
-            // TODO: maybe we should have a custom wsdl location setting...
             $url = $this->getConfiguration()->getValue('testing.maindomain');
             $this->soapClient = new SoapClient($url . '/api/?wsdl');
         }
