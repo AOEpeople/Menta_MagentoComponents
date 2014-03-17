@@ -2,14 +2,46 @@
 
 class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest
 {
+    /**
+     * Get items shopping cart table xpath
+     *
+     * @return string
+     */
+    public function getCartTablePath()
+    {
+        return "//table[@id='shopping-cart-table']";
+    }
 
     /**
-     * Check if we're on the cart page.
-     * Useful if e.g. the add to cart button should have redirected to this page
+     * Get empty cart button xpath
+     *
+     * @return string
      */
-    public function assertOnCartPage()
+    public function getEmptyCartButtonPath()
     {
-        $this->getHelperAssert()->assertBodyClass('checkout-cart-index');
+        return "//button[@value='empty_cart']";
+    }
+
+    /**
+     * Removes all items from cart
+     */
+    public function clearCart()
+    {
+        $this->getHelperCommon()->open($this->getCartUrl());
+        if ($this->getHelperCommon()->isElementPresent($this->getEmptyCartButtonPath())) {
+            $this->getHelperCommon()->click($this->getEmptyCartButtonPath());
+        }
+    }
+
+    /**
+     * Assert that the cart is empty
+     *
+     * @return void
+     */
+    public function assertEmptyCart()
+    {
+        $this->open();
+        $this->getHelperAssert()->assertTextPresent($this->__('Shopping Cart is Empty'));
     }
 
     /**
@@ -25,6 +57,15 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest
     }
 
     /**
+     * Check if we're on the cart page.
+     * Useful if e.g. the add to cart button should have redirected to this page
+     */
+    public function assertOnCartPage()
+    {
+        $this->getHelperAssert()->assertBodyClass('checkout-cart-index');
+    }
+
+    /**
      * Get cart url
      *
      * @return string
@@ -35,47 +76,7 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest
     }
 
     /**
-     * Assert that the cart is empty
-     *
-     * @return void
-     */
-    public function assertEmptyCart()
-    {
-        $this->open();
-        $this->getHelperAssert()->assertTextPresent($this->__('Shopping Cart is Empty'));
-    }
-
-    public function clearCart()
-    {
-        $this->getHelperCommon()->open($this->getCartUrl());
-        if ($this->getHelperCommon()->isElementPresent($this->getEmptyCartButtonPath())) {
-            $this->getHelperCommon()->click($this->getEmptyCartButtonPath());
-        }
-    }
-
-    /*
-     *
-     * Get empty cart button path
-     *
-     * @return string
-     * */
-    public function getEmptyCartButtonPath()
-    {
-        return "//button[@value='empty_cart']";
-    }
-
-    /*
-     * Get table cart path
-     *
-     * @return string
-     */
-    public function getCartTablePath()
-    {
-        return "//table[@id='shopping-cart-table']";
-    }
-
-    /**
-     * Placeholder for ajax implementation of cartheader
+     * Placeholder for ajax implementation add to cart action
      */
     public function waitForAjax()
     {
