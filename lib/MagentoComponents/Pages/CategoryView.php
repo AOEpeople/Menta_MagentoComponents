@@ -2,38 +2,6 @@
 
 class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest
 {
-
-    /**
-     * Open category page (product listing)
-     *
-     * @param int $categoryId
-     * @param string $additionalParams
-     * @return void
-     */
-    public function open($categoryId, $additionalParams = '?limit=all')
-    {
-        $this->getHelperCommon()->open($this->getCategoryUrl($categoryId) . $additionalParams);
-    }
-
-    /**
-     * Checks if category page is currently open
-     */
-    public function assertIsOnCategoryPage()
-    {
-        $this->getHelperAssert()->assertBodyClass('catalog-category-view');
-    }
-
-    /**
-     * Get category url
-     *
-     * @param int $categoryId
-     * @return string
-     */
-    public function getCategoryUrl($categoryId)
-    {
-        return '/catalog/category/view/id/' . $categoryId;
-    }
-
     /**
      * Get xpath to "add to cart"
      *
@@ -42,7 +10,6 @@ class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest
      */
     public function getAddToCartLinkXpath($productId)
     {
-
         $xpath = "//li//button[" .
             Menta_Util_Div::contains($this->__('Add to Cart'), 'title') .
             " and contains(@onclick," . $productId . ")] ";
@@ -57,7 +24,6 @@ class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest
      * @param boolean $waitForAjax should wait for end of request before adding next product to cart
      * @param int $sleep time to sleep between requests
      * @internal param array|int $productId or array of productIds
-     * @return void
      */
     public function putProductsIntoCart($products, $waitForAjax = true, $sleep = 0)
     {
@@ -76,7 +42,6 @@ class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest
      * @param int $productId
      * @param bool $waitForAjax
      * @param int $sleep
-     * @return void
      */
     public function putProductIntoCart($productId, $waitForAjax = true, $sleep = 0)
     {
@@ -108,8 +73,38 @@ class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest
         $link = $session
             ->element(\WebDriver\LocatorStrategy::XPATH, $this->getAddToCartLinkXpath($productId));
 
-        //	$session->moveto(array('element' => $itemDiv->getID()));
         $session->moveto(array('element' => $link->getID()));
+    }
+
+    /**
+     * Open category page (product listing)
+     *
+     * @param int $categoryId
+     * @param string $additionalParams
+     * @return void
+     */
+    public function open($categoryId, $additionalParams = '?limit=all')
+    {
+        $this->getHelperCommon()->open($this->getCategoryUrl($categoryId) . $additionalParams);
+    }
+
+    /**
+     * Checks if category page is currently open
+     */
+    public function assertIsOnCategoryPage()
+    {
+        $this->getHelperAssert()->assertBodyClass('catalog-category-view');
+    }
+
+    /**
+     * Get category url
+     *
+     * @param int $categoryId
+     * @return string
+     */
+    public function getCategoryUrl($categoryId)
+    {
+        return '/catalog/category/view/id/' . $categoryId;
     }
 
 }
