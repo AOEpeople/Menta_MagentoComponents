@@ -2,7 +2,6 @@
 
 class MagentoComponents_Pages_ProductSingleView extends Menta_Component_AbstractTest
 {
-
     /**
      * Get path for regular price
      *
@@ -32,6 +31,16 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
     public function getStatusXpath($status)
     {
         return '//*[@id="product_addtocart_form"]//p[' . Menta_Util_Div::contains($status, 'class') . ']/span';
+    }
+
+    /**
+     * Check if product has proper price
+     *
+     * @return regular price
+     */
+    public function getRegularPrice()
+    {
+        return $this->getHelperCommon()->getText($this->getRegularPricePath());
     }
 
     /**
@@ -71,26 +80,17 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
     }
 
     /**
-     * Open product single view
+     * Check if product has proper price
      *
-     * @param int $productId
-     * @return void
+     * @param string $expected expected price including currency sign
      */
-    public function openProduct($productId)
+    public function assertRegularPrice($expected)
     {
-        $this->getHelperCommon()->open($this->getProductUrl($productId));
-        $this->getHelperAssert()->assertTextNotPresent('We are sorry, but the page you are looking for cannot be found.');
-    }
-
-    /**
-     * Get product url
-     *
-     * @param int $productId
-     * @return string
-     */
-    public function getProductUrl($productId)
-    {
-        return '/catalog/product/view/id/' . $productId;
+        $this->getTest()->assertEquals(
+            $this->getHelper()->normalize($expected),
+            $this->getHelper()->normalize($this->getHelperCommon()->getText($this->getRegularPricePath())),
+            'Different prices'
+        );
     }
 
     /**
@@ -100,47 +100,12 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
      */
     public function assertPriceInclTax($expected)
     {
-        $this->getTest()->assertEquals($expected, $this->getText("//span[@class=\"price-including-tax\"]//span[@class=\"price\"]"));
+        $this->getTest()->assertEquals($expected,
+            $this->getHelperCommon()->getText("//span[@class=\"price-including-tax\"]//span[@class=\"price\"]"));
     }
 
     /**
-     * Check if product has proper price
-     *
-     * @param string $expected expected price including currency sign
-     */
-    public function assertRegularPrice($expected)
-    {
-        $helper = Menta_ComponentManager::get('MagentoComponents_Helper');
-        $this->getTest()->assertEquals(
-            $helper->normalize($expected),
-            $helper->normalize($this->getHelperCommon()->getText($this->getRegularPricePath())),
-            'Different prices'
-        );
-    }
-
-    /**
-     * Check if product has proper price
-     *
-     * @return regular price
-     */
-    public function getRegularPrice()
-    {
-        return $this->getHelperCommon()->getText($this->getRegularPricePath());
-    }
-
-    /**
-     * Check if button Add to Cart is visible
-     *
-     * @return bool
-     */
-    public function isButtonAddVisible()
-    {
-        return $this->getHelperCommon()->isVisible($this->getAddToCartButtonPath());
-    }
-
-
-    /**
-     *
+     * Assert add to cart button text
      */
     public function assertButtonAddText()
     {
@@ -182,7 +147,6 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
         );
     }
 
-
     /**
      * Assert label of selected option
      *
@@ -210,18 +174,6 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
             $this->getHelperCommon()->getSelectedValue("//select[@id=\"attribute" . $attributeId . "\"]")
         );
     }
-
-
-    /**
-     * Get Magento Helper
-     *
-     * @return Menta_Interface_Component
-     */
-    public function getHelper()
-    {
-        return Menta_ComponentManager::get('MagentoComponents_Helper');
-    }
-
 
     /**
      * Assert status
@@ -255,7 +207,6 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
             $this->getHelperCommon()->getText($this->getStatusXpath('in-stock')));
     }
 
-
     /**
      * Assert add to cart button
      *
@@ -280,4 +231,48 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
     {
         $this->getTest()->assertEquals($quantity, $this->getHelperCommon()->getValue("id=qty"));
     }
+
+    /**
+     * Check if button Add to Cart is visible
+     *
+     * @return bool
+     */
+    public function isButtonAddVisible()
+    {
+        return $this->getHelperCommon()->isVisible($this->getAddToCartButtonPath());
+    }
+
+    /**
+     * Open product single view
+     *
+     * @param int $productId
+     * @return void
+     */
+    public function openProduct($productId)
+    {
+        $this->getHelperCommon()->open($this->getProductUrl($productId));
+        $this->getHelperAssert()->assertTextNotPresent('We are sorry, but the page you are looking for cannot be found.');
+    }
+
+    /**
+     * Get product url
+     *
+     * @param int $productId
+     * @return string
+     */
+    public function getProductUrl($productId)
+    {
+        return '/catalog/product/view/id/' . $productId;
+    }
+
+    /**
+     * Get Magento Helper
+     *
+     * @return MagentoComponents_Helper
+     */
+    public function getHelper()
+    {
+        return Menta_ComponentManager::get('MagentoComponents_Helper');
+    }
+
 }
