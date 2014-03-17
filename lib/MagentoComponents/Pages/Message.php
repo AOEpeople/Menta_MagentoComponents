@@ -2,6 +2,19 @@
 
 class MagentoComponents_Pages_Message extends Menta_Component_AbstractTest
 {
+    /**
+     * Get message xpath depends on type (error, success, notice)
+     *
+     * @param $type
+     * @return string
+     */
+    public function getMessageXpath($type)
+    {
+        $xpath = '//ul[' . Menta_Util_Div::contains('messages') . ']';
+        $xpath .= '/li[' . Menta_Util_Div::contains($type) . ']';
+        $xpath .= '/ul/li/span';
+        return $xpath;
+    }
 
     /**
      * Assert message
@@ -11,18 +24,8 @@ class MagentoComponents_Pages_Message extends Menta_Component_AbstractTest
      */
     public function assertMessage($text, $type)
     {
-        $xpath = '//ul[' . Menta_Util_Div::contains('messages') . ']';
-        $xpath .= '/li[' . Menta_Util_Div::contains($type) . ']';
-        $xpath .= '/ul/li/span';
+        $xpath = $this->getMessageXpath($type);
         $this->getHelperAssert()->assertElementEqualsToText($xpath, $text);
-    }
-
-    public function waitForMessagePresent($text, $type)
-    {
-        $xpath = '//ul[' . Menta_Util_Div::contains('messages') . ']';
-        $xpath .= '/li[' . Menta_Util_Div::contains($type) . ']';
-        $xpath .= '/ul/li/span';
-        $this->getHelperWait()->waitForTextPresent($xpath, $text);
     }
 
     /**
@@ -45,6 +48,9 @@ class MagentoComponents_Pages_Message extends Menta_Component_AbstractTest
         $this->assertMessage($text, 'success-msg');
     }
 
+    /**
+     * Assert no error message present
+     */
     public function assertNoErrorMessagePresent()
     {
         $xpath = '//ul[' . Menta_Util_Div::contains('messages') . ']';
@@ -52,8 +58,25 @@ class MagentoComponents_Pages_Message extends Menta_Component_AbstractTest
         $this->getHelperAssert()->assertElementNotPresent($xpath, 'Error messsage found!');
     }
 
+    /**
+     * Wait for success message present
+     * @param $text
+     */
     public function waitForSuccessMessagePresent($text)
     {
         $this->waitForMessagePresent($text, 'success-msg');
     }
+
+    /**
+     * Wait for message
+     *
+     * @param $text
+     * @param $type
+     */
+    public function waitForMessagePresent($text, $type)
+    {
+        $xpath = $this->getMessageXpath($type);
+        $this->getHelperWait()->waitForTextPresent($xpath, $text);
+    }
+
 }
