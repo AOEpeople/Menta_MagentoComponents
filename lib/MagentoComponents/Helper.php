@@ -29,6 +29,23 @@ class MagentoComponents_Helper extends Menta_Component_AbstractTest
         return $this->getLinkPathFromHeader($this->__('My Account'));
     }
 
+    /*
+     * * Get amount of cart items from top links
+     *
+     * @return int
+     */
+    public function getCartItemsFromHeader()
+    {
+        $text = $this->getHelperCommon()->getText("//*[@class='top-link-cart']");
+        preg_match('!\d+!', $text, $count);
+
+        //if cart quantity is 0 then counter is hidden
+        if (!$count) {
+            return 0;
+        }
+        return $count[0];
+    }
+
     /**
      * Path for any link in header
      * @param $text

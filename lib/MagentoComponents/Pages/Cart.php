@@ -74,26 +74,6 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest
         return "//table[@id='shopping-cart-table']";
     }
 
-
-    /*
-     * Get number items in cart from top links
-     *
-     * @return int
-     */
-
-    public function getCartItemsFromHeader()
-    {
-        $text = $this->getHelperCommon()->getText("//*[@class='top-link-cart']");
-        preg_match('!\d+!', $text, $count);
-
-        //if cart quantity is 0 then counter is hidden
-        if (!$count) {
-            return 0;
-        }
-        return $count[0];
-    }
-
-
     /**
      * Placeholder for ajax implementation of cartheader
      */
