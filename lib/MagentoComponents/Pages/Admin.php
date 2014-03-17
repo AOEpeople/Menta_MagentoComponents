@@ -7,7 +7,27 @@ class MagentoComponents_Pages_Admin extends Menta_Component_AbstractTest
     protected $defaultLogin = array('username' => 'selenium.user', 'password' => 'test1234', 'adminUrl' => '/admin');
 
     /**
-     * get username and password from config xml
+     * Get logout link xpath
+     *
+     * @return string
+     */
+    public function getLogoutLinkXpath()
+    {
+        return '//a[@class="link-logout"]';
+    }
+
+    /**
+     * Get login form indicator
+     *
+     * @return string
+     */
+    public function getLoginForm()
+    {
+        return '//form[@id="loginForm"]';
+    }
+    /**
+     * Get admin username and password from config xml
+     *
      * @return array $user
      */
     public function getAdminUser()
@@ -26,8 +46,9 @@ class MagentoComponents_Pages_Admin extends Menta_Component_AbstractTest
         return $user;
     }
 
-    /**Z
-     * get admin url from config xml
+    /**
+     * Get admin url from config xml
+     *
      * @return string $adminUrl
      */
     public function getAdminUrl()
@@ -40,7 +61,7 @@ class MagentoComponents_Pages_Admin extends Menta_Component_AbstractTest
     }
 
     /**
-     * open admin
+     * Open admin panel
      *
      * @return void
      */
@@ -51,7 +72,7 @@ class MagentoComponents_Pages_Admin extends Menta_Component_AbstractTest
     }
 
     /**
-     * log into the admin
+     * Log into the admin panel
      *
      * @param string $username
      * @param string $password
@@ -60,21 +81,20 @@ class MagentoComponents_Pages_Admin extends Menta_Component_AbstractTest
     {
         $this->getHelperCommon()->type('id=username', $username);
         $this->getHelperCommon()->type('id=login', $password);
-        $formElement = $this->getSession()->element(\WebDriver\LocatorStrategy::XPATH, '//form[@id="loginForm"]');
-        $formElement->submit();
+        $this->getHelperCommon()->getElement($this->getLoginForm())->submit();
     }
 
     /**
-     * logout from admin
+     * Logout from admin panel
      */
     public function logoutFromAdmin()
     {
         $this->getHelperWait()->waitForElementPresent('//a[@class="link-logout"]');
-        $this->getSession()->element(\WebDriver\LocatorStrategy::XPATH, '//a[@class="link-logout"]')->click();
+        $this->getHelperCommon()->click($this->getLogoutLinkXpath());
     }
 
     /**
-     * simple check if login was successful
+     * Simple check if login was successful
      */
     public function loginCheck()
     {
