@@ -3,6 +3,16 @@
 class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest
 {
     /**
+     * Get path for regular price
+     *
+     * @return string
+     */
+    public function getRegularPricePath($productId)
+    {
+        return '//span[@id="product-price-' .$productId. '"]/span';
+    }
+
+    /**
      * Get xpath to "add to cart"
      *
      * @param int $productId
@@ -89,6 +99,20 @@ class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest
     }
 
     /**
+     * Check if product has proper price
+     *
+     * @param string $expected expected price including currency sign
+     */
+    public function assertRegularPrice($productId, $expected)
+    {
+        $this->getTest()->assertEquals(
+            $this->getHelper()->normalize($expected),
+            $this->getHelper()->normalize($this->getHelperCommon()->getText($this->getRegularPricePath($productId))),
+            'Different prices'
+        );
+    }
+
+    /**
      * Checks if category page is currently open
      */
     public function assertIsOnCategoryPage()
@@ -105,6 +129,16 @@ class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest
     public function getCategoryUrl($categoryId)
     {
         return '/catalog/category/view/id/' . $categoryId;
+    }
+
+    /**
+     * Get Magento Helper
+     *
+     * @return MagentoComponents_Helper
+     */
+    public function getHelper()
+    {
+        return Menta_ComponentManager::get('MagentoComponents_Helper');
     }
 
 }
