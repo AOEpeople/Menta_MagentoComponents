@@ -46,22 +46,26 @@ class MagentoComponents_Provider_Address
         );
         switch ($country) {
             case 'de':
-                $tmp = array('city' => 'Wiesbaden', 'postcode' => '65205', 'country' => 'Germany');
+                $tmp = array('city' => 'Wiesbaden', 'region' => 'Berlin', 'postcode' => '65205',
+                    'country' => 'Germany');
                 break;
             case 'us':
-                $tmp = array('city' => 'Montgomery', 'region' => 'Alabama', 'postcode' => '85621', 'country' => 'United States');
+                $tmp = array('city' => 'Montgomery', 'region' => 'Alabama', 'postcode' => '85621',
+                    'country' => 'United States');
                 break;
             case 'us_california':
-                $tmp = array('city' => 'San Francisco', 'region' => 'California', 'postcode' => '85621', 'country' => 'United States');
+                $tmp = array('city' => 'San Francisco', 'region' => 'California', 'postcode' => '85621',
+                    'country' => 'United States');
                 break;
             case 'it':
                 $tmp = array('city' => 'Rome', 'postcode' => '85621', 'country' => 'Italy');
                 break;
             case 'es':
-                $tmp = array('city' => 'Barcelona', 'postcode' => '85621', 'country' => 'Spain');
+                $tmp = array('city' => 'Barcelona', 'region' => 'Barcelona' ,'postcode' => '85621',
+                    'country' => 'Spain');
                 break;
             case 'fi':
-                $tmp = array('city' => 'Helsinki', 'postcode' => '85621', 'country' => 'Finland');
+                $tmp = array('city' => 'Helsinki', 'region' => 'Lappi', 'postcode' => '85621', 'country' => 'Finland');
                 break;
             case 'eg':
                 $tmp = array('city' => 'Kairo', 'postcode' => '85621', 'country' => 'Egypt');
