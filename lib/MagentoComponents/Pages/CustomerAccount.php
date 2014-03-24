@@ -55,6 +55,7 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
 
     /**
      * Path for submit registration button on create account page
+     *
      * @return string
      */
     public function getRegistrationSubmitButtonPath()
