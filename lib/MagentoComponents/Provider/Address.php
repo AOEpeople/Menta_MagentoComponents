@@ -78,5 +78,4 @@ class MagentoComponents_Provider_Address
         }
         return array_merge($address, $tmp);
     }
-
 }
