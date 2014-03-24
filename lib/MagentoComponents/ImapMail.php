@@ -10,15 +10,15 @@ class MagentoComponents_ImapMail extends GeneralComponents_ImapMail
      *
      * @param array $userAccount
      */
-    public function checkNewsletterSignUpMail($userAccount) {
-
+    public function checkNewsletterSignUpMail($userAccount)
+    {
         /* Check for mail */
         $newsletterSubscribeTemplateSubject = $this->__('Newsletter subscription success');
 
         // replace markers with information from $userAccount
         $subject = $newsletterSubscribeTemplateSubject;
         foreach ($userAccount as $key => $value) {
-            $subject = str_replace('###'.strtoupper($key).'###', $value, $subject);
+            $subject = str_replace('###' . strtoupper($key) . '###', $value, $subject);
         }
 
         $idx = $this->waitForMailWhoseSubjectContains($subject);
@@ -36,15 +36,15 @@ class MagentoComponents_ImapMail extends GeneralComponents_ImapMail
      *
      * @param array $userAccount
      */
-    public function checkNewsletterSignOutMail($userAccount) {
-
+    public function checkNewsletterSignOutMail($userAccount)
+    {
         /* Check for mail */
         $newsletterUnsubscribeTemplateSubject = $this->__('Newsletter unsubscription success');
 
         // replace markers with information from $userAccount
         $subject = $newsletterUnsubscribeTemplateSubject;
         foreach ($userAccount as $key => $value) {
-            $subject = str_replace('###'.strtoupper($key).'###', $value, $subject);
+            $subject = str_replace('###' . strtoupper($key) . '###', $value, $subject);
         }
 
         $idx = $this->waitForMailWhoseSubjectContains($subject);
