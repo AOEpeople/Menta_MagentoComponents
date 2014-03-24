@@ -277,5 +277,4 @@ class MagentoComponents_Pages_ProductSingleView extends Menta_Component_Abstract
     {
         return Menta_ComponentManager::get('MagentoComponents_Helper');
     }
-
 }

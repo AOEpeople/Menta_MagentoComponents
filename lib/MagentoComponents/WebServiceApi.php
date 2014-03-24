@@ -72,5 +72,4 @@ class MagentoComponents_WebServiceApi extends Menta_Component_Abstract
     {
         return $this->getSoapClient()->call($this->getSoapSessionId(), 'aoe_scheduler.runNow', array($code));
     }
-
 }

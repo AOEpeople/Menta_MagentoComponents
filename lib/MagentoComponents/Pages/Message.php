@@ -81,5 +81,4 @@ class MagentoComponents_Pages_Message extends Menta_Component_AbstractTest
         $xpath = $this->getMessageXpath($type);
         $this->getHelperWait()->waitForTextPresent($xpath, $text);
     }
-
 }
