@@ -447,6 +447,11 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         );
     }
 
+    /**
+     * Assert tax price in summary
+     *
+     * @param $expectedPrice
+     */
     public function assertTax($expectedPrice)
     {
         $price = $this->getHelperCommon()->getText($this->getTaxXpath());
@@ -469,7 +474,6 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
             $this->getHelper()->normalize($expectedPrice), 'Grand total does not match');
     }
 
-
     /**
      * Assert billing country
      * 
@@ -481,30 +485,35 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
         $this->getTest()->assertEquals($countryCode, $selected);
     }
 
-
+    /**
+     * Prepare shipping address fields for logged in users
+     *
+     * @param string $conditionForOptionToSelect
+     */
     public function prepareShippingAddressFieldsForLoggedInUsers($conditionForOptionToSelect = "label=New Address")
     {
         $this->getHelperWait()->waitForElementPresent("id=shipping-address-select");
         $this->getHelperCommon()->select("id=shipping-address-select", $conditionForOptionToSelect);
     }
 
+    /**
+     * Toggle ship to the same address
+     */
     public function toogleShipToTheSameAddress()
     {
         $this->getHelperCommon()->click("id=billing:use_for_shipping_yes");
     }
 
-    public function prepareShippingAddressFieldsForNewUsers()
-    {
-        //$this->getHelperCommon()->click("id=billing:use_for_shipping_yes"); //was not working with pretty checkboxes
-        $this->toogleShipToTheSameAddress();
-    }
-
+    /**
+     * selected save billing address
+     * 
+     * @param string $conditionForOptionToSelect
+     */
     public function selectSavedBillingAddress($conditionForOptionToSelect = "value=")
     {
         $this->getHelperWait()->waitForElementPresent("id=billing-address-select");
         $this->getHelperCommon()->select("id=billing-address-select", $conditionForOptionToSelect);
     }
-
 
     /**
      * Get Magento Helper
