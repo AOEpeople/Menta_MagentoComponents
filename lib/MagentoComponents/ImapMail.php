@@ -57,11 +57,17 @@ class MagentoComponents_ImapMail extends GeneralComponents_ImapMail
         $this->getTest()->assertContains('unsubscription success', $content);
     }
 
+    /**
+     * Wait for reset password mail
+     *
+     * @param $userAccount
+     * @return string
+     */
     public function checkResetPasswordMail($userAccount)
     {
         $resetPasswordTemplateSubject = 'Password Reset Confirmation for ###FIRSTNAME### ###LASTNAME###';
 
-        // replace markers with information from $useraccount
+        // replace markers with information from $userAccount
         $subject = $resetPasswordTemplateSubject;
         foreach ($userAccount as $key => $value) {
             $subject = str_replace('###' . strtoupper($key) . '###', $value, $subject);
@@ -83,6 +89,12 @@ class MagentoComponents_ImapMail extends GeneralComponents_ImapMail
         // reset link
     }
 
+    /**
+     * Get reset password link from mail
+     *
+     * @param $mailContent
+     * @return array
+     */
     public function getResetPasswordLink($mailContent)
     {
         $resetLink = $this->findResetPasswordLink($mailContent);
@@ -91,7 +103,6 @@ class MagentoComponents_ImapMail extends GeneralComponents_ImapMail
 
         return $resetLink;
     }
-
 
     /**
      * Extract links from given string
