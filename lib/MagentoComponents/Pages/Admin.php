@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Components for admin page
  */
 class MagentoComponents_Pages_Admin extends Menta_Component_AbstractTest
 {

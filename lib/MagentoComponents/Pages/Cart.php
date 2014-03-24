@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Components for cart view page
+ */
 class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest
 {
     /**

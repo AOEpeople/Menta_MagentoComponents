@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Magento helper component
+ * All methods can be used in any other magento components/test
+ */
 class MagentoComponents_Helper extends Menta_Component_AbstractTest
 {
     /**

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Components for system messages
+ */
 class MagentoComponents_Pages_Message extends Menta_Component_AbstractTest
 {
     /**

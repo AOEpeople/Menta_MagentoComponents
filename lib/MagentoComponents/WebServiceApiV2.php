@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Components for WebService Api v2
+ */
 class MagentoComponents_WebServiceApiV2 extends Menta_Component_Abstract
 {
 

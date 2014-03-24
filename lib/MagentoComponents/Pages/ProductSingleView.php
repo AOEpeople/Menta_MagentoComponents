@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Components for product view page
+ */
 class MagentoComponents_Pages_ProductSingleView extends Menta_Component_AbstractTest
 {
     /**

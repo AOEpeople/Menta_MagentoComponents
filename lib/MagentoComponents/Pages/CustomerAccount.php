@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Components for customer account page
+ */
 class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTest
 {
     /**

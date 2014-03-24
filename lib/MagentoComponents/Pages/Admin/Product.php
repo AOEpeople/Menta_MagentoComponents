@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Components for product edit page
  */
 class MagentoComponents_Pages_Admin_Product extends MagentoComponents_Pages_Admin
 {

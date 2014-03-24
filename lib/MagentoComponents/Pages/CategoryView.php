@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Components for category view page
+ */
 class MagentoComponents_Pages_CategoryView extends Menta_Component_AbstractTest
 {
     /**

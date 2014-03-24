@@ -1,6 +1,8 @@
 <?php
 
-
+/**
+ * Components for emails
+ */
 class MagentoComponents_ImapMail extends GeneralComponents_ImapMail
 {
     /**

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Components for one page checkout
+ */
 class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTest
 {
     /**
