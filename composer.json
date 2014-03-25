@@ -15,8 +15,8 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "aoepeople/menta": "dev-master",
-        "aoepeople/menta_generalcomponents": "dev-master"
+        "aoepeople/menta": "*",
+        "aoepeople/menta_generalcomponents": "*"
     },
     "autoload": {
         "psr-0": {
