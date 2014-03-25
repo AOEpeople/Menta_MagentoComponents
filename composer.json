@@ -8,7 +8,7 @@
     "authors": [
         {
             "name": "Fabrizio Branca",
-            "email": "menta@{firstname}-{lastname}.de",
+            "email": "menta@firstname-lastname.de",
             "homepage": "http://www.fabrizio-branca.de",
             "role": "Developer"
         }
