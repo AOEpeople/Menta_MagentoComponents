@@ -1,22 +1,22 @@
 {
-    "name": "aoemedia/menta_magentocomponents",
+    "name": "aoepeople/menta_magentocomponents",
     "type": "library",
-    "description": "General purpose components for Menta",
+    "description": "Magento components for Menta",
     "keywords": ["selenium", "webdriver", "phpunit", "browser"],
     "homepage": "http://www.macopedia.pl",
     "license": "Apache",
     "authors": [
         {
             "name": "Fabrizio Branca",
-            "email": "menta@fabrizio-branca.de",
+            "email": "menta@{firstname}-{lastname}.de",
             "homepage": "http://www.fabrizio-branca.de",
             "role": "Developer"
         }
     ],
     "require": {
         "php": ">=5.3.2",
-        "aoemedia/menta": "dev-master",
-        "aoemedia/menta_generalcomponents": "dev-master"
+        "aoepeople/menta": "dev-master",
+        "aoepeople/menta_generalcomponents": "dev-master"
     },
     "autoload": {
         "psr-0": {
