@@ -26,6 +26,17 @@ class MagentoComponents_Pages_Admin extends Menta_Component_AbstractTest
     {
         return '//form[@id="loginForm"]';
     }
+
+    /**
+     * Get header location
+     *
+     * @return string
+     */
+    public function getHeaderLocation()
+    {
+        return 'css=.content-header h3';
+    }
+
     /**
      * Get admin username and password from config xml
      *
@@ -101,4 +112,64 @@ class MagentoComponents_Pages_Admin extends Menta_Component_AbstractTest
     {
         $this->getHelperAssert()->assertTextPresent('Dashboard');
     }
+
+    /**
+     * Check username in header
+     *
+     * @param string $username
+     * @author Fabrizio Branca
+     * @since 2014-04-22
+     */
+    public function assertUsernameInHeader($username)
+    {
+        $this->getHelperAssert()->assertElementContainsText('css=.header-right .super', sprintf($this->__('Logged in as %s'), $username));
+    }
+
+    /**
+     * Get menu item element
+     * Pass the parent menu item as second parameter to find submenu items
+     *
+     * @param string $label
+     * @param string|\WebDriver\Element $parent
+     * @return \WebDriver\Element
+     */
+    public function getMenuItemElement($label, $parent=null)
+    {
+        return $this->getHelperCommon()->getElement("//li/a/span[text()='$label']", $parent);
+    }
+
+    /**
+     * Click menu item
+     * Will traverse to menu item
+     * e.g. array('System', 'Permission', 'Users')
+     *
+     * @param array $items
+     * @author Fabrizio Branca
+     * @since 2014-04-22
+     */
+    public function clickMenuItem(array $items)
+    {
+        $element = null;
+        $i=0;
+        foreach ($items as $item) {
+            $element = $this->getMenuItemElement($item, $element);
+            $i++;
+            if ($i<count($items)) {
+                $this->getHelperCommon()->moveTo($element);
+            } else {
+                $this->getHelperCommon()->click($element);
+            }
+        }
+    }
+
+    /**
+     * Assert header
+     *
+     * @param string $header
+     */
+    public function assertHeader($header)
+    {
+        return $this->getHelperAssert()->assertElementContainsText($this->getHeaderLocation(), $header);
+    }
+
 }
