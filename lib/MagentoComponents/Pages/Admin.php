@@ -79,8 +79,7 @@ class MagentoComponents_Pages_Admin extends Menta_Component_AbstractTest
      */
     public function openAdmin()
     {
-        $url = $this->getConfiguration()->getValue('testing.maindomain') . $this->getAdminUrl();
-        $this->getSession()->open($url);
+        $this->getHelperCommon()->open($this->getAdminUrl());
     }
 
     /**
