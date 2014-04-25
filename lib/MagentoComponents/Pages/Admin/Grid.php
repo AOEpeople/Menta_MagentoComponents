@@ -16,15 +16,19 @@ class MagentoComponents_Pages_Admin_Grid extends MagentoComponents_Pages_Admin
      * @return array
      */
     public function getGridRows($gridId) {
+
+        $columnTh = $this->getHelperCommon()->getElements("css=#{$gridId}_table thead tr.headings th span");
+
         $rowData = $this->getHelperCommon()->getElements("css=#{$gridId}_table tbody tr");
 
         $data = array();
         foreach ($rowData as $row) { /* @var $row WebDriver\Element */
-            $cellData = $this->getHelperCommon()->getElements('css=td', $row);
-
             $tmp = array('title' => $row->attribute('title'));
+
+            $cellData = $this->getHelperCommon()->getElements('css=td', $row);
             foreach ($cellData as $i => $cell) { /* @var $cell WebDriver\Element */
-                $tmp['field_'.$i] = $this->getHelperCommon()->getText($cell);
+                $tmp[$columnTh[$i]->text()] = $tmp['field_'.$i] = $this->getHelperCommon()->getText($cell);
+                $tmp['element_'.$i] = $cell;
             }
             $data[] = $tmp;
         }
@@ -66,6 +70,19 @@ class MagentoComponents_Pages_Admin_Grid extends MagentoComponents_Pages_Admin
     }
 
     /**
+     * Get row url
+     * (Magento stores this in the title attribute)
+     *
+     * @param $gridId
+     * @param $rowIndex
+     * @return mixed
+     */
+    public function getRowUrl($gridId, $rowIndex) {
+        $rows = $this->getGridRows($gridId);
+        return $rows[$rowIndex]['title'];
+    }
+
+    /**
      * Assert total number of rows
      * (Grid might be filtered)
      *
@@ -74,6 +91,22 @@ class MagentoComponents_Pages_Admin_Grid extends MagentoComponents_Pages_Admin
      */
     public function assertTotalNumberOfRows($gridId, $expectedNumberOfRows) {
         $this->getTest()->assertEquals($expectedNumberOfRows, $this->getTotalNumberOfRows($gridId));
+    }
+
+    /**
+     * Filter field
+     *
+     * @param $field
+     * @param $from
+     * @param $to
+     * @param bool $submit
+     */
+    public function filterFromTo($field, $from, $to, $submit=true) {
+        $this->getHelperCommon()->type("id={$field}_from", $from);
+        $this->getHelperCommon()->type("id={$field}_to", $to);
+        if ($submit) {
+            $this->getHelperCommon()->getElement('//button[@title="Search"]')->click();
+        }
     }
 
 }
