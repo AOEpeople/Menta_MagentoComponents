@@ -17,7 +17,7 @@ class MagentoComponents_Pages_Admin_Grid extends MagentoComponents_Pages_Admin
      */
     public function getGridRows($gridId) {
 
-        $columnTh = $this->getHelperCommon()->getElements("css=#{$gridId}_table thead tr.headings th span");
+        $columnTh = $this->getHelperCommon()->getElements("css=#{$gridId}_table thead tr.headings th");
 
         $rowData = $this->getHelperCommon()->getElements("css=#{$gridId}_table tbody tr");
 
@@ -27,7 +27,7 @@ class MagentoComponents_Pages_Admin_Grid extends MagentoComponents_Pages_Admin
 
             $cellData = $this->getHelperCommon()->getElements('css=td', $row);
             foreach ($cellData as $i => $cell) { /* @var $cell WebDriver\Element */
-                $tmp[$columnTh[$i]->text()] = $tmp['field_'.$i] = $this->getHelperCommon()->getText($cell);
+                $tmp[trim($columnTh[$i]->text())] = $tmp['field_'.$i] = $this->getHelperCommon()->getText($cell);
                 $tmp['element_'.$i] = $cell;
             }
             $data[] = $tmp;
