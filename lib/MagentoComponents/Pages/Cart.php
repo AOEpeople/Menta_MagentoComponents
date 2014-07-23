@@ -35,6 +35,55 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest
             $this->getHelperCommon()->click($this->getEmptyCartButtonPath());
         }
     }
+    
+    public function getCartData() {
+        $data = array();
+        foreach ($this->getHelperCommon()->getElements('css=#shopping-cart-table tbody tr') as $row) { /* @var $row \WebDriver\Element */
+            $sku = preg_replace('/(.*:\s*)/','',$this->getHelperCommon()->getElement('css=.product-cart-sku', $row)->text());
+            $data[$sku] = array(
+                'name' => $this->getHelperCommon()->getElement('css=.product-name a', $row)->text(),
+                'price' => $this->getHelperCommon()->getElement('css=.product-cart-price .cart-price .price', $row)->text(),
+                'qty' => $this->getHelperCommon()->getElement('css=input.qty', $row)->attribute('value'),
+                'subtotal' => $this->getHelperCommon()->getElement('css=.product-cart-total .cart-price .price', $row)->text(),
+                'row' => $row
+            );
+        }
+        return $data;
+    }
+
+    /**
+     * Remove sku
+     *
+     * @param $sku
+     */
+    public function removeSku($sku) {
+        $data = $this->getCartData();
+        $this->getHelperCommon()->getElement('css=.product-cart-remove a', $data[$sku]['row'])->click();
+    }
+
+    /**
+     * Assert sku in cart
+     *
+     * @param $sku
+     * @param null $qty
+     */
+    public function assertSkuInCart($sku, $qty=null) {
+        $data = $this->getCartData();
+        $this->getTest()->assertArrayHasKey($sku, $data);
+        if (!is_null($qty)) {
+            $this->getTest()->assertEquals($qty, $data[$sku]['qty']);
+        }
+    }
+
+    /**
+     * Assert sku not in cart
+     *
+     * @param $sku
+     */
+    public function assertSkuNotInCart($sku) {
+        $data = $this->getCartData();
+        $this->getTest()->assertArrayNotHasKey($sku, $data);
+    }
 
     /**
      * Assert that the cart is empty
@@ -45,6 +94,24 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest
     {
         $this->open();
         $this->getHelperAssert()->assertTextPresent($this->__('Shopping Cart is Empty'));
+    }
+
+    /**
+     * Get number of line items
+     *
+     * @return int
+     */
+    public function getNumberOfLineItems() {
+        return $this->getHelperCommon()->getElementCount('css=#shopping-cart-table tbody tr');
+    }
+
+    /**
+     * Assert number of line items
+     *
+     * @param $expectedNumberOfItemsInCart
+     */
+    public function assertNumberOfLineItems($expectedNumberOfItemsInCart) {
+        $this->getTest()->assertEquals($expectedNumberOfItemsInCart, $this->getNumberOfLineItems());
     }
 
     /**
