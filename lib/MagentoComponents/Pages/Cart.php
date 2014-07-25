@@ -152,4 +152,8 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest
     {
     }
 
+    public function clickProceedToCheckoutButton() {
+        $this->getHelperCommon()->getElement('css=button.btn-proceed-checkout')->click();
+    }
+
 }

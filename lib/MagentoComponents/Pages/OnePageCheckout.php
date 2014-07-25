@@ -193,37 +193,36 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
     /**
      * Add shipping|billing address
      *
-     * @param $country
+     * @param string $country
      * @param $type
+     * @param array $address
+     * @throws Exception
      * @return array complete address data that was used
      */
-    public function addAddress($country = 'us', $type)
+    public function addAddress($country='us', $type, array $address=null)
     {
-        if ($type == 'billing' || $type == 'shipping') {
+        if (!in_array($type, array('billing', 'shipping'))) {
+            throw new Exception('Invalid address type');
+        }
+
+        if (is_null($address)) {
             $addressProvider = new MagentoComponents_Provider_Address();
             $address = $addressProvider->getAddressField($type, $country);
-
-            if ($type == 'billing') {
-                $address['email'] = Menta_ComponentManager::get('MagentoComponents_Pages_CustomerAccount')->createNewMailAddress('oscbillling');
-                $this->getHelperCommon()->type("id=$type:email", $address['email']);
-            }
-
-            $this->getHelperCommon()->type("id=$type:firstname", $address['firstname']);
-            $this->getHelperCommon()->type("id=$type:lastname", $address['lastname']);
-            $this->getHelperCommon()->type("id=$type:telephone", $address['phone']);
-            $this->getHelperCommon()->type("id=$type:street1", $address['street1']);
-            $this->getHelperCommon()->type("id=$type:street2", $address['street2']);
-            $this->getHelperCommon()->type("id=$type:city", $address['city']);
-            $this->getHelperCommon()->type("id=$type:postcode", $address['postcode']);
-            $this->getHelperCommon()->type("id=$type:company", $address['company']);
-            $this->getHelperCommon()->select("id=$type:country_id", "label=" . $address['country']);
-
-            if (isset($address['region']) && $address['region']) {
-                $this->getHelperCommon()->select("id=$type:region_id", "label=" . $address['region']);
-            }
-
-            return $address;
         }
+
+        if ($type == 'billing' && !isset($address['email'])) {
+            $address['email'] = Menta_ComponentManager::get('MagentoComponents_Pages_CustomerAccount')->createNewMailAddress('oscbillling');
+        }
+
+        foreach ($address as $field => $value) {
+            if (in_array($field, array('country', 'region'))) {
+                $this->getHelperCommon()->select("id={$type}:{$field}_id", "label=" . $value);
+            } else {
+                $this->getHelperCommon()->type("id=$type:$field", $value);
+            }
+        }
+
+        return $address;
     }
 
     /**
