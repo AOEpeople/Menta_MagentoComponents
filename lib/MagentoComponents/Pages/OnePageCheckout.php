@@ -218,7 +218,16 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
             if (in_array($field, array('country', 'region'))) {
                 $this->getHelperCommon()->select("id={$type}:{$field}_id", "label=" . $value);
             } else {
-                $this->getHelperCommon()->type("id=$type:$field", $value);
+                try {
+                    $this->getHelperCommon()->type("id=$type:$field", $value);
+                } catch (WebDriver\Exception\NoSuchElement $e) {
+                    // field was renamed
+                    if ($field == 'phone') {
+                        $this->getHelperCommon()->type("id=$type:telephone", $value);
+                    } else {
+                        throw $e;
+                    }
+                }
             }
         }
 
