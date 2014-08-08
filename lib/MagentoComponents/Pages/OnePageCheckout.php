@@ -31,8 +31,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      */
     public function getPlaceOrderButtonPath()
     {
-        return '//div[@id="checkout-review-submit"]//span[' .
-        Menta_Util_Div::containsText($this->__('Place Order')) . ']';
+        return '//div[@id="checkout-review-submit"]//span[' . Menta_Util_Div::containsText($this->__('Place Order')) . ']';
     }
 
     /**
@@ -52,8 +51,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      */
     public function getSubtotalXpath()
     {
-        return "//tfoot//td[". Menta_Util_Div::containsText('Subtotal') .
-        "]/following-sibling::td/span[" . Menta_Util_Div::contains('price') . "]";
+        return "//tfoot//td[". Menta_Util_Div::containsText('Subtotal') . "]/following-sibling::td/span[" . Menta_Util_Div::contains('price') . "]";
     }
 
     /**
@@ -63,8 +61,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      */
     public function getGrandTotalXpath()
     {
-        return "//table[@id='checkout-review-table']/tfoot/tr[" .
-        Menta_Util_Div::contains('last') . "]//td[2]";
+        return "//table[@id='checkout-review-table']/tfoot/tr[" . Menta_Util_Div::contains('last') . "]//td[2]";
     }
 
     /**
@@ -74,8 +71,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      */
     public function getShippingXpath()
     {
-        return "//tfoot//td[". Menta_Util_Div::containsText('(Flat Rate - Fixed)') .
-        "]/following-sibling::td/span[" . Menta_Util_Div::contains('price') . "]";
+        return "//tfoot//td[". Menta_Util_Div::containsText('(Flat Rate - Fixed)') . "]/following-sibling::td/span[" . Menta_Util_Div::contains('price') . "]";
     }
 
     /**
@@ -84,8 +80,7 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      */
     public function getTaxXpath()
     {
-        return "//tfoot//td[". Menta_Util_Div::containsText('Tax') .
-        "]/following-sibling::td/span[" . Menta_Util_Div::contains('price') . "]";
+        return "//tfoot//td[". Menta_Util_Div::containsText('Tax') . "]/following-sibling::td/span[" . Menta_Util_Div::contains('price') . "]";
     }
 
     /**
@@ -218,7 +213,16 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
             if (in_array($field, array('country', 'region'))) {
                 $this->getHelperCommon()->select("id={$type}:{$field}_id", "label=" . $value);
             } else {
-                $this->getHelperCommon()->type("id=$type:$field", $value);
+                try {
+                    $this->getHelperCommon()->type("id=$type:$field", $value);
+                } catch (WebDriver\Exception\NoSuchElement $e) {
+                    // field was renamed
+                    if ($field == 'phone') {
+                        $this->getHelperCommon()->type("id=$type:telephone", $value);
+                    } else {
+                        throw $e;
+                    }
+                }
             }
         }
 
