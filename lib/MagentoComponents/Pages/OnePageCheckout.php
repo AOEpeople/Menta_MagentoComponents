@@ -167,20 +167,19 @@ class MagentoComponents_Pages_OnePageCheckout extends Menta_Component_AbstractTe
      * Finish one of the checkout steps
      *
      * @param $step
+     * @throws Exception
      */
     public function finishStep($step)
     {
-        if ($step == 'checkoutMethod') {
-            $buttonPath = '//*[@id="onepage-guest-register-button"]';
-        } else if ($step == 'billingAddress') {
-            $buttonPath = '//div[@id="billing-buttons-container"]' . $this->_getContinueButtonXPath();
-        } else if ($step == 'shippingAddress') {
-            $buttonPath = '//div[@id="shipping-buttons-container"]' . $this->_getContinueButtonXPath();
-        } else if ($step == 'shippingMethod') {
-            $buttonPath = '//div[@id="shipping-method-buttons-container"]' . $this->_getContinueButtonXPath();
-        } else if ($step == 'paymentMethod') {
-            $buttonPath = '//div[@id="payment-buttons-container"]' . $this->_getContinueButtonXPath();
+        switch ($step) {
+            case 'checkoutMethod': $buttonPath = 'css=#onepage-guest-register-button'; break;
+            case 'billingAddress': $buttonPath = 'css=#billing-buttons-container button'; break;
+            case 'shippingAddress': $buttonPath = 'css=#shipping-buttons-container button'; break;
+            case 'shippingMethod': $buttonPath = 'css=#shipping-method-buttons-container button'; break;
+            case 'paymentMethod': $buttonPath = 'css=#payment-buttons-container button'; break;
+            default: throw new Exception('Invalid step');
         }
+
         $this->getHelperAssert()->assertElementPresent($buttonPath);
         $this->getHelperCommon()->click($buttonPath);
     }
