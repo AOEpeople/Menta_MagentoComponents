@@ -46,7 +46,7 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest
             $data[$sku] = array(
                 'name' => $this->getHelperCommon()->getElement('css=.product-name a', $row)->text(),
                 'price' => $this->getHelperCommon()->getElement('css=.product-cart-price .cart-price .price', $row)->text(),
-                'qty' => $this->getHelperCommon()->getElement('css=input.qty', $row)->attribute('value'),
+                'qty' => $this->getHelperCommon()->getElement('css=.qty', $row)->attribute('value'),
                 'subtotal' => $this->getHelperCommon()->getElement('css=.product-cart-total .cart-price .price', $row)->text(),
                 'row' => $row
             );
