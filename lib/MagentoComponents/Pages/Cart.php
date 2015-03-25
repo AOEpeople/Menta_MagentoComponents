@@ -86,6 +86,23 @@ class MagentoComponents_Pages_Cart extends Menta_Component_AbstractTest
     }
 
     /**
+     * Assert row total for sku
+     *
+     * @param $sku
+     * @param $expectedValue
+     */
+    public function assertRowValueForSku($sku, $field, $expectedValue) {
+        $cartData = $this->getCartData();
+        if (!isset($cartData[$sku])) {
+            $this->getTest()->fail(sprintf('Could not find sku "%s" in cart.', $sku));
+        }
+        if (!isset($cartData[$sku][$field])) {
+            $this->getTest()->fail(sprintf('Could not find field "%s" in row.', $field));
+        }
+        $this->getTest()->assertEquals($expectedValue, $cartData[$sku][$field]);
+    }
+
+    /**
      * Assert sku not in cart
      *
      * @param $sku
