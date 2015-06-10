@@ -57,12 +57,42 @@ class MagentoComponents_Helper extends Menta_Component_AbstractTest
      */
     public function getLinkPathFromHeader($text)
     {
-        return '//div[' . Menta_Util_Div::contains('header') . ']//ul['
-        . Menta_Util_Div::contains('links') . ']//a['
-        . Menta_Util_Div::contains($text, 'title') . ' ]';
+        return  $this->getTopMenuIndicatorPath() . '//div[' . Menta_Util_Div::contains('links') . ']//a['
+		. Menta_Util_Div::contains($text, 'title') . ' ]';
     }
 
-    /**
+	/**
+	 * Path for container with main customer links
+	 *
+	 * @return string
+	 */
+	public function getTopMenuIndicatorPath()
+	{
+		return '//div[@id="header-account"]';
+	}
+
+	/**
+	 * Path for 'Account' element
+	 *
+	 * @return string
+	 */
+	public function getAccountMenuIndicatorPath()
+	{
+		return '//div[ ' .  Menta_Util_Div::contains('account-cart-wrapper', 'class') . ']//a[' .
+		Menta_Util_Div::contains('#header-account', 'data-target-element') . ' ]';
+	}
+
+	/**
+	 *
+	 */
+	public function openLinksMenu()
+	{
+		/* @var $helper MagentoComponents_Helper */
+		$helper = Menta_ComponentManager::get('MagentoComponents_Helper');
+		$this->getHelperCommon()->click($helper->getAccountMenuIndicatorPath());
+	}
+
+	/**
      * Normalize
      * @param        $text
      * @param string $currency

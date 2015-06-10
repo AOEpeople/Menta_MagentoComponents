@@ -100,6 +100,8 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
     {
         $helper = Menta_ComponentManager::get('MagentoComponents_Helper');
         /* @var $helper MagentoComponents_Helper */
+        $helper->openLinksMenu();
+        $this->getHelperWait()->waitForElementPresent($helper->getLogoutLinkPath());
         $this->getHelperCommon()->click($helper->getLogoutLinkPath());
         $this->getHelperWait()->waitForElementPresent("//h1[" . Menta_Util_Div::containsText($this->__('You are now logged out')) . "]");
         $this->getHelperAssert()->assertElementPresent("//h1[" . Menta_Util_Div::containsText($this->__('You are now logged out')) . "]");
@@ -115,8 +117,8 @@ class MagentoComponents_Pages_CustomerAccount extends Menta_Component_AbstractTe
         $this->getHelperCommon()->open('/customer/account/login/');
         $this->getHelperAssert()->assertBodyClass('customer-account-login');
         $this->getHelperAssert()->assertTextPresent($this->__('Login or Create an Account'));
-        $this->getHelperAssert()->assertTextPresent($this->__('New Customers'));
-        $this->getHelperAssert()->assertTextPresent($this->__('Registered Customers'));
+        $this->getHelperAssert()->assertTextPresent($this->__('New Here?'));
+        $this->getHelperAssert()->assertTextPresent($this->__('Already registered?'));
     }
 
     /**
